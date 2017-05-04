@@ -29,8 +29,8 @@ namespace Openccpm.Test.Models
         public string Id { get; set; }
         public System.DateTimeOffset CreatedAt { get; set; }
         public bool Deleted { get; set; }
-        public string Desc { get; set; }
-        public string Title { get; set; }
+        public string Description { get; set; }
+        public string Subject { get; set; }
         public Nullable<System.DateTimeOffset> UpdatedAt { get; set; }
         public byte[] Version { get; set; }
         public string TaskNo { get; set; }

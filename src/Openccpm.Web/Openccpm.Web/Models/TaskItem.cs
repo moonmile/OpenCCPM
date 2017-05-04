@@ -29,27 +29,13 @@ namespace Openccpm.Web.Models
         // タスク番号（自前で振るため）
         public string TaskNo { get; set; }
         // タスクのタイトル
-        public string Title { get; set; }
+        public string Subject { get; set; }
         // タスクの内容
-        public string Desc { get; set; }
+        public string Description { get; set; }
         // 予定時間
         public double? PlanTime { get; set; }
         // 実績時間
         public double? DoneTime { get; set; }
-
-        // リレーション用
-        // 予定開始/終了のリスト
-        public List<StartEndTime> PlanStartEnds;
-        // 実績開始/終了のリスト
-        public List<StartEndTime> DoneStartEnds;
-        // 親タスク for WBS
-        public TaskItem ParentTask;
-        // 子タスクのリスト for WBS
-        public List<TaskItem> ChildTasks;
-        // 前タスクのリスト for PERT
-        public List<TaskItem> PreTasks;
-        // 後タスクのリスト for PART
-        public List<TaskItem> PostTasks;
     }
 
 
@@ -62,44 +48,51 @@ namespace Openccpm.Web.Models
         // タスクID
         public string TaskId { get; set; }
         // トラッカー
-        public string TrackId { get; set; }
+        public string TrackerId { get; set; }
         // ステータス
         public string StatusId { get; set; }
         // 優先度
         public string PriorityId { get; set; }
         // 担当者
-        public string AssignedId { get; set; }
+        public string AssignedToId { get; set; }
         // 進捗率
         public int DoneRate { get; set; }
         // 所有者
         public string AuthorId { get; set; }
 
-        public TicketItem() { }
-        // コンバート用
-        public TicketItem( Ticket t )
-        {
-            this.Id = t.TicketId;
-            this.Version = t.Version;
-            this.CreatedAt = t.CreatedAt;
-            this.UpdatedAt = t.UpdatedAt;
-            this.Deleted = t.Deleted;
-
-            this.TaskId = t.Id;
-            this.TrackId = t.Tracker?.Id;
-            this.StatusId = t.Status?.Id;
-            this.PriorityId = t.Priority?.Id;
-            this.AssignedId = t.AssignedTo?.Id;
-            this.DoneRate = t.DoneRate;
-            this.AuthorId = t.Author?.Id;
-        }
     }
     /// <summary>
     /// チケット駆動用
     /// </summary>
-    public class Ticket : TaskItem
+    public class TicketView : EntityData
     {
+        // タスク番号（自前で振るため）
+        public string TaskNo { get; set; }
+        // タスクのタイトル
+        public string Subject { get; set; }
+        // タスクの内容
+        public string Description { get; set; }
+        // 予定時間
+        public double? PlanTime { get; set; }
+        // 実績時間
+        public double? DoneTime { get; set; }
+
         // チケットID
-        public string TicketId { get; set; }
+        public string Ticket_Id { get; set; }
+
+        public string Tracker_Id { get; set; }
+        public string Tracker_Name { get; set; }
+        public string Status_Id { get; set; }
+        public string Status_Name { get; set; }
+        public string Priority_Id { get; set; }
+        public string Priority_Name { get; set; }
+        public string AssignedTo_Id { get; set; }
+        public string AssignedTo_FirstName { get; set; }
+        public string AssignedTo_LastName { get; set; }
+        public string Author_Id { get; set; }
+        public string Author_FirstName { get; set; }
+        public string Author_LastName { get; set; }
+
         // トラッカー
         public Tracker Tracker { get; set; }
         // ステータス
@@ -113,9 +106,9 @@ namespace Openccpm.Web.Models
         // 所有者
         public User Author { get; set; }
 
-        public Ticket() { }
-        // コンバート用
-        public Ticket( TaskItem task, TicketItem ticket )
+        public TicketView() { }
+        // コンバーター
+        public TicketView( TaskItem task, TicketItem ticket )
         {
             this.Id = task.Id;
             this.Version = task.Version;
@@ -124,16 +117,56 @@ namespace Openccpm.Web.Models
             this.Deleted = task.Deleted;
 
             this.TaskNo = task.TaskNo;
-            this.Title = task.Title;
-            this.Desc = task.Desc;
+            this.Subject = task.Subject;
+            this.Description = task.Description;
+            this.PlanTime = task.PlanTime;
+            this.DoneTime = task.DoneTime;
 
-            this.TicketId = ticket.Id;
+            this.Ticket_Id = ticket.Id;
             this.DoneRate = ticket.DoneRate;
-            this.Tracker = new Tracker() { Id = ticket.TrackId };
+            this.Tracker = new Tracker() { Id = ticket.TrackerId };
             this.Status = new Status() { Id = ticket.StatusId};
             this.Priority = new Priority() { Id = ticket.PriorityId };
-            this.AssignedTo = new User() { Id = ticket.AssignedId };
+            this.AssignedTo = new User() { Id = ticket.AssignedToId };
             this.Author = new User() { Id = ticket.AuthorId };
+        }
+        public static explicit operator TicketItem(TicketView src )
+        {
+            var dest = new TicketItem()
+            {
+                Id = src.Ticket_Id,
+                CreatedAt = src.CreatedAt,
+                UpdatedAt = src.UpdatedAt,
+                Deleted = src.Deleted,
+
+                TaskId = src.Id,
+                DoneRate = src.DoneRate,
+
+                TrackerId = src.Tracker?.Id,
+                StatusId = src.Status?.Id,
+                PriorityId = src.Priority?.Id,
+                AssignedToId = src.AssignedTo?.Id,
+                AuthorId = src.Author?.Id
+            };
+            return dest;
+        }
+        public static explicit operator TaskItem(TicketView src )
+        {
+            var dest = new TaskItem()
+            {
+                Id = src.Id,
+                Version = src.Version,
+                CreatedAt = src.CreatedAt,
+                UpdatedAt = src.UpdatedAt,
+                Deleted = src.Deleted,
+
+                TaskNo = src.TaskNo,
+                Subject = src.Subject,
+                Description = src.Description,
+                PlanTime = src.PlanTime,
+                DoneTime = src.DoneTime
+            };
+            return dest;
         }
     }
 
@@ -168,9 +201,9 @@ namespace Openccpm.Web.Models
         // タスク番号（自前で振るため）
         public string TaskNo { get; set; }
         // タスクのタイトル
-        public string Title { get; set; }
+        public string Subject { get; set; }
         // タスクの内容
-        public string Desc { get; set; }
+        public string Description { get; set; }
         // 予定時間
         public double? PlanTime { get; set; }
         // 実績時間

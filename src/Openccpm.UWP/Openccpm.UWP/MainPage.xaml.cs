@@ -52,7 +52,7 @@ namespace Openccpm.UWP
             var lst = await taskItems.GetItems();
             foreach ( var it in lst )
             {
-                Debug.WriteLine(it.Id + " " + it.Title);
+                Debug.WriteLine(it.Id + " " + it.Subject);
             }
             if ( lst.Count > 0 )
             {
@@ -71,8 +71,8 @@ namespace Openccpm.UWP
             var item = await taskItems.GetItem(id);
             Debug.WriteLine(item);
             textNo.Text = item.TaskNo;
-            textTitle.Text = item.Title;
-            textDesc.Text = item.Desc;
+            textTitle.Text = item.Subject;
+            textDesc.Text = item.Description;
             _item = item;
         }
 
@@ -85,8 +85,8 @@ namespace Openccpm.UWP
         {
             var item = new TaskItem();
             item.TaskNo = textNo.Text;
-            item.Title = textTitle.Text;
-            item.Desc = textDesc.Text;
+            item.Subject = textTitle.Text;
+            item.Description = textDesc.Text;
             item = await taskItems.AddItem(item);
             textId.Text = item.Id;
             _item = item;
@@ -101,8 +101,8 @@ namespace Openccpm.UWP
             var item = _item;
             item.Id = textId.Text;
             item.TaskNo = textNo.Text;
-            item.Title = textTitle.Text;
-            item.Desc = textDesc.Text;
+            item.Subject = textTitle.Text;
+            item.Description = textDesc.Text;
             taskItems.UpdateItem(item);
         }
         /// <summary>

@@ -28,6 +28,7 @@ namespace Openccpm.Test
             context.Database.ExecuteSqlCommand("delete from WbsItems");
             context.Database.ExecuteSqlCommand("delete from TicketItems");
             context.Database.ExecuteSqlCommand("delete from TaskItems");
+            context.Database.ExecuteSqlCommand("delete from Users");
         }
     }
 
@@ -45,17 +46,17 @@ namespace Openccpm.Test
 
             var item = new TaskItem();
             item.TaskNo = "T001";
-            item.Title = "最初のアイテム";
-            item.Desc = "内容...";
+            item.Subject = "最初のアイテム";
+            item.Description = "内容...";
             item = await service.AddItem(item);
             Assert.IsNotNull(item);
             var id = item.Id;
             Assert.AreEqual("T001", item.TaskNo);
-            Assert.AreEqual("最初のアイテム", item.Title);
+            Assert.AreEqual("最初のアイテム", item.Subject);
 
             item = await service.GetItem(id);
             Assert.AreEqual("T001", item.TaskNo);
-            Assert.AreEqual("最初のアイテム", item.Title);
+            Assert.AreEqual("最初のアイテム", item.Subject);
 
             await service.DeleteItem(id);
             items = await service.GetItems();
@@ -73,8 +74,8 @@ namespace Openccpm.Test
 
             var item = new TaskItem();
             item.TaskNo = "T001";
-            item.Title = "最初のアイテム";
-            item.Desc = "内容...";
+            item.Subject = "最初のアイテム";
+            item.Description = "内容...";
             item = await service.AddItem(item);
             Assert.IsNotNull(item);
             var id = item.Id;
@@ -84,11 +85,11 @@ namespace Openccpm.Test
             // 更新日時
             Assert.IsNull(item.UpdatedAt);
 
-            item.Desc = "内容を更新する";
+            item.Description = "内容を更新する";
             await service.UpdateItem(item);
             // チェック
             item = await service.GetItem(id);
-            Assert.AreEqual("内容を更新する", item.Desc);
+            Assert.AreEqual("内容を更新する", item.Description);
             // 作成日はそのまま
             Assert.AreEqual(createAt, item.CreatedAt);
             // 更新日が変わる

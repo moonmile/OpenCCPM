@@ -23,18 +23,9 @@ namespace Openccpm.Web.Controllers
 
         // GET: api/Ticket
         [HttpGet]
-        public IEnumerable<Ticket> GetTicket()
+        public IEnumerable<TicketView> GetTicket()
         {
-            // TaskItem ‚Æ TicketItem ‚ðƒŠƒ“ƒN‚·‚é
-            var q = from ta in _context.TaskItem
-                    join ti in _context.TicketItem on ta.Id equals ti.TaskId
-                    select new { task = ta, ticket = ti };
-            var items = new List<Ticket>();
-            foreach ( var it in q.ToList() )
-            {
-                items.Add(new Ticket(it.task, it.ticket));
-            }
-            return items;
+            return _context.TicketView;
         }
 
         // GET: api/Ticket/5
@@ -46,44 +37,23 @@ namespace Openccpm.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            var q = from ta in _context.TaskItem
-                    join ti in _context.TicketItem on ta.Id equals ti.TaskId
-                    where ta.Id == id
-                    select new { task = ta, ticket = ti };
-            var it = await q.SingleOrDefaultAsync();
-            var item = new Ticket(it.task, it.ticket);
-
+            var item = await _context.TicketView.SingleOrDefaultAsync(x => x.Id == id);
             if (item == null)
             {
                 return NotFound();
             }
+            item.Tracker = await _context.Tracker.SingleOrDefaultAsync(x => x.Id == item.Tracker_Id);
+            item.Status = await _context.Status.SingleOrDefaultAsync(x => x.Id == item.Status_Id);
+            item.Priority = await _context.Priority.SingleOrDefaultAsync(x => x.Id == item.Priority_Id);
+            item.AssignedTo = await _context.User.SingleOrDefaultAsync(x => x.Id == item.AssignedTo_Id);
+            item.Author = await _context.User.SingleOrDefaultAsync(x => x.Id == item.Author_Id);
 
-            /*
-            // ƒŠƒŒ[ƒVƒ‡ƒ“•ª‚àŽæ“¾‚µ‚Ä‚¨‚­
-            item.PlanStartEnds = _context.StartEndTime.Where(x => x.TaskId == id && x.IsPlan == true ).Select(x => x).ToList();
-            item.DoneStartEnds = _context.StartEndTime.Where(x => x.TaskId == id && x.IsPlan == false).Select(x => x).ToList();
-            item.ParentTask = (
-                from m in _context.TaskItem
-                join s in _context.TaskTree.Where(x => x.ChildTaskId == id) on m.Id equals s.ParentTaskId
-                select m
-                ).FirstOrDefault();
-            item.ChildTasks = (
-                from m in _context.TaskItem
-                join s in _context.TaskTree.Where(x => x.ParentTaskId == id) on m.Id equals s.ChildTaskId
-                select m
-                ).ToList();
-            item.Tracker = await _context.Tracker.SingleOrDefaultAsync(m => m.Id == item.Tracker.Id);
-            item.Status = await _context.Status.SingleOrDefaultAsync(m => m.Id == item.Status.Id);
-            item.Priority = await _context.Priority.SingleOrDefaultAsync(m => m.Id == item.Priority.Id);
-            item.AssignedTo = await _context.User.SingleOrDefaultAsync(m => m.Id == item.AssignedTo.Id);
-            item.Author = await _context.User.SingleOrDefaultAsync(m => m.Id == item.Author.Id);
-            */
             return Ok(item);
         }
 
         // PUT: api/Ticket/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTicket([FromRoute] string id, [FromBody] Ticket ticket)
+        public async Task<IActionResult> PutTicket([FromRoute] string id, [FromBody] TicketView ticket)
         {
             if (!ModelState.IsValid)
             {
@@ -95,7 +65,7 @@ namespace Openccpm.Web.Controllers
                 return BadRequest();
             }
 
-            var item = new TicketItem(ticket);
+            var item = (TicketItem)ticket;
             item.UpdatedAt = DateTime.Now;
             _context.Entry(item).State = EntityState.Modified;
 
@@ -120,30 +90,23 @@ namespace Openccpm.Web.Controllers
 
         // POST: api/Task
         [HttpPost]
-        public async Task<IActionResult> PostTicket([FromBody] Ticket ticket)
+        public async Task<IActionResult> PostTicket([FromBody] TicketView ticket)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var task = new TaskItem()
-            {
-                TaskNo = ticket.TaskNo,
-                Title = ticket.Title,
-                Desc = ticket.Desc,
-                CreatedAt = DateTime.Now
-            };
-            _context.TaskItem.Add(task);
-            await _context.SaveChangesAsync();
-
-            var item = new TicketItem(ticket);
-            item.TaskId = task.Id;
+            var task = (TaskItem)ticket;
+            var item = (TicketItem)ticket;
+            task.CreatedAt = DateTime.Now;
             item.CreatedAt = DateTime.Now;
+
+            _context.TaskItem.Add(task);
+            item.TaskId = task.Id;
             _context.TicketItem.Add(item);
             await _context.SaveChangesAsync();
 
-            // return CreatedAtAction("GetTicket", new { id = task.Id }, item);
             return await GetTicket(task.Id);
         }
 

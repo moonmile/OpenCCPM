@@ -12,30 +12,36 @@ namespace Openccpm.Test.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class WbsViews
+    public partial class TicketViews
     {
         public string Id { get; set; }
         public System.DateTimeOffset CreatedAt { get; set; }
         public bool Deleted { get; set; }
+        public string Description { get; set; }
+        public string Subject { get; set; }
         public Nullable<System.DateTimeOffset> UpdatedAt { get; set; }
         public byte[] Version { get; set; }
         public string TaskNo { get; set; }
         public Nullable<double> PlanTime { get; set; }
         public Nullable<double> DoneTime { get; set; }
-        public string Wbs_Id { get; set; }
-        public string Tracker_Id { get; set; }
-        public string Tracker_Name { get; set; }
+        public string Ticket_Id { get; set; }
         public string Status_Id { get; set; }
         public string Status_Name { get; set; }
+        public string Tracker_Id { get; set; }
+        public string Tracker_Name { get; set; }
         public string Priority_Id { get; set; }
         public string Priority_Name { get; set; }
         public string AssignedTo_Id { get; set; }
         public string AssignedTo_FirstName { get; set; }
         public string AssignedTo_LastName { get; set; }
+        public string AuthorId { get; set; }
+        public int DoneRate { get; set; }
+        public string PriorityId { get; set; }
+        public string StatusId { get; set; }
+        public string AssignedToId { get; set; }
         public string Author_Id { get; set; }
         public string Author_FirstName { get; set; }
         public string Author_LastName { get; set; }
-        public string Description { get; set; }
-        public string Subject { get; set; }
+        public string TrackerId { get; set; }
     }
 }

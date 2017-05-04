@@ -17,16 +17,6 @@
           <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="Position" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="ProjectItem">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="Code" Type="varbinary" MaxLength="50" Nullable="false" />
-          <Property Name="Name" Type="varbinary" MaxLength="50" Nullable="false" />
-          <Property Name="CreateAt" Type="datetimeoffset" Precision="7" Nullable="false" />
-          <Property Name="Completed" Type="bit" Nullable="false" />
-        </EntityType>
         <EntityType Name="StartEndTimes">
           <Key>
             <PropertyRef Name="Id" />
@@ -60,8 +50,8 @@
           <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="CreatedAt" Type="datetimeoffset" Precision="7" Nullable="false" />
           <Property Name="Deleted" Type="bit" Nullable="false" />
-          <Property Name="Desc" Type="nvarchar" MaxLength="1024" />
-          <Property Name="Title" Type="nvarchar" MaxLength="256" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1024" />
+          <Property Name="Subject" Type="nvarchar" MaxLength="256" />
           <Property Name="UpdatedAt" Type="datetimeoffset" Precision="7" />
           <Property Name="Version" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
           <Property Name="TaskNo" Type="nvarchar" MaxLength="128" />
@@ -102,10 +92,10 @@
           <Property Name="UpdatedAt" Type="datetimeoffset" Precision="7" />
           <Property Name="Deleted" Type="bit" Nullable="false" />
           <Property Name="TaskId" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="TrackId" Type="nvarchar" MaxLength="128" />
+          <Property Name="TrackerId" Type="nvarchar" MaxLength="128" />
           <Property Name="StatusId" Type="nvarchar" MaxLength="128" />
           <Property Name="PriorityId" Type="nvarchar" MaxLength="128" />
-          <Property Name="AssignedId" Type="nvarchar" MaxLength="128" />
+          <Property Name="AssignedToId" Type="nvarchar" MaxLength="128" />
           <Property Name="DoneRate" Type="int" Nullable="false" />
           <Property Name="AuthorId" Type="nvarchar" MaxLength="128" />
         </EntityType>
@@ -153,51 +143,83 @@
         </EntityType>
         <!--生成中に見つかったエラー:
 警告 6002: テーブル/ビュー 'openccpm_test.dbo.ProjectView' には主キーが定義されていません。主キーは推論され、定義は読み取り専用のテーブル/ビューとして作成されました。-->
-        <EntityType Name="ProjectView">
+        <!--生成中に見つかったエラー:
+警告 6002: テーブル/ビュー 'openccpm_test.dbo.TicketView' には主キーが定義されていません。主キーは推論され、定義は読み取り専用のテーブル/ビューとして作成されました。-->
+        <EntityType Name="TicketView">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="Code" />
-            <PropertyRef Name="Name" />
+            <PropertyRef Name="CreatedAt" />
+            <PropertyRef Name="Deleted" />
+            <PropertyRef Name="Version" />
+            <PropertyRef Name="Ticket_Id" />
+            <PropertyRef Name="DoneRate" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="Code" Type="varbinary" MaxLength="50" Nullable="false" />
-          <Property Name="Name" Type="varbinary" MaxLength="50" Nullable="false" />
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1024" />
+          <Property Name="Subject" Type="nvarchar" MaxLength="256" />
+          <Property Name="UpdatedAt" Type="datetimeoffset" Precision="7" />
+          <Property Name="Version" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="TaskNo" Type="nvarchar" MaxLength="128" />
+          <Property Name="PlanTime" Type="float" />
+          <Property Name="DoneTime" Type="float" />
+          <Property Name="Ticket_Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Status_Id" Type="nvarchar" MaxLength="128" />
+          <Property Name="Status_Name" Type="nvarchar" MaxLength="128" />
+          <Property Name="Tracker_Id" Type="nvarchar" MaxLength="128" />
+          <Property Name="Tracker_Name" Type="nvarchar" MaxLength="128" />
+          <Property Name="Priority_Id" Type="nvarchar" MaxLength="128" />
+          <Property Name="Priority_Name" Type="nvarchar" MaxLength="128" />
+          <Property Name="AssignedTo_Id" Type="nvarchar" MaxLength="128" />
+          <Property Name="AssignedTo_FirstName" Type="nvarchar" MaxLength="128" />
+          <Property Name="AssignedTo_LastName" Type="nvarchar" MaxLength="128" />
+          <Property Name="AuthorId" Type="nvarchar" MaxLength="128" />
+          <Property Name="DoneRate" Type="int" Nullable="false" />
+          <Property Name="PriorityId" Type="nvarchar" MaxLength="128" />
+          <Property Name="StatusId" Type="nvarchar" MaxLength="128" />
+          <Property Name="AssignedToId" Type="nvarchar" MaxLength="128" />
+          <Property Name="Author_Id" Type="nvarchar" MaxLength="128" />
+          <Property Name="Author_FirstName" Type="nvarchar" MaxLength="128" />
+          <Property Name="Author_LastName" Type="nvarchar" MaxLength="128" />
+          <Property Name="TrackerId" Type="nvarchar" MaxLength="128" />
         </EntityType>
         <!--生成中に見つかったエラー:
 警告 6002: テーブル/ビュー 'openccpm_test.dbo.WbsView' には主キーが定義されていません。主キーは推論され、定義は読み取り専用のテーブル/ビューとして作成されました。-->
         <EntityType Name="WbsView">
           <Key>
             <PropertyRef Name="Id" />
-            
-            
-            
-            
-            
+            <PropertyRef Name="CreatedAt" />
+            <PropertyRef Name="Deleted" />
+            <PropertyRef Name="Version" />
+            <PropertyRef Name="Wbs_Id" />
+            <PropertyRef Name="Author_Id" />
+            <PropertyRef Name="Author_FirstName" />
+            <PropertyRef Name="Author_LastName" />
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="CreatedAt" Type="datetimeoffset" Precision="7" Nullable="false" />
           <Property Name="Deleted" Type="bit" Nullable="false" />
-          <Property Name="Desc" Type="nvarchar" MaxLength="1024" />
-          <Property Name="Title" Type="nvarchar" MaxLength="256" />
           <Property Name="UpdatedAt" Type="datetimeoffset" Precision="7" />
           <Property Name="Version" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
           <Property Name="TaskNo" Type="nvarchar" MaxLength="128" />
           <Property Name="PlanTime" Type="float" />
           <Property Name="DoneTime" Type="float" />
           <Property Name="Wbs_Id" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="Tracker_Name" Type="nvarchar" MaxLength="128" />
           <Property Name="Tracker_Id" Type="nvarchar" MaxLength="128" />
-          <Property Name="Status_Name" Type="nvarchar" MaxLength="128" />
+          <Property Name="Tracker_Name" Type="nvarchar" MaxLength="128" />
           <Property Name="Status_Id" Type="nvarchar" MaxLength="128" />
-          <Property Name="Priority_Name" Type="nvarchar" MaxLength="128" />
+          <Property Name="Status_Name" Type="nvarchar" MaxLength="128" />
           <Property Name="Priority_Id" Type="nvarchar" MaxLength="128" />
+          <Property Name="Priority_Name" Type="nvarchar" MaxLength="128" />
+          <Property Name="AssignedTo_Id" Type="nvarchar" MaxLength="128" />
           <Property Name="AssignedTo_FirstName" Type="nvarchar" MaxLength="128" />
           <Property Name="AssignedTo_LastName" Type="nvarchar" MaxLength="128" />
-          <Property Name="DoneRate" Type="int" Nullable="false" />
-          <Property Name="Author_FirstName" Type="nvarchar" MaxLength="128" />
-          <Property Name="AssignedTo_Id" Type="nvarchar" MaxLength="128" />
-          <Property Name="Author_Id" Type="nvarchar" MaxLength="128" />
-          <Property Name="Author_LastName" Type="nvarchar" MaxLength="128" />
+          <Property Name="Author_Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Author_FirstName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Author_LastName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1024" />
+          <Property Name="Subject" Type="nvarchar" MaxLength="256" />
         </EntityType>
         <Association Name="FK_StartEndTimes_TaskItems">
           <End Role="TaskItems" Type="Self.TaskItems" Multiplicity="1" />
@@ -303,7 +325,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="TicketItems">
-              <PropertyRef Name="TrackId" />
+              <PropertyRef Name="TrackerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -315,7 +337,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="TicketItems">
-              <PropertyRef Name="AssignedId" />
+              <PropertyRef Name="AssignedToId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -345,7 +367,6 @@
         </Association>
         <EntityContainer Name="openccpm_dbModelStoreContainer">
           <EntitySet Name="Priorities" EntityType="Self.Priorities" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ProjectItem" EntityType="Self.ProjectItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StartEndTimes" EntityType="Self.StartEndTimes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Statuses" EntityType="Self.Statuses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaskItems" EntityType="Self.TaskItems" Schema="dbo" store:Type="Tables" />
@@ -355,39 +376,64 @@
           <EntitySet Name="Trackers" EntityType="Self.Trackers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WbsItems" EntityType="Self.WbsItems" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ProjectView" EntityType="Self.ProjectView" store:Type="Views" store:Schema="dbo">
+          <EntitySet Name="TicketView" EntityType="Self.TicketView" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
-    [ProjectView].[Id] AS [Id], 
-    [ProjectView].[Code] AS [Code], 
-    [ProjectView].[Name] AS [Name]
-    FROM [dbo].[ProjectView] AS [ProjectView]</DefiningQuery>
+    [TicketView].[Id] AS [Id], 
+    [TicketView].[CreatedAt] AS [CreatedAt], 
+    [TicketView].[Deleted] AS [Deleted], 
+    [TicketView].[Description] AS [Description], 
+    [TicketView].[Subject] AS [Subject], 
+    [TicketView].[UpdatedAt] AS [UpdatedAt], 
+    [TicketView].[Version] AS [Version], 
+    [TicketView].[TaskNo] AS [TaskNo], 
+    [TicketView].[PlanTime] AS [PlanTime], 
+    [TicketView].[DoneTime] AS [DoneTime], 
+    [TicketView].[Ticket_Id] AS [Ticket_Id], 
+    [TicketView].[Status_Id] AS [Status_Id], 
+    [TicketView].[Status_Name] AS [Status_Name], 
+    [TicketView].[Tracker_Id] AS [Tracker_Id], 
+    [TicketView].[Tracker_Name] AS [Tracker_Name], 
+    [TicketView].[Priority_Id] AS [Priority_Id], 
+    [TicketView].[Priority_Name] AS [Priority_Name], 
+    [TicketView].[AssignedTo_Id] AS [AssignedTo_Id], 
+    [TicketView].[AssignedTo_FirstName] AS [AssignedTo_FirstName], 
+    [TicketView].[AssignedTo_LastName] AS [AssignedTo_LastName], 
+    [TicketView].[AuthorId] AS [AuthorId], 
+    [TicketView].[DoneRate] AS [DoneRate], 
+    [TicketView].[PriorityId] AS [PriorityId], 
+    [TicketView].[StatusId] AS [StatusId], 
+    [TicketView].[AssignedToId] AS [AssignedToId], 
+    [TicketView].[Author_Id] AS [Author_Id], 
+    [TicketView].[Author_FirstName] AS [Author_FirstName], 
+    [TicketView].[Author_LastName] AS [Author_LastName], 
+    [TicketView].[TrackerId] AS [TrackerId]
+    FROM [dbo].[TicketView] AS [TicketView]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="WbsView" EntityType="Self.WbsView" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [WbsView].[Id] AS [Id], 
     [WbsView].[CreatedAt] AS [CreatedAt], 
     [WbsView].[Deleted] AS [Deleted], 
-    [WbsView].[Desc] AS [Desc], 
-    [WbsView].[Title] AS [Title], 
     [WbsView].[UpdatedAt] AS [UpdatedAt], 
     [WbsView].[Version] AS [Version], 
     [WbsView].[TaskNo] AS [TaskNo], 
     [WbsView].[PlanTime] AS [PlanTime], 
     [WbsView].[DoneTime] AS [DoneTime], 
     [WbsView].[Wbs_Id] AS [Wbs_Id], 
-    [WbsView].[Tracker_Name] AS [Tracker_Name], 
     [WbsView].[Tracker_Id] AS [Tracker_Id], 
-    [WbsView].[Status_Name] AS [Status_Name], 
+    [WbsView].[Tracker_Name] AS [Tracker_Name], 
     [WbsView].[Status_Id] AS [Status_Id], 
-    [WbsView].[Priority_Name] AS [Priority_Name], 
+    [WbsView].[Status_Name] AS [Status_Name], 
     [WbsView].[Priority_Id] AS [Priority_Id], 
+    [WbsView].[Priority_Name] AS [Priority_Name], 
+    [WbsView].[AssignedTo_Id] AS [AssignedTo_Id], 
     [WbsView].[AssignedTo_FirstName] AS [AssignedTo_FirstName], 
     [WbsView].[AssignedTo_LastName] AS [AssignedTo_LastName], 
-    [WbsView].[DoneRate] AS [DoneRate], 
-    [WbsView].[Author_FirstName] AS [Author_FirstName], 
-    [WbsView].[AssignedTo_Id] AS [AssignedTo_Id], 
     [WbsView].[Author_Id] AS [Author_Id], 
-    [WbsView].[Author_LastName] AS [Author_LastName]
+    [WbsView].[Author_FirstName] AS [Author_FirstName], 
+    [WbsView].[Author_LastName] AS [Author_LastName], 
+    [WbsView].[Description] AS [Description], 
+    [WbsView].[Subject] AS [Subject]
     FROM [dbo].[WbsView] AS [WbsView]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_StartEndTimes_TaskItems" Association="Self.FK_StartEndTimes_TaskItems">
@@ -456,29 +502,7 @@
           <Property Name="StartAt" Type="DateTimeOffset" Precision="7" />
           <Property Name="EndAt" Type="DateTimeOffset" Precision="7" />
           <Property Name="IsPlan" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="TaskItems" Relationship="Self.FK_StartEndTimes_TaskItems" FromRole="StartEndTimes" ToRole="TaskItems" />
-        </EntityType>
-        <EntityType Name="TaskItems">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="CreatedAt" Type="DateTimeOffset" Nullable="false" Precision="7" />
-          <Property Name="Deleted" Type="Boolean" Nullable="false" />
-          <Property Name="Desc" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
-          <Property Name="Title" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedAt" Type="DateTimeOffset" Precision="7" />
-          <Property Name="Version" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
-          <Property Name="TaskNo" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="PlanTime" Type="Double" />
-          <Property Name="DoneTime" Type="Double" />
-          <NavigationProperty Name="StartEndTimes" Relationship="Self.FK_StartEndTimes_TaskItems" FromRole="TaskItems" ToRole="StartEndTimes" />
-          <NavigationProperty Name="TaskPerts" Relationship="Self.FK_TaskPerts_TaskItems" FromRole="TaskItems" ToRole="TaskPerts" />
-          <NavigationProperty Name="TaskPerts1" Relationship="Self.FK_TaskPerts_TaskItems1" FromRole="TaskItems" ToRole="TaskPerts" />
-          <NavigationProperty Name="TaskTrees" Relationship="Self.FK_TaskTrees_TaskItems" FromRole="TaskItems" ToRole="TaskTrees" />
-          <NavigationProperty Name="TaskTrees1" Relationship="Self.FK_TaskTrees_TaskItems1" FromRole="TaskItems" ToRole="TaskTrees" />
-          <NavigationProperty Name="TicketItems" Relationship="openccpm_dbModel.FK_Tickets_TaskItems" FromRole="TaskItems" ToRole="TicketItems" />
-          <NavigationProperty Name="WbsItems" Relationship="openccpm_dbModel.FK_WbsItems_TaskItems" FromRole="TaskItems" ToRole="WbsItems" />
+          <NavigationProperty Name="TaskItems" Relationship="openccpm_dbModel.FK_StartEndTimes_TaskItems" FromRole="StartEndTimes" ToRole="TaskItems" />
         </EntityType>
         <EntityType Name="TaskPerts">
           <Key>
@@ -491,9 +515,9 @@
           <Property Name="Deleted" Type="Boolean" Nullable="false" />
           <Property Name="PreTaskId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PostTaskId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="TaskItems" Relationship="Self.FK_TaskPerts_TaskItems" FromRole="TaskPerts" ToRole="TaskItems" />
-          <NavigationProperty Name="TaskItems1" Relationship="Self.FK_TaskPerts_TaskItems1" FromRole="TaskPerts" ToRole="TaskItems" />
-        </EntityType>
+          <NavigationProperty Name="TaskItems" Relationship="openccpm_dbModel.FK_TaskPerts_TaskItems" FromRole="TaskPerts" ToRole="TaskItems" />
+          <NavigationProperty Name="TaskItems1" Relationship="openccpm_dbModel.FK_TaskPerts_TaskItems1" FromRole="TaskPerts" ToRole="TaskItems" />
+          </EntityType>
         <EntityType Name="TaskTrees">
           <Key>
             <PropertyRef Name="Id" />
@@ -505,110 +529,56 @@
           <Property Name="Deleted" Type="Boolean" Nullable="false" />
           <Property Name="ParentTaskId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ChildTaskId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="TaskItems" Relationship="Self.FK_TaskTrees_TaskItems" FromRole="TaskTrees" ToRole="TaskItems" />
-          <NavigationProperty Name="TaskItems1" Relationship="Self.FK_TaskTrees_TaskItems1" FromRole="TaskTrees" ToRole="TaskItems" />
-        </EntityType>
-        <Association Name="FK_StartEndTimes_TaskItems">
-          <End Role="TaskItems" Type="openccpm_dbModel.TaskItems" Multiplicity="1" />
-          <End Role="StartEndTimes" Type="Self.StartEndTimes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TaskItems">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="StartEndTimes">
-              <PropertyRef Name="TaskId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TaskPerts_TaskItems">
-          <End Role="TaskItems" Type="openccpm_dbModel.TaskItems" Multiplicity="1" />
-          <End Role="TaskPerts" Type="Self.TaskPerts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TaskItems">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="TaskPerts">
-              <PropertyRef Name="PreTaskId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TaskPerts_TaskItems1">
-          <End Role="TaskItems" Type="openccpm_dbModel.TaskItems" Multiplicity="1" />
-          <End Role="TaskPerts" Type="Self.TaskPerts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TaskItems">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="TaskPerts">
-              <PropertyRef Name="PostTaskId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TaskTrees_TaskItems">
-          <End Role="TaskItems" Type="openccpm_dbModel.TaskItems" Multiplicity="1" />
-          <End Role="TaskTrees" Type="Self.TaskTrees" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TaskItems">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="TaskTrees">
-              <PropertyRef Name="ParentTaskId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TaskTrees_TaskItems1">
-          <End Role="TaskItems" Type="openccpm_dbModel.TaskItems" Multiplicity="1" />
-          <End Role="TaskTrees" Type="Self.TaskTrees" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TaskItems">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="TaskTrees">
-              <PropertyRef Name="ChildTaskId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+          <NavigationProperty Name="TaskItems" Relationship="openccpm_dbModel.FK_TaskTrees_TaskItems" FromRole="TaskTrees" ToRole="TaskItems" />
+          <NavigationProperty Name="TaskItems1" Relationship="openccpm_dbModel.FK_TaskTrees_TaskItems1" FromRole="TaskTrees" ToRole="TaskItems" />
+          </EntityType>
         <EntityContainer Name="openccpm_dbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="StartEndTimes" EntityType="Self.StartEndTimes" />
-          <EntitySet Name="TaskItems" EntityType="openccpm_dbModel.TaskItems" />
           <EntitySet Name="TaskPerts" EntityType="Self.TaskPerts" />
           <EntitySet Name="TaskTrees" EntityType="Self.TaskTrees" />
-          <AssociationSet Name="FK_StartEndTimes_TaskItems" Association="Self.FK_StartEndTimes_TaskItems">
-            <End Role="TaskItems" EntitySet="TaskItems" />
-            <End Role="StartEndTimes" EntitySet="StartEndTimes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TaskPerts_TaskItems" Association="Self.FK_TaskPerts_TaskItems">
-            <End Role="TaskItems" EntitySet="TaskItems" />
-            <End Role="TaskPerts" EntitySet="TaskPerts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TaskPerts_TaskItems1" Association="Self.FK_TaskPerts_TaskItems1">
-            <End Role="TaskItems" EntitySet="TaskItems" />
-            <End Role="TaskPerts" EntitySet="TaskPerts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TaskTrees_TaskItems" Association="Self.FK_TaskTrees_TaskItems">
-            <End Role="TaskItems" EntitySet="TaskItems" />
-            <End Role="TaskTrees" EntitySet="TaskTrees" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TaskTrees_TaskItems1" Association="Self.FK_TaskTrees_TaskItems1">
-            <End Role="TaskItems" EntitySet="TaskItems" />
-            <End Role="TaskTrees" EntitySet="TaskTrees" />
-          </AssociationSet>
           <EntitySet Name="Users" EntityType="openccpm_dbModel.Users" />
           <EntitySet Name="Priorities" EntityType="openccpm_dbModel.Priorities" />
           <EntitySet Name="Statuses" EntityType="openccpm_dbModel.Statuses" />
           <EntitySet Name="Trackers" EntityType="openccpm_dbModel.Trackers" />
+          <EntitySet Name="WbsItems" EntityType="openccpm_dbModel.WbsItems" />
+          <EntitySet Name="TicketView" EntityType="openccpm_dbModel.TicketViews" />
+          <EntitySet Name="TaskItems" EntityType="openccpm_dbModel.TaskItems" />
           <EntitySet Name="TicketItems" EntityType="openccpm_dbModel.TicketItems" />
           <AssociationSet Name="FK_Tickets_Priorities" Association="openccpm_dbModel.FK_Tickets_Priorities">
             <End Role="Priorities" EntitySet="Priorities" />
             <End Role="TicketItems" EntitySet="TicketItems" />
           </AssociationSet>
+          <AssociationSet Name="FK_StartEndTimes_TaskItems" Association="openccpm_dbModel.FK_StartEndTimes_TaskItems">
+            <End Role="TaskItems" EntitySet="TaskItems" />
+            <End Role="StartEndTimes" EntitySet="StartEndTimes" />
+          </AssociationSet>
           <AssociationSet Name="FK_Tickets_Statuses" Association="openccpm_dbModel.FK_Tickets_Statuses">
             <End Role="Statuses" EntitySet="Statuses" />
             <End Role="TicketItems" EntitySet="TicketItems" />
           </AssociationSet>
+          <AssociationSet Name="FK_TaskPerts_TaskItems" Association="openccpm_dbModel.FK_TaskPerts_TaskItems">
+            <End Role="TaskItems" EntitySet="TaskItems" />
+            <End Role="TaskPerts" EntitySet="TaskPerts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskPerts_TaskItems1" Association="openccpm_dbModel.FK_TaskPerts_TaskItems1">
+            <End Role="TaskItems" EntitySet="TaskItems" />
+            <End Role="TaskPerts" EntitySet="TaskPerts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskTrees_TaskItems" Association="openccpm_dbModel.FK_TaskTrees_TaskItems">
+            <End Role="TaskItems" EntitySet="TaskItems" />
+            <End Role="TaskTrees" EntitySet="TaskTrees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskTrees_TaskItems1" Association="openccpm_dbModel.FK_TaskTrees_TaskItems1">
+            <End Role="TaskItems" EntitySet="TaskItems" />
+            <End Role="TaskTrees" EntitySet="TaskTrees" />
+          </AssociationSet>
           <AssociationSet Name="FK_Tickets_TaskItems" Association="openccpm_dbModel.FK_Tickets_TaskItems">
             <End Role="TaskItems" EntitySet="TaskItems" />
             <End Role="TicketItems" EntitySet="TicketItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WbsItems_TaskItems" Association="openccpm_dbModel.FK_WbsItems_TaskItems">
+            <End Role="TaskItems" EntitySet="TaskItems" />
+            <End Role="WbsItems" EntitySet="WbsItems" />
           </AssociationSet>
           <AssociationSet Name="FK_Tickets_Trackers" Association="openccpm_dbModel.FK_Tickets_Trackers">
             <End Role="Trackers" EntitySet="Trackers" />
@@ -622,14 +592,7 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="TicketItems" EntitySet="TicketItems" />
           </AssociationSet>
-          <EntitySet Name="WbsItems" EntityType="openccpm_dbModel.WbsItems" />
           <EntitySet Name="WbsView" EntityType="openccpm_dbModel.WbsViews" />
-          <AssociationSet Name="FK_WbsItems_TaskItems" Association="openccpm_dbModel.FK_WbsItems_TaskItems">
-            <End Role="TaskItems" EntitySet="TaskItems" />
-            <End Role="WbsItems" EntitySet="WbsItems" />
-          </AssociationSet>
-          <EntitySet Name="ProjectItem" EntityType="openccpm_dbModel.ProjectItems" />
-          <EntitySet Name="ProjectView" EntityType="openccpm_dbModel.ProjectViews" />
           </EntityContainer>
         <EntityType Name="Users">
           <Key>
@@ -684,8 +647,8 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="Position" Type="Int32" Nullable="false" />
           <NavigationProperty Name="TicketItems" Relationship="openccpm_dbModel.FK_Tickets_Trackers" FromRole="Trackers" ToRole="TicketItems" />
-        </EntityType>
-        <EntityType Name="TicketItems">
+          </EntityType>
+        <EntityType Name="WbsItems">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -699,6 +662,85 @@
           <Property Name="StatusId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="PriorityId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="AssignedId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="DoneRate" Type="Int32" Nullable="false" />
+          <Property Name="AuthorId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TaskItems" Relationship="openccpm_dbModel.FK_WbsItems_TaskItems" FromRole="WbsItems" ToRole="TaskItems" />
+        </EntityType>
+        <EntityType Name="TicketViews">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="CreatedAt" />
+            <PropertyRef Name="Deleted" />
+            <PropertyRef Name="Version" />
+            <PropertyRef Name="Ticket_Id" />
+            <PropertyRef Name="DoneRate" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="Subject" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedAt" Type="DateTimeOffset" Precision="7" />
+          <Property Name="Version" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="TaskNo" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="PlanTime" Type="Double" />
+          <Property Name="DoneTime" Type="Double" />
+          <Property Name="Ticket_Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Status_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Status_Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Tracker_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Tracker_Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Priority_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Priority_Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="AssignedTo_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="AssignedTo_FirstName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="AssignedTo_LastName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="AuthorId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="DoneRate" Type="Int32" Nullable="false" />
+          <Property Name="PriorityId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="StatusId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="AssignedToId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Author_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Author_FirstName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Author_LastName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="TrackerId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="TaskItems">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="Subject" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedAt" Type="DateTimeOffset" Precision="7" />
+          <Property Name="Version" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="TaskNo" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="PlanTime" Type="Double" />
+          <Property Name="DoneTime" Type="Double" />
+          <NavigationProperty Name="StartEndTimes" Relationship="openccpm_dbModel.FK_StartEndTimes_TaskItems" FromRole="TaskItems" ToRole="StartEndTimes" />
+          <NavigationProperty Name="TaskPerts" Relationship="openccpm_dbModel.FK_TaskPerts_TaskItems" FromRole="TaskItems" ToRole="TaskPerts" />
+          <NavigationProperty Name="TaskPerts1" Relationship="openccpm_dbModel.FK_TaskPerts_TaskItems1" FromRole="TaskItems" ToRole="TaskPerts" />
+          <NavigationProperty Name="TaskTrees" Relationship="openccpm_dbModel.FK_TaskTrees_TaskItems" FromRole="TaskItems" ToRole="TaskTrees" />
+          <NavigationProperty Name="TaskTrees1" Relationship="openccpm_dbModel.FK_TaskTrees_TaskItems1" FromRole="TaskItems" ToRole="TaskTrees" />
+          <NavigationProperty Name="TicketItems" Relationship="openccpm_dbModel.FK_Tickets_TaskItems" FromRole="TaskItems" ToRole="TicketItems" />
+          <NavigationProperty Name="WbsItems" Relationship="openccpm_dbModel.FK_WbsItems_TaskItems" FromRole="TaskItems" ToRole="WbsItems" />
+        </EntityType>
+        <EntityType Name="TicketItems">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Version" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="CreatedAt" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="UpdatedAt" Type="DateTimeOffset" Precision="7" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="TaskId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="TrackerId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="StatusId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="PriorityId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="AssignedToId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="DoneRate" Type="Int32" Nullable="false" />
           <Property Name="AuthorId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Priorities" Relationship="openccpm_dbModel.FK_Tickets_Priorities" FromRole="TicketItems" ToRole="Priorities" />
@@ -720,6 +762,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StartEndTimes_TaskItems">
+          <End Type="openccpm_dbModel.TaskItems" Role="TaskItems" Multiplicity="1" />
+          <End Type="openccpm_dbModel.StartEndTimes" Role="StartEndTimes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskItems">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StartEndTimes">
+              <PropertyRef Name="TaskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Tickets_Statuses">
           <End Type="openccpm_dbModel.Statuses" Role="Statuses" Multiplicity="0..1" />
           <End Type="openccpm_dbModel.TicketItems" Role="TicketItems" Multiplicity="*" />
@@ -729,6 +783,54 @@
             </Principal>
             <Dependent Role="TicketItems">
               <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskPerts_TaskItems">
+          <End Type="openccpm_dbModel.TaskItems" Role="TaskItems" Multiplicity="1" />
+          <End Type="openccpm_dbModel.TaskPerts" Role="TaskPerts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskItems">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TaskPerts">
+              <PropertyRef Name="PreTaskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskPerts_TaskItems1">
+          <End Type="openccpm_dbModel.TaskItems" Role="TaskItems" Multiplicity="1" />
+          <End Type="openccpm_dbModel.TaskPerts" Role="TaskPerts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskItems">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TaskPerts">
+              <PropertyRef Name="PostTaskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskTrees_TaskItems">
+          <End Type="openccpm_dbModel.TaskItems" Role="TaskItems" Multiplicity="1" />
+          <End Type="openccpm_dbModel.TaskTrees" Role="TaskTrees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskItems">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TaskTrees">
+              <PropertyRef Name="ParentTaskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskTrees_TaskItems1">
+          <End Type="openccpm_dbModel.TaskItems" Role="TaskItems" Multiplicity="1" />
+          <End Type="openccpm_dbModel.TaskTrees" Role="TaskTrees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskItems">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TaskTrees">
+              <PropertyRef Name="ChildTaskId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -744,6 +846,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_WbsItems_TaskItems">
+          <End Type="openccpm_dbModel.TaskItems" Role="TaskItems" Multiplicity="1" />
+          <End Type="openccpm_dbModel.WbsItems" Role="WbsItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskItems">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WbsItems">
+              <PropertyRef Name="TaskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Tickets_Trackers">
           <End Type="openccpm_dbModel.Trackers" Role="Trackers" Multiplicity="0..1" />
           <End Type="openccpm_dbModel.TicketItems" Role="TicketItems" Multiplicity="*" />
@@ -752,7 +866,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="TicketItems">
-              <PropertyRef Name="TrackId" />
+              <PropertyRef Name="TrackerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -764,7 +878,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="TicketItems">
-              <PropertyRef Name="AssignedId" />
+              <PropertyRef Name="AssignedToId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -780,84 +894,40 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="WbsItems">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="Version" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
-          <Property Name="CreatedAt" Type="DateTimeOffset" Nullable="false" Precision="7" />
-          <Property Name="UpdatedAt" Type="DateTimeOffset" Precision="7" />
-          <Property Name="Deleted" Type="Boolean" Nullable="false" />
-          <Property Name="TaskId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="TrackId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="StatusId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="PriorityId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="AssignedId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="DoneRate" Type="Int32" Nullable="false" />
-          <Property Name="AuthorId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="TaskItems" Relationship="openccpm_dbModel.FK_WbsItems_TaskItems" FromRole="WbsItems" ToRole="TaskItems" />
-        </EntityType>
         <EntityType Name="WbsViews">
           <Key>
             <PropertyRef Name="Id" />
+            <PropertyRef Name="CreatedAt" />
+            <PropertyRef Name="Deleted" />
+            <PropertyRef Name="Version" />
+            <PropertyRef Name="Wbs_Id" />
+            <PropertyRef Name="Author_Id" />
+            <PropertyRef Name="Author_FirstName" />
+            <PropertyRef Name="Author_LastName" />
           </Key>
           <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="CreatedAt" Type="DateTimeOffset" Nullable="false" Precision="7" />
           <Property Name="Deleted" Type="Boolean" Nullable="false" />
-          <Property Name="Desc" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
-          <Property Name="Title" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="UpdatedAt" Type="DateTimeOffset" Precision="7" />
           <Property Name="Version" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="TaskNo" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="PlanTime" Type="Double" />
           <Property Name="DoneTime" Type="Double" />
           <Property Name="Wbs_Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="Tracker_Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="Tracker_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="Status_Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Tracker_Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="Status_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="Priority_Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Status_Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="Priority_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Priority_Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="AssignedTo_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="AssignedTo_FirstName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="AssignedTo_LastName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="DoneRate" Type="Int32" Nullable="false" />
-          <Property Name="Author_FirstName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="AssignedTo_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="Author_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="Author_LastName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <Association Name="FK_WbsItems_TaskItems">
-          <End Type="openccpm_dbModel.TaskItems" Role="TaskItems" Multiplicity="1" />
-          <End Type="openccpm_dbModel.WbsItems" Role="WbsItems" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TaskItems">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="WbsItems">
-              <PropertyRef Name="TaskId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="ProjectItems">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Code" Type="Binary" Nullable="false" MaxLength="50" FixedLength="false" />
-          <Property Name="Name" Type="Binary" Nullable="false" MaxLength="50" FixedLength="false" />
-          <Property Name="CreateAt" Type="DateTimeOffset" Nullable="false" Precision="7" />
-          <Property Name="Completed" Type="Boolean" Nullable="false" />
-        </EntityType>
-        <EntityType Name="ProjectViews">
-          <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="Code" />
-            <PropertyRef Name="Name" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Code" Type="Binary" Nullable="false" MaxLength="50" FixedLength="false" />
-          <Property Name="Name" Type="Binary" Nullable="false" MaxLength="50" FixedLength="false" />
+          <Property Name="Author_Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Author_FirstName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Author_LastName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="Subject" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -877,22 +947,6 @@
                 <ScalarProperty Name="StartAt" ColumnName="StartAt" />
                 <ScalarProperty Name="EndAt" ColumnName="EndAt" />
                 <ScalarProperty Name="IsPlan" ColumnName="IsPlan" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TaskItems">
-            <EntityTypeMapping TypeName="openccpm_dbModel.TaskItems">
-              <MappingFragment StoreEntitySet="TaskItems">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
-                <ScalarProperty Name="Desc" ColumnName="Desc" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
-                <ScalarProperty Name="Version" ColumnName="Version" />
-                <ScalarProperty Name="TaskNo" ColumnName="TaskNo" />
-                <ScalarProperty Name="PlanTime" ColumnName="PlanTime" />
-                <ScalarProperty Name="DoneTime" ColumnName="DoneTime" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -975,24 +1029,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TicketItems">
-            <EntityTypeMapping TypeName="openccpm_dbModel.TicketItems">
-              <MappingFragment StoreEntitySet="TicketItems">
-                <ScalarProperty Name="AuthorId" ColumnName="AuthorId" />
-                <ScalarProperty Name="DoneRate" ColumnName="DoneRate" />
-                <ScalarProperty Name="AssignedId" ColumnName="AssignedId" />
-                <ScalarProperty Name="PriorityId" ColumnName="PriorityId" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="TrackId" ColumnName="TrackId" />
-                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
-                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
-                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="Version" ColumnName="Version" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="WbsItems">
             <EntityTypeMapping TypeName="openccpm_dbModel.WbsItems">
               <MappingFragment StoreEntitySet="WbsItems">
@@ -1011,52 +1047,100 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="WbsView">
-            <EntityTypeMapping TypeName="openccpm_dbModel.WbsViews">
-              <MappingFragment StoreEntitySet="WbsView">
+          <EntitySetMapping Name="TicketView">
+            <EntityTypeMapping TypeName="openccpm_dbModel.TicketViews">
+              <MappingFragment StoreEntitySet="TicketView">
+                <ScalarProperty Name="TrackerId" ColumnName="TrackerId" />
                 <ScalarProperty Name="Author_LastName" ColumnName="Author_LastName" />
-                <ScalarProperty Name="Author_Id" ColumnName="Author_Id" />
-                <ScalarProperty Name="AssignedTo_Id" ColumnName="AssignedTo_Id" />
                 <ScalarProperty Name="Author_FirstName" ColumnName="Author_FirstName" />
+                <ScalarProperty Name="Author_Id" ColumnName="Author_Id" />
+                <ScalarProperty Name="AssignedToId" ColumnName="AssignedToId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="PriorityId" ColumnName="PriorityId" />
                 <ScalarProperty Name="DoneRate" ColumnName="DoneRate" />
+                <ScalarProperty Name="AuthorId" ColumnName="AuthorId" />
                 <ScalarProperty Name="AssignedTo_LastName" ColumnName="AssignedTo_LastName" />
                 <ScalarProperty Name="AssignedTo_FirstName" ColumnName="AssignedTo_FirstName" />
-                <ScalarProperty Name="Priority_Id" ColumnName="Priority_Id" />
+                <ScalarProperty Name="AssignedTo_Id" ColumnName="AssignedTo_Id" />
                 <ScalarProperty Name="Priority_Name" ColumnName="Priority_Name" />
-                <ScalarProperty Name="Status_Id" ColumnName="Status_Id" />
-                <ScalarProperty Name="Status_Name" ColumnName="Status_Name" />
-                <ScalarProperty Name="Tracker_Id" ColumnName="Tracker_Id" />
+                <ScalarProperty Name="Priority_Id" ColumnName="Priority_Id" />
                 <ScalarProperty Name="Tracker_Name" ColumnName="Tracker_Name" />
-                <ScalarProperty Name="Wbs_Id" ColumnName="Wbs_Id" />
+                <ScalarProperty Name="Tracker_Id" ColumnName="Tracker_Id" />
+                <ScalarProperty Name="Status_Name" ColumnName="Status_Name" />
+                <ScalarProperty Name="Status_Id" ColumnName="Status_Id" />
+                <ScalarProperty Name="Ticket_Id" ColumnName="Ticket_Id" />
                 <ScalarProperty Name="DoneTime" ColumnName="DoneTime" />
                 <ScalarProperty Name="PlanTime" ColumnName="PlanTime" />
                 <ScalarProperty Name="TaskNo" ColumnName="TaskNo" />
                 <ScalarProperty Name="Version" ColumnName="Version" />
                 <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Desc" ColumnName="Desc" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Deleted" ColumnName="Deleted" />
                 <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ProjectItem">
-            <EntityTypeMapping TypeName="openccpm_dbModel.ProjectItems">
-              <MappingFragment StoreEntitySet="ProjectItem">
-                <ScalarProperty Name="Completed" ColumnName="Completed" />
-                <ScalarProperty Name="CreateAt" ColumnName="CreateAt" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
+          <EntitySetMapping Name="TaskItems">
+            <EntityTypeMapping TypeName="openccpm_dbModel.TaskItems">
+              <MappingFragment StoreEntitySet="TaskItems">
+                <ScalarProperty Name="DoneTime" ColumnName="DoneTime" />
+                <ScalarProperty Name="PlanTime" ColumnName="PlanTime" />
+                <ScalarProperty Name="TaskNo" ColumnName="TaskNo" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ProjectView">
-            <EntityTypeMapping TypeName="openccpm_dbModel.ProjectViews">
-              <MappingFragment StoreEntitySet="ProjectView">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
+          <EntitySetMapping Name="TicketItems">
+            <EntityTypeMapping TypeName="openccpm_dbModel.TicketItems">
+              <MappingFragment StoreEntitySet="TicketItems">
+                <ScalarProperty Name="AuthorId" ColumnName="AuthorId" />
+                <ScalarProperty Name="DoneRate" ColumnName="DoneRate" />
+                <ScalarProperty Name="AssignedToId" ColumnName="AssignedToId" />
+                <ScalarProperty Name="PriorityId" ColumnName="PriorityId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="TrackerId" ColumnName="TrackerId" />
+                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WbsView">
+            <EntityTypeMapping TypeName="openccpm_dbModel.WbsViews">
+              <MappingFragment StoreEntitySet="WbsView">
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Author_LastName" ColumnName="Author_LastName" />
+                <ScalarProperty Name="Author_FirstName" ColumnName="Author_FirstName" />
+                <ScalarProperty Name="Author_Id" ColumnName="Author_Id" />
+                <ScalarProperty Name="AssignedTo_LastName" ColumnName="AssignedTo_LastName" />
+                <ScalarProperty Name="AssignedTo_FirstName" ColumnName="AssignedTo_FirstName" />
+                <ScalarProperty Name="AssignedTo_Id" ColumnName="AssignedTo_Id" />
+                <ScalarProperty Name="Priority_Name" ColumnName="Priority_Name" />
+                <ScalarProperty Name="Priority_Id" ColumnName="Priority_Id" />
+                <ScalarProperty Name="Status_Name" ColumnName="Status_Name" />
+                <ScalarProperty Name="Status_Id" ColumnName="Status_Id" />
+                <ScalarProperty Name="Tracker_Name" ColumnName="Tracker_Name" />
+                <ScalarProperty Name="Tracker_Id" ColumnName="Tracker_Id" />
+                <ScalarProperty Name="Wbs_Id" ColumnName="Wbs_Id" />
+                <ScalarProperty Name="DoneTime" ColumnName="DoneTime" />
+                <ScalarProperty Name="PlanTime" ColumnName="PlanTime" />
+                <ScalarProperty Name="TaskNo" ColumnName="TaskNo" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

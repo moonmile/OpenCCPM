@@ -44,30 +44,6 @@ namespace Openccpm.Web.Controllers
                 return NotFound();
             }
 
-            // ƒŠƒŒ[ƒVƒ‡ƒ“•ª‚àŽæ“¾‚µ‚Ä‚¨‚­
-            taskItem.PlanStartEnds = _context.StartEndTime.Where(x => x.TaskId == id && x.IsPlan == true ).Select(x => x).ToList();
-            taskItem.DoneStartEnds = _context.StartEndTime.Where(x => x.TaskId == id && x.IsPlan == false).Select(x => x).ToList();
-            taskItem.ParentTask = (
-                from m in _context.TaskItem
-                join s in _context.TaskTree.Where(x => x.ChildTaskId == id) on m.Id equals s.ParentTaskId
-                select m
-                ).FirstOrDefault();
-            taskItem.ChildTasks = (
-                from m in _context.TaskItem
-                join s in _context.TaskTree.Where(x => x.ParentTaskId == id) on m.Id equals s.ChildTaskId
-                select m
-                ).ToList();
-            taskItem.PreTasks = (
-                from m in _context.TaskItem
-                join s in _context.TaskPert.Where(x => x.PostTaskId == id) on m.Id equals s.PreTaskId
-                select m
-                ).ToList();
-            taskItem.PostTasks = (
-                from m in _context.TaskItem
-                join s in _context.TaskPert.Where(x => x.PreTaskId == id) on m.Id equals s.PostTaskId
-                select m
-                ).ToList();
-
             return Ok(taskItem);
         }
 

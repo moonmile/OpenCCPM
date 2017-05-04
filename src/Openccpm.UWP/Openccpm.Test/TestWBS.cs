@@ -25,6 +25,7 @@ namespace Openccpm.Test
             service = new WbsService("http://localhost:5000");
         }
 
+        /*
         [TestMethod]
         public void TestMethod1()
         {
@@ -89,5 +90,6 @@ namespace Openccpm.Test
             var serv = new ProjectService("http://localhost:5000");
             var items = await serv.GetProjectView(2);
         }
+        */
     }
 }

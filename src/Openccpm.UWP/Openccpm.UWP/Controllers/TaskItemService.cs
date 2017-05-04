@@ -154,27 +154,27 @@ namespace Openccpm.UWP.Controllers
         public TicketService(string url) : base(url)
         {
         }
-        public async Task<List<Ticket>> GetTickets()
+        public async Task<List<TicketView>> GetTickets()
         {
             var hc = new HttpClient();
             var res = await hc.GetAsync(_url + $"/api/Ticket");
             var st = await res.Content.ReadAsStreamAsync();
             var js = new Newtonsoft.Json.JsonSerializer();
             var jr = new Newtonsoft.Json.JsonTextReader(new System.IO.StreamReader(st));
-            var items = js.Deserialize<List<Ticket>>(jr);
+            var items = js.Deserialize<List<TicketView>>(jr);
             return items;
         }
-        public async Task<Ticket> GetTicket(string id)
+        public async Task<TicketView> GetTicket(string id)
         {
             var hc = new HttpClient();
             var res = await hc.GetAsync(_url + $"/api/Ticket/{id}");
             var st = await res.Content.ReadAsStreamAsync();
             var js = new Newtonsoft.Json.JsonSerializer();
             var jr = new Newtonsoft.Json.JsonTextReader(new System.IO.StreamReader(st));
-            var item = js.Deserialize<Ticket>(jr);
+            var item = js.Deserialize<TicketView>(jr);
             return item;
         }
-        public async Task<Ticket> AddTicket(Ticket item)
+        public async Task<TicketView> AddTicket(TicketView item)
         {
             var hc = new HttpClient();
             var json = Newtonsoft.Json.JsonConvert.SerializeObject(item);
@@ -184,10 +184,10 @@ namespace Openccpm.UWP.Controllers
             var st = await res.Content.ReadAsStreamAsync();
             var js = new Newtonsoft.Json.JsonSerializer();
             var jr = new Newtonsoft.Json.JsonTextReader(new System.IO.StreamReader(st));
-            var newItem = js.Deserialize<Ticket>(jr);
+            var newItem = js.Deserialize<TicketView>(jr);
             return newItem;
         }
-        public async Task UpdateTicket(Ticket item)
+        public async Task UpdateTicket(TicketView item)
         {
             var hc = new HttpClient();
             var json = Newtonsoft.Json.JsonConvert.SerializeObject(item);
@@ -280,5 +280,4 @@ namespace Openccpm.UWP.Controllers
             return item;
         }
     }
-
 }

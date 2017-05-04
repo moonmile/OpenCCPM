@@ -20,10 +20,10 @@ namespace Openccpm.Test.Models
         public Nullable<System.DateTimeOffset> UpdatedAt { get; set; }
         public bool Deleted { get; set; }
         public string TaskId { get; set; }
-        public string TrackId { get; set; }
+        public string TrackerId { get; set; }
         public string StatusId { get; set; }
         public string PriorityId { get; set; }
-        public string AssignedId { get; set; }
+        public string AssignedToId { get; set; }
         public int DoneRate { get; set; }
         public string AuthorId { get; set; }
     

@@ -25,7 +25,10 @@ namespace Openccpm.Web.Data
 
         public DbSet<Openccpm.Web.Models.TaskItem> TaskItem { get; set; }
         public DbSet<Openccpm.Web.Models.TicketItem> TicketItem { get; set; }
+        public DbSet<Openccpm.Web.Models.TicketView> TicketView { get; set; }
+
         public DbSet<Openccpm.Web.Models.WbsItem> WbsItem { get; set; }
+        public DbSet<Openccpm.Web.Models.WbsView> WbsView { get; set; }
 
 
         public DbSet<Openccpm.Web.Models.StartEndTime> StartEndTime { get; set; }
@@ -40,6 +43,5 @@ namespace Openccpm.Web.Data
         public DbSet<Openccpm.Web.Models.ProjectItem> ProjectItem { get; set; }
         public DbSet<Openccpm.Web.Models.ProjectView> ProjectView { get; set; }
 
-        public DbSet<Openccpm.Web.Models.WbsView> WbsView { get; set; }
     }
 }

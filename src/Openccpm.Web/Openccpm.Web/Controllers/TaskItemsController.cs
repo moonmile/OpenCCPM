@@ -54,7 +54,7 @@ namespace Openccpm.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TaskNo,Title,Desc,PlanTime,DoneTime,Id,Version,CreatedAt,UpdatedAt,Deleted")] TaskItem taskItem)
+        public async Task<IActionResult> Create([Bind("TaskNo,Subject,Description,PlanTime,DoneTime,Id,Version,CreatedAt,UpdatedAt,Deleted")] TaskItem taskItem)
         {
             if (ModelState.IsValid)
             {
@@ -87,7 +87,7 @@ namespace Openccpm.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("TaskNo,Title,Desc,PlanTime,DoneTime,Id,Version,CreatedAt,UpdatedAt,Deleted")] TaskItem taskItem)
+        public async Task<IActionResult> Edit(string id, [Bind("TaskNo,Subject,Description,PlanTime,DoneTime,Id,Version,CreatedAt,UpdatedAt,Deleted")] TaskItem taskItem)
         {
             if (id != taskItem.Id)
             {
