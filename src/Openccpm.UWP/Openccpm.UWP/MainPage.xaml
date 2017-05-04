@@ -1,0 +1,63 @@
+﻿<Page
+    x:Class="Openccpm.UWP.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Openccpm.UWP"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" 
+                   FontSize="40"
+                   Text="OpenCCPM Client Sample" VerticalAlignment="Top" Height="80" Width="760"/>
+        <Button Content="GetItems" 
+                Click="GetItemsClick"
+                HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="148"/>
+        <Button Content="GetItem" 
+            Click="GetItemClick"
+            HorizontalAlignment="Left" Margin="10,47,0,0" Grid.Row="1" VerticalAlignment="Top" Width="148"/>
+        <TextBox 
+            x:Name="textId"
+            HorizontalAlignment="Left" Margin="181,114,0,0" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="367"/>
+        <TextBox 
+            x:Name="textTitle"
+            HorizontalAlignment="Left" Margin="181,208,0,0" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="367"/>
+        <TextBox 
+            x:Name="textDesc"
+            HorizontalAlignment="Left" Margin="181,245,0,0" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="367"/>
+        <Button Content="Add" 
+            Click="AddClick"
+            HorizontalAlignment="Left" Margin="10,114,0,0" Grid.Row="1" VerticalAlignment="Top" Width="148"/>
+        <Button Content="Update" 
+            Click="UpdateClick"
+            HorizontalAlignment="Left" Margin="10,151,0,0" Grid.Row="1" VerticalAlignment="Top" Width="148"/>
+        <Button Content="Delete" 
+            Click="DeleteClick"
+            HorizontalAlignment="Left" Margin="10,188,0,0" Grid.Row="1" VerticalAlignment="Top" Width="148"/>
+        <TextBox 
+            x:Name="textNo"
+            HorizontalAlignment="Left" Margin="181,171,0,0" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="367"/>
+        
+        <Button Content="Get StartEnd" 
+            Click="GetStartEndClick"
+            HorizontalAlignment="Left" Margin="569,47,0,0" Grid.Row="1" VerticalAlignment="Top" Width="148"/>
+        <TextBox 
+            x:Name="textStartTime"
+            HorizontalAlignment="Left" Margin="569,114,0,0" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="367"/>
+        <TextBox 
+            x:Name="textEndTime"
+            HorizontalAlignment="Left" Margin="569,151,0,0" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="367"/>
+        <Button Content="Add StartEnd" 
+            Click="AddStartEndClick"
+            HorizontalAlignment="Left" Margin="788,47,0,0" Grid.Row="1" VerticalAlignment="Top" Width="148"/>
+        <CheckBox 
+            x:Name="chkPlan"
+            Content="計画/実績" HorizontalAlignment="Left" Margin="962,115,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+
+    </Grid>
+</Page>
