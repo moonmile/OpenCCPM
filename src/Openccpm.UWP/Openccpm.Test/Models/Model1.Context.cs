@@ -37,5 +37,6 @@ namespace Openccpm.Test.Models
         public virtual DbSet<TaskItems> TaskItems { get; set; }
         public virtual DbSet<TicketItems> TicketItems { get; set; }
         public virtual DbSet<WbsViews> WbsView { get; set; }
+        public virtual DbSet<Projects> Projects { get; set; }
     }
 }

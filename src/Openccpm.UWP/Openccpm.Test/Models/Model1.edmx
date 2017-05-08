@@ -17,6 +17,19 @@
           <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="Position" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Projects">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetimeoffset" Precision="7" />
+          <Property Name="Version" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="ProjectNo" Type="nvarchar" MaxLength="128" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1024" />
+        </EntityType>
         <EntityType Name="StartEndTimes">
           <Key>
             <PropertyRef Name="Id" />
@@ -57,6 +70,7 @@
           <Property Name="TaskNo" Type="nvarchar" MaxLength="128" />
           <Property Name="PlanTime" Type="float" />
           <Property Name="DoneTime" Type="float" />
+          <Property Name="ProjectId" Type="nvarchar" MaxLength="128" />
         </EntityType>
         <EntityType Name="TaskPerts">
           <Key>
@@ -142,8 +156,6 @@
           <Property Name="AuthorId" Type="nvarchar" MaxLength="128" />
         </EntityType>
         <!--生成中に見つかったエラー:
-警告 6002: テーブル/ビュー 'openccpm_test.dbo.ProjectView' には主キーが定義されていません。主キーは推論され、定義は読み取り専用のテーブル/ビューとして作成されました。-->
-        <!--生成中に見つかったエラー:
 警告 6002: テーブル/ビュー 'openccpm_test.dbo.TicketView' には主キーが定義されていません。主キーは推論され、定義は読み取り専用のテーブル/ビューとして作成されました。-->
         <EntityType Name="TicketView">
           <Key>
@@ -153,6 +165,7 @@
             <PropertyRef Name="Version" />
             <PropertyRef Name="Ticket_Id" />
             <PropertyRef Name="DoneRate" />
+            <PropertyRef Name="Ticket_Version" />
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="CreatedAt" Type="datetimeoffset" Precision="7" Nullable="false" />
@@ -183,6 +196,7 @@
           <Property Name="Author_FirstName" Type="nvarchar" MaxLength="128" />
           <Property Name="Author_LastName" Type="nvarchar" MaxLength="128" />
           <Property Name="TrackerId" Type="nvarchar" MaxLength="128" />
+          <Property Name="Ticket_Version" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
         <!--生成中に見つかったエラー:
 警告 6002: テーブル/ビュー 'openccpm_test.dbo.WbsView' には主キーが定義されていません。主キーは推論され、定義は読み取り専用のテーブル/ビューとして作成されました。-->
@@ -367,6 +381,7 @@
         </Association>
         <EntityContainer Name="openccpm_dbModelStoreContainer">
           <EntitySet Name="Priorities" EntityType="Self.Priorities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Projects" EntityType="Self.Projects" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StartEndTimes" EntityType="Self.StartEndTimes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Statuses" EntityType="Self.Statuses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaskItems" EntityType="Self.TaskItems" Schema="dbo" store:Type="Tables" />
@@ -406,7 +421,8 @@
     [TicketView].[Author_Id] AS [Author_Id], 
     [TicketView].[Author_FirstName] AS [Author_FirstName], 
     [TicketView].[Author_LastName] AS [Author_LastName], 
-    [TicketView].[TrackerId] AS [TrackerId]
+    [TicketView].[TrackerId] AS [TrackerId], 
+    [TicketView].[Ticket_Version] AS [Ticket_Version]
     FROM [dbo].[TicketView] AS [TicketView]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="WbsView" EntityType="Self.WbsView" store:Type="Views" store:Schema="dbo">
@@ -593,6 +609,7 @@
             <End Role="TicketItems" EntitySet="TicketItems" />
           </AssociationSet>
           <EntitySet Name="WbsView" EntityType="openccpm_dbModel.WbsViews" />
+          <EntitySet Name="Projects" EntityType="openccpm_dbModel.Projects" />
           </EntityContainer>
         <EntityType Name="Users">
           <Key>
@@ -674,6 +691,7 @@
             <PropertyRef Name="Version" />
             <PropertyRef Name="Ticket_Id" />
             <PropertyRef Name="DoneRate" />
+            <PropertyRef Name="Ticket_Version" />
           </Key>
           <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="CreatedAt" Type="DateTimeOffset" Nullable="false" Precision="7" />
@@ -704,6 +722,7 @@
           <Property Name="Author_FirstName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="Author_LastName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="TrackerId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Ticket_Version" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="TaskItems">
           <Key>
@@ -726,6 +745,7 @@
           <NavigationProperty Name="TaskTrees1" Relationship="openccpm_dbModel.FK_TaskTrees_TaskItems1" FromRole="TaskItems" ToRole="TaskTrees" />
           <NavigationProperty Name="TicketItems" Relationship="openccpm_dbModel.FK_Tickets_TaskItems" FromRole="TaskItems" ToRole="TicketItems" />
           <NavigationProperty Name="WbsItems" Relationship="openccpm_dbModel.FK_WbsItems_TaskItems" FromRole="TaskItems" ToRole="WbsItems" />
+          <Property Name="ProjectId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="TicketItems">
           <Key>
@@ -929,6 +949,19 @@
           <Property Name="Description" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
           <Property Name="Subject" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="Projects">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="UpdatedAt" Type="DateTimeOffset" Precision="7" />
+          <Property Name="Version" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectNo" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1050,6 +1083,7 @@
           <EntitySetMapping Name="TicketView">
             <EntityTypeMapping TypeName="openccpm_dbModel.TicketViews">
               <MappingFragment StoreEntitySet="TicketView">
+                <ScalarProperty Name="Ticket_Version" ColumnName="Ticket_Version" />
                 <ScalarProperty Name="TrackerId" ColumnName="TrackerId" />
                 <ScalarProperty Name="Author_LastName" ColumnName="Author_LastName" />
                 <ScalarProperty Name="Author_FirstName" ColumnName="Author_FirstName" />
@@ -1085,6 +1119,7 @@
           <EntitySetMapping Name="TaskItems">
             <EntityTypeMapping TypeName="openccpm_dbModel.TaskItems">
               <MappingFragment StoreEntitySet="TaskItems">
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
                 <ScalarProperty Name="DoneTime" ColumnName="DoneTime" />
                 <ScalarProperty Name="PlanTime" ColumnName="PlanTime" />
                 <ScalarProperty Name="TaskNo" ColumnName="TaskNo" />
@@ -1137,6 +1172,20 @@
                 <ScalarProperty Name="DoneTime" ColumnName="DoneTime" />
                 <ScalarProperty Name="PlanTime" ColumnName="PlanTime" />
                 <ScalarProperty Name="TaskNo" ColumnName="TaskNo" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projects">
+            <EntityTypeMapping TypeName="openccpm_dbModel.Projects">
+              <MappingFragment StoreEntitySet="Projects">
+                <ScalarProperty Name="ProjectNo" ColumnName="ProjectNo" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Version" ColumnName="Version" />
                 <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
                 <ScalarProperty Name="Deleted" ColumnName="Deleted" />

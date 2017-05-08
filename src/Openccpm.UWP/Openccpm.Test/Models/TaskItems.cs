@@ -36,6 +36,7 @@ namespace Openccpm.Test.Models
         public string TaskNo { get; set; }
         public Nullable<double> PlanTime { get; set; }
         public Nullable<double> DoneTime { get; set; }
+        public string ProjectId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StartEndTimes> StartEndTimes { get; set; }

@@ -92,9 +92,6 @@ namespace Openccpm.Test
                 Login ="masuda", FirstName="tomoaki", LastName="masuda" });
             context.SaveChanges();
 
-
-
-
             var item = new TicketView();
             item.TaskNo = "T001";
             item.Subject = "最初のチケット";

@@ -43,5 +43,6 @@ namespace Openccpm.Test.Models
         public string Author_FirstName { get; set; }
         public string Author_LastName { get; set; }
         public string TrackerId { get; set; }
+        public byte[] Ticket_Version { get; set; }
     }
 }

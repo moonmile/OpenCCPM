@@ -36,6 +36,8 @@ namespace Openccpm.Web.Models
         public double? PlanTime { get; set; }
         // 実績時間
         public double? DoneTime { get; set; }
+        // プロジェクトID
+        public string ProjectId { get; set; }
     }
 
 
@@ -76,9 +78,13 @@ namespace Openccpm.Web.Models
         public double? PlanTime { get; set; }
         // 実績時間
         public double? DoneTime { get; set; }
+        // プロジェクトID
+        public string ProjectId { get; set; }
+
 
         // チケットID
         public string Ticket_Id { get; set; }
+        public byte[] Ticket_Version { get; set; }
 
         public string Tracker_Id { get; set; }
         public string Tracker_Name { get; set; }
@@ -92,6 +98,8 @@ namespace Openccpm.Web.Models
         public string Author_Id { get; set; }
         public string Author_FirstName { get; set; }
         public string Author_LastName { get; set; }
+        public string Project_Name { get; set; }
+        public string Project_ProjectNo { get; set; }
 
         // トラッカー
         public Tracker Tracker { get; set; }
@@ -105,6 +113,8 @@ namespace Openccpm.Web.Models
         public int DoneRate { get; set; }
         // 所有者
         public User Author { get; set; }
+        // プロジェクト
+        public Project Project { get; set; }
 
         public TicketView() { }
         // コンバーター
@@ -121,20 +131,24 @@ namespace Openccpm.Web.Models
             this.Description = task.Description;
             this.PlanTime = task.PlanTime;
             this.DoneTime = task.DoneTime;
+            this.ProjectId = task.ProjectId;
 
             this.Ticket_Id = ticket.Id;
+            this.Ticket_Version = ticket.Version;
             this.DoneRate = ticket.DoneRate;
             this.Tracker = new Tracker() { Id = ticket.TrackerId };
             this.Status = new Status() { Id = ticket.StatusId};
             this.Priority = new Priority() { Id = ticket.PriorityId };
             this.AssignedTo = new User() { Id = ticket.AssignedToId };
             this.Author = new User() { Id = ticket.AuthorId };
+            this.Project = new Project() { Id = task.ProjectId };
         }
         public static explicit operator TicketItem(TicketView src )
         {
             var dest = new TicketItem()
             {
                 Id = src.Ticket_Id,
+                Version = src.Ticket_Version,
                 CreatedAt = src.CreatedAt,
                 UpdatedAt = src.UpdatedAt,
                 Deleted = src.Deleted,
@@ -142,11 +156,11 @@ namespace Openccpm.Web.Models
                 TaskId = src.Id,
                 DoneRate = src.DoneRate,
 
-                TrackerId = src.Tracker?.Id,
-                StatusId = src.Status?.Id,
-                PriorityId = src.Priority?.Id,
-                AssignedToId = src.AssignedTo?.Id,
-                AuthorId = src.Author?.Id
+                TrackerId = src.Tracker == null? src.Tracker_Id:  src.Tracker.Id,
+                StatusId =  src.Status  == null? src.Status_Id: src.Status.Id,
+                PriorityId = src.Priority == null? src.Priority_Id: src.Priority.Id,
+                AssignedToId = src.AssignedTo == null? src.AssignedTo_Id: src.AssignedTo.Id,
+                AuthorId = src.Author == null? src.Author_Id: src.Author.Id
             };
             return dest;
         }
@@ -164,7 +178,8 @@ namespace Openccpm.Web.Models
                 Subject = src.Subject,
                 Description = src.Description,
                 PlanTime = src.PlanTime,
-                DoneTime = src.DoneTime
+                DoneTime = src.DoneTime,
+                ProjectId = src.ProjectId,
             };
             return dest;
         }
@@ -314,6 +329,17 @@ namespace Openccpm.Web.Models
         // 後タスクID
         public string PostTaskId { get; set; }
     }
+
+
+    // プロジェクト
+    [Table("Projects")]
+    public class Project : EntityData
+    {
+        public string ProjectNo { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+    }
+
 
 
     // ビューのテスト用

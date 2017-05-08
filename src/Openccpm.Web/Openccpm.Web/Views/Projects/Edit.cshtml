@@ -1,4 +1,4 @@
-@model Openccpm.Web.Models.ProjectItem
+@model Openccpm.Web.Models.Project
 
 @{
     ViewData["Title"] = "Edit";
@@ -8,15 +8,14 @@
 
 <form asp-action="Edit">
     <div class="form-horizontal">
-        <h4>ProjectItem</h4>
+        <h4>Project</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="Id" />
         <div class="form-group">
-            <label asp-for="Code" class="col-md-2 control-label"></label>
+            <label asp-for="ProjectNo" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Code" class="form-control" />
-                <span asp-validation-for="Code" class="text-danger"></span>
+                <input asp-for="ProjectNo" class="form-control" />
+                <span asp-validation-for="ProjectNo" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
@@ -27,20 +26,18 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="CreateAt" class="col-md-2 control-label"></label>
+            <label asp-for="Description" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="CreateAt" class="form-control" />
-                <span asp-validation-for="CreateAt" class="text-danger"></span>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
             </div>
         </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <div class="checkbox">
-                    <input asp-for="Completed" />
-                    <label asp-for="Completed"></label>
-                </div>
-            </div>
-        </div>
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="Version" />
+        <input type="hidden" asp-for="CreatedAt" />
+        <input type="hidden" asp-for="UpdatedAt" />
+        <input type="hidden" asp-for="Deleted" />
+        
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />

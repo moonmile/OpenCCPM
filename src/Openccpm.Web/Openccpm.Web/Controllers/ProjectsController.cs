@@ -10,85 +10,87 @@ using Openccpm.Web.Models;
 
 namespace Openccpm.Web.Controllers
 {
-    public class ProjectViewsController : Controller
+    public class ProjectsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ProjectViewsController(ApplicationDbContext context)
+        public ProjectsController(ApplicationDbContext context)
         {
             _context = context;    
         }
 
-        // GET: ProjectViews
+        // GET: Projects
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ProjectView.ToListAsync());
+            return View(await _context.Project.ToListAsync());
         }
 
-        // GET: ProjectViews/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: Projects/Details/5
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var projectView = await _context.ProjectView
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (projectView == null)
+            var project = await _context.Project
+                .SingleOrDefaultAsync(m => m.Id == id || m.ProjectNo == id );
+            if (project == null)
             {
                 return NotFound();
             }
 
-            return View(projectView);
+            return View(project);
         }
 
-        // GET: ProjectViews/Create
+
+        // GET: Projects/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: ProjectViews/Create
+        // POST: Projects/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Code,Name")] ProjectView projectView)
+        public async Task<IActionResult> Create([Bind("ProjectNo,Name,Description,Id,Version,CreatedAt,UpdatedAt,Deleted")] Project project)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(projectView);
+                project.CreatedAt = DateTime.Now;
+                _context.Add(project);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(projectView);
+            return View(project);
         }
 
-        // GET: ProjectViews/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        // GET: Projects/Edit/5
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var projectView = await _context.ProjectView.SingleOrDefaultAsync(m => m.Id == id);
-            if (projectView == null)
+            var project = await _context.Project.SingleOrDefaultAsync(m => m.Id == id);
+            if (project == null)
             {
                 return NotFound();
             }
-            return View(projectView);
+            return View(project);
         }
 
-        // POST: ProjectViews/Edit/5
+        // POST: Projects/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Code,Name")] ProjectView projectView)
+        public async Task<IActionResult> Edit(string id, [Bind("ProjectNo,Name,Description,Id,Version,CreatedAt,UpdatedAt,Deleted")] Project project)
         {
-            if (id != projectView.Id)
+            if (id != project.Id)
             {
                 return NotFound();
             }
@@ -97,12 +99,13 @@ namespace Openccpm.Web.Controllers
             {
                 try
                 {
-                    _context.Update(projectView);
+                    project.UpdatedAt = DateTime.Now;
+                    _context.Update(project);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProjectViewExists(projectView.Id))
+                    if (!ProjectExists(project.Id))
                     {
                         return NotFound();
                     }
@@ -113,41 +116,41 @@ namespace Openccpm.Web.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            return View(projectView);
+            return View(project);
         }
 
-        // GET: ProjectViews/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // GET: Projects/Delete/5
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var projectView = await _context.ProjectView
+            var project = await _context.Project
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (projectView == null)
+            if (project == null)
             {
                 return NotFound();
             }
 
-            return View(projectView);
+            return View(project);
         }
 
-        // POST: ProjectViews/Delete/5
+        // POST: Projects/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var projectView = await _context.ProjectView.SingleOrDefaultAsync(m => m.Id == id);
-            _context.ProjectView.Remove(projectView);
+            var project = await _context.Project.SingleOrDefaultAsync(m => m.Id == id);
+            _context.Project.Remove(project);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
-        private bool ProjectViewExists(int id)
+        private bool ProjectExists(string id)
         {
-            return _context.ProjectView.Any(e => e.Id == id);
+            return _context.Project.Any(e => e.Id == id);
         }
     }
 }

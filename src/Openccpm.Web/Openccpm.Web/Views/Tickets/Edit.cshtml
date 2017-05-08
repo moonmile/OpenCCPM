@@ -1,0 +1,116 @@
+﻿@model Openccpm.Web.Models.TicketView
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<form asp-action="Edit">
+    <div class="form-horizontal">
+        <h4>TicketView</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group">
+            <label asp-for="TaskNo" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="TaskNo" class="form-control" />
+                <span asp-validation-for="TaskNo" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Subject" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Subject" class="form-control" />
+                <span asp-validation-for="Subject" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
+
+        <!-- トラッカー選択 -->
+        <div class="form-group">
+            <label asp-for="Tracker_Id" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="Tracker_Id" class="form-control" asp-items="ViewBag.TrackerItems"></select>
+            </div>
+        </div>
+        <!-- ステータス選択 -->
+        <div class="form-group">
+            <label asp-for="Status_Id" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="Status_Id" class="form-control" asp-items="ViewBag.StatusItems"></select>
+            </div>
+        </div>
+        <!-- 優先度選択 -->
+        <div class="form-group">
+            <label asp-for="Priority_Id" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="Priority_Id" class="form-control" asp-items="ViewBag.PriorityItems"></select>
+            </div>
+        </div>
+        <!-- 担当者選択 -->
+        <div class="form-group">
+            <label asp-for="AssignedTo_Id" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="AssignedTo_Id" class="form-control" asp-items="ViewBag.AssignedToItems"></select>
+            </div>
+        </div>
+
+        <!-- 予定工数 -->
+        <div class="form-group">
+            <label asp-for="PlanTime" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="PlanTime" class="form-control" />
+                <span asp-validation-for="PlanTime" class="text-danger"></span>
+            </div>
+        </div>
+        <!-- 実績工数 -->
+        <div class="form-group">
+            <label asp-for="DoneTime" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="DoneTime" class="form-control" />
+                <span asp-validation-for="DoneTime" class="text-danger"></span>
+            </div>
+        </div>
+        <!-- 進捗率 -->
+        <div class="form-group">
+            <label asp-for="DoneRate" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="DoneRate" class="form-control" />
+                <span asp-validation-for="DoneRate" class="text-danger"></span>
+            </div>
+        </div>
+
+
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="Version" />
+        <input type="hidden" asp-for="CreatedAt" />
+        <input type="hidden" asp-for="UpdatedAt" />
+        <input type="hidden" asp-for="Deleted" />
+        <input type="hidden" asp-for="ProjectId" />
+        <input type="hidden" asp-for="Author_Id" />
+        <input type="hidden" asp-for="Ticket_Id" />
+        <input type="hidden" asp-for="Ticket_Version" />
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

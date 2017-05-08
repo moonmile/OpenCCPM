@@ -57,6 +57,7 @@ namespace Openccpm.Web
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -79,11 +80,25 @@ namespace Openccpm.Web
             app.UseStaticFiles();
 
             app.UseIdentity();
+            app.UseSession();
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "project",
+                    template: "Projects/{id}",
+                    defaults: new { controller = "Projects", action = "Details" });
+                routes.MapRoute(
+                    name: "ticket",
+                    template: "Projects/{id}/Tickets",
+                    defaults: new { controller = "Tickets", action = "Index" });
+                routes.MapRoute(
+                    name: "ticket_create",
+                    template: "Projects/{id}/Tickets/Create",
+                    defaults: new { controller = "Tickets", action = "Create" });
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");

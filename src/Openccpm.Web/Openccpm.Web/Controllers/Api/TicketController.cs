@@ -42,6 +42,7 @@ namespace Openccpm.Web.Controllers
             {
                 return NotFound();
             }
+            // ナビゲーションの取得
             item.Tracker = await _context.Tracker.SingleOrDefaultAsync(x => x.Id == item.Tracker_Id);
             item.Status = await _context.Status.SingleOrDefaultAsync(x => x.Id == item.Status_Id);
             item.Priority = await _context.Priority.SingleOrDefaultAsync(x => x.Id == item.Priority_Id);
@@ -53,21 +54,24 @@ namespace Openccpm.Web.Controllers
 
         // PUT: api/Ticket/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTicket([FromRoute] string id, [FromBody] TicketView ticket)
+        public async Task<IActionResult> PutTicket([FromRoute] string id, [FromBody] TicketView ticketView)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != ticket.Id)
+            if (id != ticketView.Id)
             {
                 return BadRequest();
             }
 
-            var item = (TicketItem)ticket;
+            var item = (TaskItem)ticketView;
+            var ticket = (TicketItem)ticketView;
             item.UpdatedAt = DateTime.Now;
-            _context.Entry(item).State = EntityState.Modified;
+            ticket.UpdatedAt = DateTime.Now;
+            _context.Update(item);
+            _context.Update(ticket);
 
             try
             {

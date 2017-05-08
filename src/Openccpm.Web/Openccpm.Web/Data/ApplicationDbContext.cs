@@ -42,6 +42,7 @@ namespace Openccpm.Web.Data
 
         public DbSet<Openccpm.Web.Models.ProjectItem> ProjectItem { get; set; }
         public DbSet<Openccpm.Web.Models.ProjectView> ProjectView { get; set; }
+        public DbSet<Openccpm.Web.Models.Project> Project { get; set; }
 
     }
 }

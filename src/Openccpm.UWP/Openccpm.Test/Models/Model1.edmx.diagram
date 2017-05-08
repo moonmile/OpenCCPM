@@ -28,7 +28,8 @@
         <AssociationConnector Association="openccpm_dbModel.FK_Tickets_Trackers" />
         <AssociationConnector Association="openccpm_dbModel.FK_Tickets_Users" />
         <AssociationConnector Association="openccpm_dbModel.FK_Tickets_Users1" />
-        <EntityTypeShape EntityType="openccpm_dbModel.WbsViews" Width="1.5" PointX="5.375" PointY="12.75" />
+        <EntityTypeShape EntityType="openccpm_dbModel.WbsViews" Width="1.5" PointX="9.875" PointY="9.875" />
+        <EntityTypeShape EntityType="openccpm_dbModel.Projects" Width="1.5" PointX="12.875" PointY="1.25" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
