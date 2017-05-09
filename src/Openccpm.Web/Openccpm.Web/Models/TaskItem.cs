@@ -14,8 +14,10 @@ namespace Openccpm.Web.Models
         [Timestamp]
         public byte[] Version { get; set; }
         // [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Display(Name = "作成日時")]
         public DateTimeOffset? CreatedAt { get; set; }
         // [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [Display(Name = "更新日時")]
         public DateTimeOffset? UpdatedAt { get; set; }
         public bool Deleted { get; set; }
     }
@@ -69,31 +71,45 @@ namespace Openccpm.Web.Models
     public class TicketView : EntityData
     {
         // タスク番号（自前で振るため）
+        [Display(Name = "チケット番号")]
         public string TaskNo { get; set; }
         // タスクのタイトル
+        [Display(Name = "題名")]
         public string Subject { get; set; }
         // タスクの内容
+        [Display(Name = "説明")]
         public string Description { get; set; }
         // 予定時間
+        [Display(Name = "予定時間")]
         public double? PlanTime { get; set; }
         // 実績時間
+        [Display(Name = "実績時間")]
         public double? DoneTime { get; set; }
         // プロジェクトID
         public string ProjectId { get; set; }
-
 
         // チケットID
         public string Ticket_Id { get; set; }
         public byte[] Ticket_Version { get; set; }
 
+        [Display(Name = "トラッカー")]
         public string Tracker_Id { get; set; }
+        [Display(Name = "トラッカー")]
         public string Tracker_Name { get; set; }
+        [Display(Name = "ステータス")]
         public string Status_Id { get; set; }
+        [Display(Name = "ステータス")]
         public string Status_Name { get; set; }
+        public bool Status_IsClosed { get; set; }
+        [Display(Name = "優先度")]
         public string Priority_Id { get; set; }
+        [Display(Name = "優先度")]
         public string Priority_Name { get; set; }
+        [Display(Name = "担当者")]
         public string AssignedTo_Id { get; set; }
+        [Display(Name = "担当者")]
         public string AssignedTo_FirstName { get; set; }
+        [Display(Name = "担当者")]
         public string AssignedTo_LastName { get; set; }
         public string Author_Id { get; set; }
         public string Author_FirstName { get; set; }
@@ -110,6 +126,7 @@ namespace Openccpm.Web.Models
         // 担当者
         public User AssignedTo { get; set; }
         // 進捗率
+        [Display(Name = "進捗率")]
         public int DoneRate { get; set; }
         // 所有者
         public User Author { get; set; }
@@ -271,6 +288,7 @@ namespace Openccpm.Web.Models
     {
         public string Name { get; set; }
         public int Position { get; set; }
+        public bool IsClosed { get; set; }
     }
     /// <summary>
     /// 優先度
@@ -335,33 +353,11 @@ namespace Openccpm.Web.Models
     [Table("Projects")]
     public class Project : EntityData
     {
+        [Display(Name = "プロジェクト番号")]
         public string ProjectNo { get; set; }
+        [Display(Name = "プロジェクト名")]
         public string Name { get; set; }
+        [Display(Name = "説明")]
         public string Description { get; set; }
     }
-
-
-
-    // ビューのテスト用
-    [Table("ProjectItem")]
-    public class ProjectItem
-    {
-        [Key]
-        public int Id { get; set; }
-        public string Code { get; set; }
-        public string Name { get; set; }
-        public DateTimeOffset CreateAt { get; set; }
-        public bool Completed { get; set; }
-    }
-    // ビューのテスト用
-    [Table("ProjectView")]
-    public class ProjectView
-    {
-        [Key]
-        public int Id { get; set; }
-        public string Project_Code { get; set; }
-        public string Project_Name { get; set; }
-    }
-
-
 }

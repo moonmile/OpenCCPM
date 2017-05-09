@@ -160,12 +160,6 @@
         <EntityType Name="TicketView">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="CreatedAt" />
-            <PropertyRef Name="Deleted" />
-            <PropertyRef Name="Version" />
-            <PropertyRef Name="Ticket_Id" />
-            <PropertyRef Name="DoneRate" />
-            <PropertyRef Name="Ticket_Version" />
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="CreatedAt" Type="datetimeoffset" Precision="7" Nullable="false" />
@@ -197,19 +191,16 @@
           <Property Name="Author_LastName" Type="nvarchar" MaxLength="128" />
           <Property Name="TrackerId" Type="nvarchar" MaxLength="128" />
           <Property Name="Ticket_Version" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="ProjectId" Type="nvarchar" MaxLength="128" />
+          <Property Name="Project_Id" Type="nvarchar" MaxLength="128" />
+          <Property Name="Project_Name" Type="nvarchar" MaxLength="256" />
+          <Property Name="Project_ProjectNo" Type="nvarchar" MaxLength="128" />
         </EntityType>
         <!--生成中に見つかったエラー:
 警告 6002: テーブル/ビュー 'openccpm_test.dbo.WbsView' には主キーが定義されていません。主キーは推論され、定義は読み取り専用のテーブル/ビューとして作成されました。-->
         <EntityType Name="WbsView">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="CreatedAt" />
-            <PropertyRef Name="Deleted" />
-            <PropertyRef Name="Version" />
-            <PropertyRef Name="Wbs_Id" />
-            <PropertyRef Name="Author_Id" />
-            <PropertyRef Name="Author_FirstName" />
-            <PropertyRef Name="Author_LastName" />
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="CreatedAt" Type="datetimeoffset" Precision="7" Nullable="false" />
@@ -422,7 +413,11 @@
     [TicketView].[Author_FirstName] AS [Author_FirstName], 
     [TicketView].[Author_LastName] AS [Author_LastName], 
     [TicketView].[TrackerId] AS [TrackerId], 
-    [TicketView].[Ticket_Version] AS [Ticket_Version]
+    [TicketView].[Ticket_Version] AS [Ticket_Version], 
+    [TicketView].[ProjectId] AS [ProjectId], 
+    [TicketView].[Project_Id] AS [Project_Id], 
+    [TicketView].[Project_Name] AS [Project_Name], 
+    [TicketView].[Project_ProjectNo] AS [Project_ProjectNo]
     FROM [dbo].[TicketView] AS [TicketView]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="WbsView" EntityType="Self.WbsView" store:Type="Views" store:Schema="dbo">
@@ -686,12 +681,6 @@
         <EntityType Name="TicketViews">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="CreatedAt" />
-            <PropertyRef Name="Deleted" />
-            <PropertyRef Name="Version" />
-            <PropertyRef Name="Ticket_Id" />
-            <PropertyRef Name="DoneRate" />
-            <PropertyRef Name="Ticket_Version" />
           </Key>
           <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="CreatedAt" Type="DateTimeOffset" Nullable="false" Precision="7" />
@@ -723,6 +712,10 @@
           <Property Name="Author_LastName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="TrackerId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="Ticket_Version" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="ProjectId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Project_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Project_Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Project_ProjectNo" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="TaskItems">
           <Key>
@@ -917,13 +910,6 @@
         <EntityType Name="WbsViews">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="CreatedAt" />
-            <PropertyRef Name="Deleted" />
-            <PropertyRef Name="Version" />
-            <PropertyRef Name="Wbs_Id" />
-            <PropertyRef Name="Author_Id" />
-            <PropertyRef Name="Author_FirstName" />
-            <PropertyRef Name="Author_LastName" />
           </Key>
           <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="CreatedAt" Type="DateTimeOffset" Nullable="false" Precision="7" />
@@ -1083,6 +1069,10 @@
           <EntitySetMapping Name="TicketView">
             <EntityTypeMapping TypeName="openccpm_dbModel.TicketViews">
               <MappingFragment StoreEntitySet="TicketView">
+                <ScalarProperty Name="Project_ProjectNo" ColumnName="Project_ProjectNo" />
+                <ScalarProperty Name="Project_Name" ColumnName="Project_Name" />
+                <ScalarProperty Name="Project_Id" ColumnName="Project_Id" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
                 <ScalarProperty Name="Ticket_Version" ColumnName="Ticket_Version" />
                 <ScalarProperty Name="TrackerId" ColumnName="TrackerId" />
                 <ScalarProperty Name="Author_LastName" ColumnName="Author_LastName" />

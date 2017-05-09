@@ -87,17 +87,22 @@ namespace Openccpm.Web
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "project",
-                    template: "Projects/{id}",
-                    defaults: new { controller = "Projects", action = "Details" });
+                    name: "project_create",
+                    template: "Projects/Create",
+                    defaults: new { controller = "Projects", action = "Create" });
+
+                routes.MapRoute(
+                    name: "ticket_create",
+                    template: "Projects/{id}/Tickets/Create",
+                    defaults: new { controller = "Tickets", action = "Create" });
                 routes.MapRoute(
                     name: "ticket",
                     template: "Projects/{id}/Tickets",
                     defaults: new { controller = "Tickets", action = "Index" });
                 routes.MapRoute(
-                    name: "ticket_create",
-                    template: "Projects/{id}/Tickets/Create",
-                    defaults: new { controller = "Tickets", action = "Create" });
+                    name: "project_detail",
+                    template: "Projects/{id}",
+                    defaults: new { controller = "Projects", action = "Details" });
 
                 routes.MapRoute(
                     name: "default",

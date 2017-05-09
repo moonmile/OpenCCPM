@@ -34,7 +34,11 @@ namespace Openccpm.Test
             if (context.Statuses.Count() == 0)
             {
                 context.Statuses.Add(new Statuses() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, Position = 1, Name = "新規" });
-                context.Statuses.Add(new Statuses() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, Position = 2, Name = "更新" });
+                context.Statuses.Add(new Statuses() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, Position = 2, Name = "進行中" });
+                context.Statuses.Add(new Statuses() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, Position = 3, Name = "解決" });
+                context.Statuses.Add(new Statuses() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, Position = 4, Name = "フィードバック" });
+                context.Statuses.Add(new Statuses() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, Position = 5, Name = "終了" });
+                context.Statuses.Add(new Statuses() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, Position = 6, Name = "却下" });
             }
             if (context.Priorities.Count() == 0)
             {

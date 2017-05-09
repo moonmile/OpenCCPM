@@ -1,10 +1,10 @@
-@model Openccpm.Web.Models.TicketView
+Ôªø@model Openccpm.Web.Models.TicketView
 
 @{
     ViewData["Title"] = "Create";
 }
 
-<h2>Create</h2>
+<h2>@ViewBag.ProjectNo @ViewBag.ProjectName Êñ∞„Åó„ÅÑ„ÉÅ„Ç±„ÉÉ„Éà</h2>
 
 <form asp-action="Create">
     <div class="form-horizontal">
@@ -34,35 +34,35 @@
             </div>
         </div>
 
-        <!-- ÉgÉâÉbÉJÅ[ëIë -->
+        <!-- „Éà„É©„ÉÉ„Ç´„ÉºÈÅ∏Êäû -->
         <div class="form-group">
             <label asp-for="Tracker_Id" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <select asp-for="Tracker_Id" class="form-control" asp-items="ViewBag.TrackerItems" ></select>
             </div>
         </div>
-        <!-- ÉXÉeÅ[É^ÉXëIë -->
+        <!-- „Çπ„ÉÜ„Éº„Çø„ÇπÈÅ∏Êäû -->
         <div class="form-group">
             <label asp-for="Status_Id" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <select asp-for="Status_Id" class="form-control" asp-items="ViewBag.StatusItems"></select>
             </div>
         </div>
-        <!-- óDêÊìxëIë -->
+        <!-- ÂÑ™ÂÖàÂ∫¶ÈÅ∏Êäû -->
         <div class="form-group">
             <label asp-for="Priority_Id" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <select asp-for="Priority_Id" class="form-control" asp-items="ViewBag.PriorityItems"></select>
             </div>
         </div>
-        <!-- íSìñé“ëIë -->
+        <!-- ÊãÖÂΩìËÄÖÈÅ∏Êäû -->
         <div class="form-group">
             <label asp-for="AssignedTo_Id" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <select asp-for="AssignedTo_Id" class="form-control" asp-items="ViewBag.AssignedToItems"></select>
             </div>
         </div>
-        <!-- ó\íËçHêî -->
+        <!-- ‰∫àÂÆöÂ∑•Êï∞ -->
         <div class="form-group">
             <label asp-for="PlanTime" class="col-md-2 control-label"></label>
             <div class="col-md-10">
@@ -70,7 +70,7 @@
                 <span asp-validation-for="PlanTime" class="text-danger"></span>
             </div>
         </div>
-        <!-- é¿ê—çHêî -->
+        <!-- ÂÆüÁ∏æÂ∑•Êï∞ -->
         <div class="form-group">
             <label asp-for="DoneTime" class="col-md-2 control-label"></label>
             <div class="col-md-10">
@@ -78,7 +78,7 @@
                 <span asp-validation-for="DoneTime" class="text-danger"></span>
             </div>
         </div>
-        <!-- êiíªó¶ -->
+        <!-- ÈÄ≤ÊçóÁéá -->
         <div class="form-group">
             <label asp-for="DoneRate" class="col-md-2 control-label"></label>
             <div class="col-md-10">
@@ -104,7 +104,7 @@
 </form>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a href=".">Back to List</a>
 </div>
 
 @section Scripts {

@@ -40,9 +40,35 @@ namespace Openccpm.Web.Controllers
                 return NotFound();
             }
 
+            // チケットのサマリを計算する
+            var trackers = _context.Tracker.OrderBy(x => x.Position).ToList();
+            var status = _context.Status.OrderBy(x => x.Position).ToList();
+            var ticketviews = _context.TicketView.Where(x => x.ProjectId == project.Id).ToList();
+
+            var lst = new List<Tuple<string, string, int, int, int>>();
+            foreach (var tr in trackers)
+            {
+                var trId = tr.Id;
+
+                var name = tr.Name;
+                var cnt1 = (from ti in ticketviews
+                            join st in status on ti.Status_Id equals st.Id 
+                            where ti.ProjectId == project.Id &&
+                                    ti.Tracker_Id == tr.Id &&
+                                    st.IsClosed == false
+                            select ti.Id).Count();
+                var cnt2 = (from ti in ticketviews
+                            join st in status on ti.Status_Id equals st.Id
+                            where ti.ProjectId == project.Id &&
+                                    ti.Tracker_Id == tr.Id &&
+                                    st.IsClosed == true
+                            select ti.Id).Count();
+
+                lst.Add(new Tuple<string, string, int, int, int>(tr.Id, tr.Name, cnt1, cnt2, cnt1 + cnt2));
+            }
+            ViewData["TicketSum"] = lst;
             return View(project);
         }
-
 
         // GET: Projects/Create
         public IActionResult Create()
@@ -133,7 +159,6 @@ namespace Openccpm.Web.Controllers
             {
                 return NotFound();
             }
-
             return View(project);
         }
 

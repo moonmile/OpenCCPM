@@ -27,9 +27,6 @@ namespace Openccpm.Web.Data
         public DbSet<Openccpm.Web.Models.TicketItem> TicketItem { get; set; }
         public DbSet<Openccpm.Web.Models.TicketView> TicketView { get; set; }
 
-        public DbSet<Openccpm.Web.Models.WbsItem> WbsItem { get; set; }
-        public DbSet<Openccpm.Web.Models.WbsView> WbsView { get; set; }
-
 
         public DbSet<Openccpm.Web.Models.StartEndTime> StartEndTime { get; set; }
         public DbSet<Openccpm.Web.Models.TaskTree> TaskTree { get; set; }
@@ -40,8 +37,6 @@ namespace Openccpm.Web.Data
         public DbSet<Openccpm.Web.Models.Priority> Priority { get; set; }
         public DbSet<Openccpm.Web.Models.User> User { get; set; }
 
-        public DbSet<Openccpm.Web.Models.ProjectItem> ProjectItem { get; set; }
-        public DbSet<Openccpm.Web.Models.ProjectView> ProjectView { get; set; }
         public DbSet<Openccpm.Web.Models.Project> Project { get; set; }
 
     }

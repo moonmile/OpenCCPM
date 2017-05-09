@@ -20,12 +20,27 @@ namespace Openccpm.Web.Controllers
             _context = context;    
         }
 
+        public IActionResult Select()
+        {
+            ViewData["ProjectNo"] = "";
+            ViewData["ProjectName"] = "未所属のチケット";
+
+            var items = _context.TicketView.AsQueryable();
+            return View("Index", items);
+        }
+
+
         // GET: Tickets
-        public async Task<IActionResult> Index( string id )
+        public async Task<IActionResult> Index( string id, [FromQuery] string trackerid, [FromQuery] int? isclosed )
         {
             if (id == null)
             {
-                return View(await _context.TicketView.ToListAsync());
+                // プロジェクトID/番号を指定してない場合は、プロジェクトに属していないチケットを表示する
+                ViewData["ProjectNo"] = "";
+                ViewData["ProjectName"] = "未所属のチケット";
+                return View(await _context.TicketView
+                    .Where( x => x.ProjectId == null )         
+                    .ToListAsync());
             }
             else
             {
@@ -34,7 +49,28 @@ namespace Openccpm.Web.Controllers
                 {
                     return NotFound();
                 }
-                return View(await _context.TicketView.Where( x => x.ProjectId == project.Id ).ToListAsync());
+                ViewData["ProjectNo"] = project.ProjectNo;
+                ViewData["ProjectName"] = project.Name;
+
+                var query = _context
+                    .TicketView.Where(x => x.ProjectId == project.Id );
+                if (trackerid != null) {
+                    query = query.Where(x => x.Tracker_Id == trackerid);
+                }
+                if ( isclosed != null )
+                {
+                    if ( isclosed.Value == 0 )
+                    {
+                        query = query.Where(x => x.Status_IsClosed == false);
+
+                    } else
+                    {
+                        query = query.Where(x => x.Status_IsClosed == true);
+                    }
+                }
+                query = query.OrderByDescending(x => x.CreatedAt);
+                var items = await query.ToListAsync();
+                return View(items);
             }
         }
 
@@ -53,6 +89,10 @@ namespace Openccpm.Web.Controllers
                 return NotFound();
             }
 
+            ViewData["ProjectId"] = ticketView.ProjectId;
+            ViewData["ProjectNo"] = ticketView.Project_ProjectNo;
+            ViewData["ProjectName"] = ticketView.Project_Name;
+
             return View(ticketView);
         }
 
@@ -62,6 +102,7 @@ namespace Openccpm.Web.Controllers
             var project = await _context.Project.SingleOrDefaultAsync(x => x.Id == id || x.ProjectNo == id);
             ViewData["ProjectId"] = project.Id;
             ViewData["ProjectNo"] = project.ProjectNo;
+            ViewData["ProjectName"] = project.Name;
             createSelectItems();
             return View();
         }
@@ -82,7 +123,7 @@ namespace Openccpm.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         // public async Task<IActionResult> Create([Bind("TaskNo,Subject,Description,PlanTime,DoneTime,Ticket_Id,Tracker_Id,Tracker_Name,Status_Id,Status_Name,Priority_Id,Priority_Name,AssignedTo_Id,AssignedTo_FirstName,AssignedTo_LastName,Author_Id,Author_FirstName,Author_LastName,DoneRate,Id,Version,CreatedAt,UpdatedAt,Deleted")] TicketView ticketView)
-        public async Task<IActionResult> Create([Bind("TaskNo,Subject,Description,PlanTime,DoneTime,Tracker_Id,Status_Id,Priority_Id,AssignedTo_Id,,DoneRate,ProjectId")] TicketView ticketView)
+        public async Task<IActionResult> Create([Bind("TaskNo,Subject,Description,PlanTime,DoneTime,Tracker_Id,Status_Id,Priority_Id,AssignedTo_Id,,DoneRate,ProjectId,Project_ProjectNo")] TicketView ticketView)
         {
             if (ModelState.IsValid)
             {
@@ -99,8 +140,7 @@ namespace Openccpm.Web.Controllers
                 _context.TicketItem.Add(item);
                 await _context.SaveChangesAsync();
 
-
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = ticketView.Project_ProjectNo });
             }
             return View(ticketView);
         }
@@ -120,6 +160,9 @@ namespace Openccpm.Web.Controllers
             }
             // select用のリストを作成
             createSelectItems();
+            ViewData["ProjectId"] = ticketView.ProjectId;
+            ViewData["ProjectNo"] = ticketView.Project_ProjectNo;
+            ViewData["ProjectName"] = ticketView.Project_Name;
 
             return View(ticketView);
         }
@@ -129,7 +172,7 @@ namespace Openccpm.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("TaskNo,Subject,Description,PlanTime,DoneTime,ProjectId,Ticket_Id,Ticket_Version,Tracker_Id,Tracker_Name,Status_Id,Status_Name,Priority_Id,Priority_Name,AssignedTo_Id,AssignedTo_FirstName,AssignedTo_LastName,Author_Id,Author_FirstName,Author_LastName,DoneRate,Id,Version,CreatedAt,UpdatedAt,Deleted")] TicketView ticketView)
+        public async Task<IActionResult> Edit(string id, [Bind("TaskNo,Subject,Description,PlanTime,DoneTime,ProjectId,Ticket_Id,Ticket_Version,Tracker_Id,Tracker_Name,Status_Id,Status_Name,Priority_Id,Priority_Name,AssignedTo_Id,AssignedTo_FirstName,AssignedTo_LastName,Author_Id,Author_FirstName,Author_LastName,DoneRate,Id,Version,CreatedAt,UpdatedAt,Deleted,Project_Name,Project_ProjectNo")] TicketView ticketView)
         {
             if (id != ticketView.Id)
             {
@@ -160,7 +203,8 @@ namespace Openccpm.Web.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index", new { id = ticketView.ProjectId });
+                var projectNo = ticketView.Project_ProjectNo;
+                return RedirectToAction("Index", new { id = projectNo });
             }
             return View(ticketView);
         }

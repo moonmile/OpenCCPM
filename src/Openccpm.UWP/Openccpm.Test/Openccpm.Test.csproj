@@ -129,9 +129,7 @@
     <Compile Include="TestInit.cs" />
     <Compile Include="TestTaskItem.cs" />
     <Compile Include="TestStartEnd.cs" />
-    <Compile Include="TestPERT.cs" />
     <Compile Include="TestTicket.cs" />
-    <Compile Include="TestWBS.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

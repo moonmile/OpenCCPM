@@ -41,28 +41,10 @@
             @Html.DisplayFor(model => model.DoneTime)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Ticket_Id)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Ticket_Id)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Tracker_Id)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Tracker_Id)
-        </dd>
-        <dt>
             @Html.DisplayNameFor(model => model.Tracker_Name)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Tracker_Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Status_Id)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Status_Id)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Status_Name)
@@ -71,86 +53,27 @@
             @Html.DisplayFor(model => model.Status_Name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Priority_Id)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Priority_Id)
-        </dd>
-        <dt>
             @Html.DisplayNameFor(model => model.Priority_Name)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Priority_Name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.AssignedTo_Id)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AssignedTo_Id)
-        </dd>
-        <dt>
             @Html.DisplayNameFor(model => model.AssignedTo_FirstName)
         </dt>
         <dd>
+            @Html.DisplayFor(model => model.AssignedTo_LastName)
             @Html.DisplayFor(model => model.AssignedTo_FirstName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.AssignedTo_LastName)
+            @Html.DisplayNameFor(model => model.DoneRate) 
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.AssignedTo_LastName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Author_Id)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Author_Id)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Author_FirstName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Author_FirstName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Author_LastName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Author_LastName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.DoneRate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.DoneRate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Version)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Version)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.UpdatedAt)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.UpdatedAt)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Deleted)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Deleted)
+            @Html.DisplayFor(model => model.DoneRate) %
         </dd>
     </dl>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a href="~/Projects/@Model.Project_ProjectNo/Tickets">Back to List</a>
 </div>
