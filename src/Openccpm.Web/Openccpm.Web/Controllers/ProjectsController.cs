@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -40,7 +40,9 @@ namespace Openccpm.Web.Controllers
                 return NotFound();
             }
 
-            // �`�P�b�g�̃T�}�����v�Z����
+            // チケットのサマリを計算する
+            // Azure 上だと DbSet を直接 JOIN できないので、あらかじめ List で持って来る。
+            // データ量が心配なので、ここは SQL 直書きにする予定。
             var trackers = _context.Tracker.OrderBy(x => x.Position).ToList();
             var status = _context.Status.OrderBy(x => x.Position).ToList();
             var ticketviews = _context.TicketView.Where(x => x.ProjectId == project.Id).ToList();
