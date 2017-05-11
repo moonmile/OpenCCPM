@@ -18,10 +18,12 @@ namespace Openccpm.Test
         {
             context = new openccpm_dbEntities();
             service = new TaskItemService("http://localhost:5000");
+            this.CleanUp();
         }
         [TestCleanup]
         public virtual void CleanUp()
         {
+
             context.Database.ExecuteSqlCommand("delete from TaskTrees");
             context.Database.ExecuteSqlCommand("delete from TaskPerts");
             context.Database.ExecuteSqlCommand("delete from StartEndTimes");
@@ -29,6 +31,7 @@ namespace Openccpm.Test
             context.Database.ExecuteSqlCommand("delete from TicketItems");
             context.Database.ExecuteSqlCommand("delete from TaskItems");
             context.Database.ExecuteSqlCommand("delete from Users");
+            context.Database.ExecuteSqlCommand("delete from Projects");
         }
     }
 

@@ -11,24 +11,26 @@ using Openccpm.Web.Models;
 namespace Openccpm.Web.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Ticket")]
-    public class TicketController : Controller
+    [Route("api/Project")]
+    public class ProjectController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public TicketController(ApplicationDbContext context)
+        public ProjectController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Ticket
+        // GET: api/Project
         [HttpGet]
-        public IEnumerable<TicketView> GetTicket()
+        public IEnumerable<Project> GetTicket()
         {
-            return _context.TicketView.OrderByDescending( x => x.CreatedAt );
+            return _context.Project
+                .Where( x => x.Deleted == false )
+                .OrderByDescending( x => x.CreatedAt );
         }
 
-        // GET: api/Ticket/5
+        // GET: api/Project/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTicket([FromRoute] string id)
         {
@@ -37,41 +39,30 @@ namespace Openccpm.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            var item = await _context.TicketView.SingleOrDefaultAsync(x => x.Id == id);
+            var item = await _context.Project.SingleOrDefaultAsync(x => x.Id == id || x.ProjectNo == id);
             if (item == null)
             {
                 return NotFound();
             }
-            // ナビゲーションの取得
-            item.Tracker = await _context.Tracker.SingleOrDefaultAsync(x => x.Id == item.Tracker_Id);
-            item.Status = await _context.Status.SingleOrDefaultAsync(x => x.Id == item.Status_Id);
-            item.Priority = await _context.Priority.SingleOrDefaultAsync(x => x.Id == item.Priority_Id);
-            item.AssignedTo = await _context.User.SingleOrDefaultAsync(x => x.Id == item.AssignedTo_Id);
-            item.Author = await _context.User.SingleOrDefaultAsync(x => x.Id == item.Author_Id);
-
             return Ok(item);
         }
 
-        // PUT: api/Ticket/5
+        // PUT: api/Project/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTicket([FromRoute] string id, [FromBody] TicketView ticketView)
+        public async Task<IActionResult> PutTicket([FromRoute] string id, [FromBody] Project project)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != ticketView.Id)
+            if (id != project.Id)
             {
                 return BadRequest();
             }
 
-            var item = (TaskItem)ticketView;
-            var ticket = (TicketItem)ticketView;
-            item.UpdatedAt = DateTime.Now;
-            ticket.UpdatedAt = DateTime.Now;
-            _context.Update(item);
-            _context.Update(ticket);
+            project.UpdatedAt = DateTime.Now;
+            _context.Update(project);
 
             try
             {
@@ -92,26 +83,20 @@ namespace Openccpm.Web.Controllers
             return NoContent();
         }
 
-        // POST: api/Task
+        // POST: api/Project
         [HttpPost]
-        public async Task<IActionResult> PostTicket([FromBody] TicketView ticket)
+        public async Task<IActionResult> PostTicket([FromBody] Project project)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var task = (TaskItem)ticket;
-            var item = (TicketItem)ticket;
-            task.CreatedAt = DateTime.Now;
-            item.CreatedAt = DateTime.Now;
-
-            _context.TaskItem.Add(task);
-            item.TaskId = task.Id;
-            _context.TicketItem.Add(item);
+            project.CreatedAt = DateTime.Now;
+            _context.Add(project);
             await _context.SaveChangesAsync();
 
-            return await GetTicket(task.Id);
+            return await GetTicket(project.Id);
         }
 
         // DELETE: api/Task/5
@@ -123,7 +108,7 @@ namespace Openccpm.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            var item = await _context.TaskItem.SingleOrDefaultAsync(m => m.Id == id);
+            var item = await _context.Project.SingleOrDefaultAsync(m => m.Id == id);
             if (item == null)
             {
                 return NotFound();
@@ -138,7 +123,7 @@ namespace Openccpm.Web.Controllers
 
         private bool itemExists(string id)
         {
-            return _context.TicketItem.Any(e => e.Id == id);
+            return _context.Project.Any(e => e.Id == id);
         }
     }
 }

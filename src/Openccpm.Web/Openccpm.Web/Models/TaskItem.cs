@@ -63,6 +63,9 @@ namespace Openccpm.Web.Models
         public int DoneRate { get; set; }
         // 所有者
         public string AuthorId { get; set; }
+        // 開始日と期日
+        public DateTimeOffset? StartDate { get; set; }
+        public DateTimeOffset? DueDate { get; set; }
 
     }
     /// <summary>
@@ -117,6 +120,12 @@ namespace Openccpm.Web.Models
         public string Project_Name { get; set; }
         public string Project_ProjectNo { get; set; }
 
+        // 開始日と期日
+        [Display(Name = "開始日")]
+        public DateTimeOffset? StartDate { get; set; }
+        [Display(Name = "期日")]
+        public DateTimeOffset? DueDate { get; set; }
+
         // トラッカー
         public Tracker Tracker { get; set; }
         // ステータス
@@ -153,6 +162,8 @@ namespace Openccpm.Web.Models
             this.Ticket_Id = ticket.Id;
             this.Ticket_Version = ticket.Version;
             this.DoneRate = ticket.DoneRate;
+            this.StartDate = ticket.StartDate;
+            this.DueDate = ticket.DueDate;
             this.Tracker = new Tracker() { Id = ticket.TrackerId };
             this.Status = new Status() { Id = ticket.StatusId};
             this.Priority = new Priority() { Id = ticket.PriorityId };
@@ -172,6 +183,8 @@ namespace Openccpm.Web.Models
 
                 TaskId = src.Id,
                 DoneRate = src.DoneRate,
+                StartDate = src.StartDate,
+                DueDate = src.DueDate,
 
                 TrackerId = src.Tracker == null? src.Tracker_Id:  src.Tracker.Id,
                 StatusId =  src.Status  == null? src.Status_Id: src.Status.Id,
