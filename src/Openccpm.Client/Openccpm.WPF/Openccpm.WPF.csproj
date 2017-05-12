@@ -58,11 +58,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="..\..\Openccpm.UWP\Openccpm.UWP\Controllers\TaskItemService.cs">
-      <Link>Services\TaskItemService.cs</Link>
-    </Compile>
     <Compile Include="..\..\Openccpm.Web\Openccpm.Web\Models\TaskItem.cs">
       <Link>Models\TaskItem.cs</Link>
+    </Compile>
+    <Compile Include="..\Openccpm.UWP\Controllers\TaskItemService.cs">
+      <Link>Services\TaskItemService.cs</Link>
     </Compile>
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\TicketViewModel.cs" />

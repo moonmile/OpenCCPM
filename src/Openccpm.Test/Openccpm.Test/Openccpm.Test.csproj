@@ -64,11 +64,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Openccpm.Client\Openccpm.UWP\Controllers\TaskItemService.cs">
+      <Link>Controllers\TaskItemService.cs</Link>
+    </Compile>
     <Compile Include="..\..\Openccpm.Web\Openccpm.Web\Models\TaskItem.cs">
       <Link>Models\TaskItem.cs</Link>
-    </Compile>
-    <Compile Include="..\Openccpm.UWP\Controllers\TaskItemService.cs">
-      <Link>Controllers\TaskItemService.cs</Link>
     </Compile>
     <Compile Include="Models\Model1.Context.cs">
       <AutoGen>True</AutoGen>
