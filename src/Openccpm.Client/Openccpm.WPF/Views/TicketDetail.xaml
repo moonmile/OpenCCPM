@@ -1,0 +1,58 @@
+﻿<UserControl x:Class="Openccpm.WPF.Views.TicketDetail"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Openccpm.WPF.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock TextWrapping="Wrap" Text="トラッカー" TextAlignment="Right" Margin="3"/>
+        <TextBlock TextWrapping="Wrap" Text="題名" TextAlignment="Right" Margin="3" Grid.Row="1"/>
+        <TextBlock TextWrapping="Wrap" Text="説明" TextAlignment="Right" Margin="3" Grid.Row="2"/>
+        <TextBlock TextWrapping="Wrap" Text="ステータス" TextAlignment="Right" Margin="3" Grid.Row="3"/>
+        <TextBlock TextWrapping="Wrap" Text="優先度" TextAlignment="Right" Margin="3" Grid.Row="4"/>
+        <TextBlock TextWrapping="Wrap" Text="担当者" TextAlignment="Right" Margin="3" Grid.Row="5"/>
+        <TextBlock TextWrapping="Wrap" Text="開始日" TextAlignment="Right" Margin="3" Grid.Row="3" Grid.Column="2"/>
+        <TextBlock TextWrapping="Wrap" Text="期日" TextAlignment="Right" Margin="3" Grid.Row="4" Grid.Column="2"/>
+        <TextBlock TextWrapping="Wrap" Text="予定工数" TextAlignment="Right" Margin="3" Grid.Row="5" Grid.Column="2"/>
+        <TextBlock TextWrapping="Wrap" Text="実績工数" TextAlignment="Right" Margin="3" Grid.Row="6" Grid.Column="2"/>
+        <TextBlock TextWrapping="Wrap" Text="進捗率" TextAlignment="Right" Margin="3" Grid.Row="7" Grid.Column="2"/>
+
+        <TextBlock Text="{Binding Ticket.Tracker.Name}" Grid.Column="1" Margin="3" TextWrapping="Wrap" />
+        <TextBlock Text="{Binding Ticket.Subject}" Grid.Column="1" Margin="3" TextWrapping="Wrap" Grid.Row="1" />
+        <TextBlock Text="{Binding Ticket.Description}" Grid.Column="1" Margin="3" TextWrapping="Wrap" Grid.Row="2" Grid.ColumnSpan="3" />
+        <TextBlock Text="{Binding Ticket.Status.Name}" Grid.Column="1" Margin="3" TextWrapping="Wrap" Grid.Row="3" />
+        <TextBlock Text="{Binding Ticket.Priority.Name}" Grid.Column="1" Margin="3" TextWrapping="Wrap" Grid.Row="4" />
+        <TextBlock Text="{Binding Ticket.AssignedTo.Name}" Grid.Column="1" Margin="3" TextWrapping="Wrap" Grid.Row="5" />
+
+        <TextBlock Text="{Binding Ticket.StartDate}" Grid.Column="3" Margin="3" TextWrapping="Wrap" Grid.Row="3" />
+        <TextBlock Text="{Binding Ticket.DueDate}" Grid.Column="3" Margin="3" TextWrapping="Wrap" Grid.Row="4" />
+        <TextBlock Text="{Binding Ticket.PlanTime}" Grid.Column="3" Margin="3" TextWrapping="Wrap" Grid.Row="5" />
+        <TextBlock Text="{Binding Ticket.DoneTime}" Grid.Column="3" Margin="3" TextWrapping="Wrap" Grid.Row="6" />
+        <TextBlock Text="{Binding Ticket.DoneRate}" Grid.Column="3" Margin="3" TextWrapping="Wrap" Grid.Row="7" />
+
+        <Button 
+            Click="OnEditClicked"
+            Content="編集" Grid.Column="3" Margin="0,3,3,3" HorizontalAlignment="Right" Width="75"/>
+        <Button 
+            Click="OnNewClicked"
+            Content="新規" Grid.Column="3" Margin="0,3,83,3" HorizontalAlignment="Right" Width="75"/>
+    </Grid>
+</UserControl>
