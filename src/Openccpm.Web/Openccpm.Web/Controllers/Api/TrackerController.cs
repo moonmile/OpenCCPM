@@ -25,7 +25,7 @@ namespace Openccpm.Web.Controllers.Api
         [HttpGet]
         public IEnumerable<Tracker> GetTracker()
         {
-            return _context.Tracker;
+            return _context.Tracker.OrderBy(x => x.Position );
         }
 
         // GET: api/Tracker/5

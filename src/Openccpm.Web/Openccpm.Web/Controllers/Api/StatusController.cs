@@ -25,7 +25,7 @@ namespace Openccpm.Web.Controllers.Api
         [HttpGet]
         public IEnumerable<Status> GetStatus()
         {
-            return _context.Status;
+            return _context.Status.OrderBy( x => x.Position );
         }
 
         // GET: api/Status/5

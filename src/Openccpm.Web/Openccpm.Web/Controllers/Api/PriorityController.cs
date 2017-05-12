@@ -25,7 +25,7 @@ namespace Openccpm.Web.Controllers.Api
         [HttpGet]
         public IEnumerable<Priority> GetPriority()
         {
-            return _context.Priority;
+            return _context.Priority.OrderBy( x => x.Position );
         }
 
         // GET: api/Priority/5
