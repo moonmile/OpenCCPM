@@ -41,7 +41,7 @@
         <ComboBox 
             SelectedValue="{Binding Ticket.Tracker.Id}"
             SelectedValuePath="Id"
-            SelectedItem="{Binding Ticket.Tracker}"
+            SelectedItem="{Binding Ticket.Tracker, Mode=TwoWay}"
             ItemsSource="{Binding Trackers}"
             DisplayMemberPath="Name" 
             Grid.Column="1" Margin="3,3,0,0" />
@@ -54,21 +54,21 @@
         <ComboBox
             SelectedValue="{Binding Ticket.Status.Id, Mode=TwoWay}"
             SelectedValuePath="Id"
-            SelectedItem="{Binding Ticket.Status}"
+            SelectedItem="{Binding Ticket.Status, Mode=TwoWay}"
             ItemsSource="{Binding Statuses}"
             DisplayMemberPath="Name" 
             Grid.Column="1" Margin="3"  Grid.Row="3" />
         <ComboBox 
             SelectedValue="{Binding Ticket.Priority.Id, Mode=TwoWay}"
             SelectedValuePath="Id"
-            SelectedItem="{Binding Ticket.Priority}"
+            SelectedItem="{Binding Ticket.Priority, Mode=TwoWay}"
             ItemsSource="{Binding Priorities}"
             DisplayMemberPath="Name" 
             Grid.Column="1" Margin="3" Grid.Row="4" />
         <ComboBox 
             SelectedValue="{Binding Ticket.AssignedTo.Id, Mode=TwoWay}"
             SelectedValuePath="Id"
-            SelectedItem="{Binding Ticket.AssignedTo}"
+            SelectedItem="{Binding Ticket.AssignedTo, Mode=TwoWay}"
             ItemsSource="{Binding Users}"
             DisplayMemberPath="Name" 
             Grid.Column="1" Margin="3" Grid.Row="5" />
@@ -85,6 +85,11 @@
         <Button 
             Click="OnCancelClicked"
             Content="キャンセル" Grid.Column="3" Margin="0,3,83,3" HorizontalAlignment="Right" Width="75"/>
+
+        <TextBlock TextWrapping="Wrap" Text="チケット番号" TextAlignment="Right" Margin="3" Grid.Row="1" Grid.Column="2"/>
+        <TextBox 
+            Text="{Binding Ticket.TaskNo, Mode=TwoWay}" 
+            Grid.Column="3" Margin="3" TextWrapping="Wrap" Grid.Row="1" />
 
     </Grid>
 </UserControl>

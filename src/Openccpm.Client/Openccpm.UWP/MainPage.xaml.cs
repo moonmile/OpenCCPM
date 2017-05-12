@@ -31,8 +31,11 @@ namespace Openccpm.UWP
             this.InitializeComponent();
             this.Loaded += MainPage_Loaded;
         }
-
+#if DEBUG
+        string _url = "http://localhost:5000";
+#else
         string _url = "http://openccpm.azurewebsites.net";
+#endif
         TicketDrivenService service;
         MainViewModel viewModel;
         TicketViewModel viewModelTicket;
@@ -101,6 +104,13 @@ namespace Openccpm.UWP
         /// <param name="e"></param>
         private async void TicketEdit_OnSave(object sender, EventArgs e)
         {
+            var ti = viewModelTicket.Ticket;
+            ti.Tracker_Id = ti.Tracker.Id;
+            ti.Status_Id = ti.Status.Id;
+            ti.Priority_Id = ti.Priority.Id;
+            ti.AssignedTo_Id = ti.AssignedTo.Id;
+
+
             if (viewModelTicket.Ticket.Id == null)
             {
                 await service.AddTicketAsync(viewModelTicket.Ticket);

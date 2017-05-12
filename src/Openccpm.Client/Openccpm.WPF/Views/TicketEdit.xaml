@@ -77,6 +77,11 @@
         <TextBox Text="{Binding Ticket.DoneTime,Mode=TwoWay, StringFormat={}{0:N1}}" Grid.Column="3" Margin="3" TextWrapping="Wrap" Grid.Row="6" />
         <TextBox Text="{Binding Ticket.DoneRate,Mode=TwoWay, StringFormat={}{0:N0}}" Grid.Column="3" Margin="3" TextWrapping="Wrap" Grid.Row="7" />
 
+        <TextBlock TextWrapping="Wrap" Text="チケット番号" TextAlignment="Right" Margin="3" Grid.Row="1" Grid.Column="2"/>
+        <TextBox 
+            Text="{Binding Ticket.TaskNo, Mode=TwoWay}" 
+            Grid.Column="3" Margin="3" TextWrapping="Wrap" Grid.Row="1" />
+
         <Button 
             Click="OnSaveClicked"
             Content="保存" Grid.Column="3" Margin="0,3,3,3" HorizontalAlignment="Right" Width="75"/>

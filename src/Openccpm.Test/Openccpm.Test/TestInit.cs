@@ -21,6 +21,9 @@ namespace Openccpm.Test
             // データを削除しない
         }
 
+        /// <summary>
+        /// マスターデータの投入
+        /// </summary>
         [TestMethod]
         public void Init()
         {
@@ -57,5 +60,34 @@ namespace Openccpm.Test
             }
             context.SaveChanges();
         }
+        /// <summary>
+        /// 仮プロジェクト、仮チケットの投入
+        /// </summary>
+        [TestMethod]
+        public void InitProject()
+        {
+            context.Projects.Add(new Projects() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, ProjectNo = "P0100", Name = "最初のプロジェクト", Description = "解説" });
+            context.Projects.Add(new Projects() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, ProjectNo = "P0200", Name = "次のプロジェクト", Description = "解説" });
+            context.Projects.Add(new Projects() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, ProjectNo = "P0300", Name = "三番めのプロジェクト", Description = "解説" });
+            context.SaveChanges();
+            var project = context.Projects.SingleOrDefault(x => x.ProjectNo == "P0100");
+
+            var task1 = context.TaskItems.Add(new TaskItems() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, TaskNo = "TK001", Subject = "最初のチケット", Description = "内容", ProjectId = project.Id });
+            var task2 = context.TaskItems.Add(new TaskItems() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, TaskNo = "TK002", Subject = "次のチケット", Description = "内容", ProjectId = project.Id });
+            var task3 = context.TaskItems.Add(new TaskItems() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, TaskNo = "TK003", Subject = "三番めのチケット", Description = "内容", ProjectId = project.Id });
+            context.SaveChanges();
+
+            var tracker = context.Trackers.SingleOrDefault(x => x.Name == "機能");
+            var status = context.Statuses.SingleOrDefault(x => x.Name == "新規");
+            var pri = context.Priorities.SingleOrDefault(x => x.Name == "標準");
+            var assign = context.Users.SingleOrDefault(x => x.Login == "admin");
+
+
+            context.TicketItems.Add(new TicketItems() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, TaskId = task1.Id, TrackerId = tracker.Id, StatusId = status.Id, PriorityId = pri.Id, AssignedToId = assign.Id, DoneRate = 0 });
+            context.TicketItems.Add(new TicketItems() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, TaskId = task2.Id, TrackerId = tracker.Id, StatusId = status.Id, PriorityId = pri.Id, AssignedToId = assign.Id, DoneRate = 0 });
+            context.TicketItems.Add(new TicketItems() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, TaskId = task3.Id, TrackerId = tracker.Id, StatusId = status.Id, PriorityId = pri.Id, AssignedToId = assign.Id, DoneRate = 0 });
+            context.SaveChanges();
+        }
+
     }
 }

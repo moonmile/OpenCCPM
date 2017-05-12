@@ -29,8 +29,11 @@ namespace Openccpm.WPF
 
             this.Loaded += MainWindow_Loaded;
         }
-
+#if DEBUG
+        string _url = "http://localhost:5000";
+#else
         string _url = "http://openccpm.azurewebsites.net";
+#endif
         TicketDrivenService service;
         MainViewModel viewModel;
         TicketViewModel viewModelTicket;

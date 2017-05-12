@@ -34,6 +34,7 @@
         <TextBlock TextWrapping="Wrap" Text="予定工数" TextAlignment="Right" Margin="3" Grid.Row="5" Grid.Column="2"/>
         <TextBlock TextWrapping="Wrap" Text="実績工数" TextAlignment="Right" Margin="3" Grid.Row="6" Grid.Column="2"/>
         <TextBlock TextWrapping="Wrap" Text="進捗率" TextAlignment="Right" Margin="3" Grid.Row="7" Grid.Column="2"/>
+        <TextBlock TextWrapping="Wrap" Text="チケット番号" TextAlignment="Right" Margin="3" Grid.Row="1" Grid.Column="2"/>
 
         <TextBlock Text="{Binding Ticket.Tracker.Name}" Grid.Column="1" Margin="3" TextWrapping="Wrap" />
         <TextBlock Text="{Binding Ticket.Subject}" Grid.Column="1" Margin="3" TextWrapping="Wrap" Grid.Row="1" />
@@ -47,6 +48,10 @@
         <TextBlock Text="{Binding Ticket.PlanTime}" Grid.Column="3" Margin="3" TextWrapping="Wrap" Grid.Row="5" />
         <TextBlock Text="{Binding Ticket.DoneTime}" Grid.Column="3" Margin="3" TextWrapping="Wrap" Grid.Row="6" />
         <TextBlock Text="{Binding Ticket.DoneRate}" Grid.Column="3" Margin="3" TextWrapping="Wrap" Grid.Row="7" />
+
+        <TextBlock 
+            Text="{Binding Ticket.TaskNo, Mode=TwoWay}" 
+            Grid.Column="3" Margin="3" TextWrapping="Wrap" Grid.Row="1" />
 
         <Button 
             Click="OnEditClicked"
