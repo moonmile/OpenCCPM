@@ -112,9 +112,25 @@ namespace Openccpm.UWP.Controllers
         public TicketService(string url) : base(url, "Ticket")
         {
         }
+        public new List<TicketView> GetItemsAsync()
+        {
+            // 全てのチケットを取得することはできない
+            throw new Exception("cannot get all tickets");
+        }
+        /// <summary>
+        /// プロジェクトIDを指定してチケットを取得する
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
         public async Task<List<TicketView>> GetItemsAsync( string projectId )
         {
-            return await GetItemsAsync();
+            var hc = new HttpClient();
+            var res = await hc.GetAsync($"{_url}/api/Ticket/Project/{projectId}");
+            var st = await res.Content.ReadAsStreamAsync();
+            var js = new Newtonsoft.Json.JsonSerializer();
+            var jr = new Newtonsoft.Json.JsonTextReader(new System.IO.StreamReader(st));
+            var items = js.Deserialize<List<TicketView>>(jr);
+            return items;
         }
     }
 
@@ -223,11 +239,8 @@ namespace Openccpm.UWP.Controllers
         /// <returns></returns>
         public async Task<List<TicketView>> GetTicketsAsync(string projectNo = null)
         {
-            if ( projectNo != null && TargetProject == null )
-            {
-                TargetProject = await this.Project.GetAsync(projectNo);
-            }
-            return await Ticket.GetItemsAsync(TargetProject?.Id);
+            TargetProject = await this.Project.GetAsync(projectNo);
+            return await Ticket.GetItemsAsync(TargetProject.Id);
         }
         /// <summary>
         /// チケットIDを指定して詳細情報を取得

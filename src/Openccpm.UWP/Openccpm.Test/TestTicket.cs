@@ -196,6 +196,75 @@ namespace Openccpm.Test
             Assert.AreEqual("TK002", items[1].TaskNo);
             Assert.AreEqual("TK001", items[2].TaskNo);
         }
+
+        /// <summary>
+        /// 簡単な初期化テスト
+        /// プロジェクト内のチケットを返す
+        /// </summary>
+        [TestMethod]
+        public async Task TestTicketInit3()
+        {
+            // プロジェクトを作る
+            var project1 = new Project() { ProjectNo = "P0100", Name = "最初のプロジェクト" };
+            var project2 = new Project() { ProjectNo = "P0101", Name = "次のプロジェクト" };
+            project1 = await service.Project.AddAsync(project1);
+            project2 = await service.Project.AddAsync(project2);
+            // トラッカー等を取得
+            await service.Initalize(project1.Id);
+
+            var trId = service.ListTracker.SingleOrDefault(x => x.Name == "機能")?.Id;
+            var stId = service.ListStatus.SingleOrDefault(x => x.Name == "新規")?.Id;
+            var prId = service.ListPriority.SingleOrDefault(x => x.Name == "標準")?.Id;
+            var userId = service.ListAssignTo.SingleOrDefault(x => x.LastName == "管理者")?.Id;
+
+            // チケットを追加する
+            var ticket1 = new TicketView()
+            {
+                ProjectId = project1.Id,
+                TaskNo = "TK001",
+                Subject = "最初のチケット",
+                Description = "内容",
+                Tracker_Id = trId,
+                Status_Id = stId,
+                Priority_Id = prId,
+                DoneRate = 0,
+            };
+            await service.AddTicketAsync(ticket1);
+            var items = await service.GetTicketsAsync(project1.Id);
+            Assert.AreEqual(1, items.Count);
+
+            // チケットを追加する
+            var ticket2 = new TicketView()
+            {
+                ProjectId = project2.Id,
+                TaskNo = "TK002",
+                Subject = "二番目のチケット",
+                Description = "内容",
+                Tracker_Id = trId,
+                Status_Id = stId,
+                Priority_Id = prId,
+                DoneRate = 0,
+            };
+            // チケットを追加する
+            var ticket3 = new TicketView()
+            {
+                ProjectId = project1.Id,
+                TaskNo = "TK003",
+                Subject = "三番めのチケット",
+                Description = "内容",
+                Tracker_Id = trId,
+                Status_Id = stId,
+                Priority_Id = prId,
+                DoneRate = 0,
+            };
+            await service.AddTicketAsync(ticket2);
+            await service.AddTicketAsync(ticket3);
+            // プロジェクト毎のチケットを取得
+            items = await service.GetTicketsAsync(project1.Id);
+            Assert.AreEqual(2, items.Count);
+            items = await service.GetTicketsAsync(project2.Id);
+            Assert.AreEqual(1, items.Count);
+        }
         /// <summary>
         /// 簡単な初期化テスト
         /// チケットの更新

@@ -21,11 +21,13 @@ namespace Openccpm.Web.Controllers
             _context = context;
         }
 
-        // GET: api/Ticket
-        [HttpGet]
-        public IEnumerable<TicketView> GetTicket()
+        // GET: api/Ticket/Project/1
+        [HttpGet("Project/{id}")]
+        public IEnumerable<TicketView> GetTicketsInProject( string id )
         {
-            return _context.TicketView.OrderByDescending( x => x.CreatedAt );
+            return _context.TicketView
+                .Where( x => x.ProjectId == id )
+                .OrderByDescending( x => x.CreatedAt );
         }
 
         // GET: api/Ticket/5
