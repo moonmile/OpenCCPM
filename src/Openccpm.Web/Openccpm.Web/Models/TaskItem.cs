@@ -103,7 +103,7 @@ namespace Openccpm.Web.Models
         public string Status_Id { get; set; }
         [Display(Name = "ステータス")]
         public string Status_Name { get; set; }
-        public bool Status_IsClosed { get; set; }
+        public bool? Status_IsClosed { get; set; }
         [Display(Name = "優先度")]
         public string Priority_Id { get; set; }
         [Display(Name = "優先度")]
