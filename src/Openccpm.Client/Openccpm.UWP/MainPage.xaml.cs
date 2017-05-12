@@ -1,5 +1,6 @@
 ﻿using Openccpm.UWP.Controllers;
 using Openccpm.Web.Models;
+using Openccpm.WPF.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -28,122 +29,112 @@ namespace Openccpm.UWP
         public MainPage()
         {
             this.InitializeComponent();
-
             this.Loaded += MainPage_Loaded;
         }
 
-        TaskItemService taskItems;
-        TaskItem _item;
+        string _url = "http://openccpm.azurewebsites.net";
+        TicketDrivenService service;
+        MainViewModel viewModel;
+        TicketViewModel viewModelTicket;
 
-
-        private void MainPage_Loaded(object sender, RoutedEventArgs e)
+        private async void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-            taskItems = new TaskItemService("http://localhost:5000");
-        }
+            service = new TicketDrivenService(_url);
+            viewModel = new MainViewModel();
+            this.DataContext = viewModel;
+            // プロジェクトのリストを取得
+            viewModel.Projects = await service.Project.GetItemsAsync();
 
 
-        /// <summary>
-        /// リストを取得
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void GetItemsClick(object sender, RoutedEventArgs e)
-        {
-            var lst = await taskItems.GetItems();
-            foreach ( var it in lst )
+            ticketDetail.OnEdit += (s, ee) => {
+                ticketDetail.Visibility = Visibility.Collapsed;
+                ticketEdit.Visibility = Visibility.Visible;
+            };
+            ticketEdit.OnCancel += (s, ee) =>
             {
-                Debug.WriteLine(it.Id + " " + it.Subject);
-            }
-            if ( lst.Count > 0 )
+                ticketDetail.Visibility = Visibility.Visible;
+                ticketEdit.Visibility = Visibility.Collapsed;
+            };
+            ticketEdit.OnSave += TicketEdit_OnSave;
+            ticketDetail.OnNew += TicketDetail_OnNew;
+
+        }
+        /// <summary>
+        /// プロジェクトの選択時
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void OnProjectSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            viewModel.Tickets = await service.GetTicketsAsync(viewModel.Project.ProjectNo);
+
+            // TicketDetail と TicketView にバインドし直し
+            viewModelTicket = new TicketViewModel();
+            await service.Initalize(viewModel.Project.ProjectNo);
+            viewModelTicket.Trackers = service.ListTracker;
+            viewModelTicket.Statuses = service.ListStatus;
+            viewModelTicket.Priorities = service.ListPriority;
+            viewModelTicket.Users = service.ListAssignTo;
+            this.ticketDetail.DataContext = viewModelTicket;
+            this.ticketEdit.DataContext = viewModelTicket;
+        }
+
+        /// <summary>
+        /// チケットの選択時
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void OnTicketSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (viewModel.Ticket != null)
             {
-                textId.Text = lst[0].Id;
-            }
-        }
-
-        /// <summary>
-        /// 指定IDで取得
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void GetItemClick(object sender, RoutedEventArgs e)
-        {
-            var id = textId.Text;
-            var item = await taskItems.GetItem(id);
-            Debug.WriteLine(item);
-            textNo.Text = item.TaskNo;
-            textTitle.Text = item.Subject;
-            textDesc.Text = item.Description;
-            _item = item;
-        }
-
-        /// <summary>
-        /// 新規追加
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void AddClick(object sender, RoutedEventArgs e)
-        {
-            var item = new TaskItem();
-            item.TaskNo = textNo.Text;
-            item.Subject = textTitle.Text;
-            item.Description = textDesc.Text;
-            item = await taskItems.AddItem(item);
-            textId.Text = item.Id;
-            _item = item;
-        }
-        /// <summary>
-        /// 更新
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void UpdateClick(object sender, RoutedEventArgs e)
-        {
-            var item = _item;
-            item.Id = textId.Text;
-            item.TaskNo = textNo.Text;
-            item.Subject = textTitle.Text;
-            item.Description = textDesc.Text;
-            taskItems.UpdateItem(item);
-        }
-        /// <summary>
-        /// 削除
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DeleteClick(object sender, RoutedEventArgs e)
-        {
-            var id  = textId.Text;
-            taskItems.DeleteItem(id);
-        }
-
-
-        /// <summary>
-        /// タスクIDを指定して開始/終了のリストを取得
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void GetStartEndClick(object sender, RoutedEventArgs e)
-        {
-            var id = textId.Text;
-            var lst = await taskItems.GetStartEnd( id );
-            foreach (var it in lst)
-            {
-                Debug.WriteLine(it.Id + " " + it.StartAt + " " + it.EndAt );
+                // 詳細情報を再取得
+                viewModelTicket.Ticket = viewModel.Ticket = await service.GetTicketAsync(viewModel.Ticket.Id);
             }
         }
 
+
         /// <summary>
-        /// タスクIDを指定して開始/終了のリストを追加
+        /// チケットの保存
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void AddStartEndClick(object sender, RoutedEventArgs e)
+        private async void TicketEdit_OnSave(object sender, EventArgs e)
         {
-            var id = textId.Text;
-            var isplan = chkPlan.IsChecked.Value;
-            var start = DateTime.Parse(textStartTime.Text);
-            var end = DateTime.Parse(textEndTime.Text);
-            var item = await taskItems.AddStartEnd(id, start, end, isplan );
+            if (viewModelTicket.Ticket.Id == null)
+            {
+                await service.AddTicketAsync(viewModelTicket.Ticket);
+            }
+            else
+            {
+                await service.UpdateTicketAsync(viewModelTicket.Ticket);
+            }
+            ticketDetail.Visibility = Visibility.Visible;
+            ticketEdit.Visibility = Visibility.Collapsed;
+            // リストを更新する
+            lvTickets.IsEnabled = true;
+            int index = lvTickets.SelectedIndex;
+            viewModel.Tickets = await service.GetTicketsAsync(viewModel.Project.ProjectNo);
+            // カーソルを戻す
+            lvTickets.SelectedIndex = index;
+
+        }
+
+        /// <summary>
+        /// チケットを新規作成
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TicketDetail_OnNew(object sender, EventArgs e)
+        {
+            var ticket = new TicketView();
+            ticket.Project = viewModel.Project;
+            ticket.ProjectId = viewModel.Project.Id;
+            ticket.Project_ProjectNo = viewModel.Project.ProjectNo;
+            viewModelTicket.Ticket = ticket;
+
+            ticketDetail.Visibility = Visibility.Collapsed;
+            ticketEdit.Visibility = Visibility.Visible;
         }
     }
 }

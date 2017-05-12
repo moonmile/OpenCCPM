@@ -45,7 +45,7 @@ namespace Openccpm.WPF.ViewModels
             get { return _Priorities; }
             set
             {
-                SetProperty(ref _Priorities, value, nameof(Properties));
+                SetProperty(ref _Priorities, value, nameof(Priorities));
             }
         }
 
