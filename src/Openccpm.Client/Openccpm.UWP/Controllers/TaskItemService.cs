@@ -8,6 +8,49 @@ using System.Threading.Tasks;
 
 namespace Openccpm.UWP.Controllers
 {
+
+    /// <summary>
+    /// JSONを扱うRESTfulな拡張クラス
+    /// </summary>
+    public static class HttpClientJsonExtensions
+    {
+        public static async Task<T> GetAsync<T>( this HttpClient client, string requestUri)
+        {
+            var res = await client.GetAsync(requestUri);
+            var st = await res.Content.ReadAsStreamAsync();
+            var js = new Newtonsoft.Json.JsonSerializer();
+            var jr = new Newtonsoft.Json.JsonTextReader(new System.IO.StreamReader(st));
+            var items = js.Deserialize<T>(jr);
+            return items;
+        }
+        public static async Task<T> PostAsync<T>(this HttpClient client, string requestUri, T value)
+        {
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(value);
+            var cont = new StringContent(json, Encoding.UTF8, "application/json");
+            var res = await client.PostAsync(requestUri, cont);
+            var st = await res.Content.ReadAsStreamAsync();
+            var js = new Newtonsoft.Json.JsonSerializer();
+            var jr = new Newtonsoft.Json.JsonTextReader(new System.IO.StreamReader(st));
+            var newItem = js.Deserialize<T>(jr);
+            return newItem;
+        }
+        public static async Task PutAsync<T>(this HttpClient client, string requestUri, T value)
+        {
+            var hc = new HttpClient();
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(value);
+            var cont = new StringContent(json, Encoding.UTF8, "application/json");
+            var res = await hc.PutAsync(requestUri, cont);
+            return;
+        }
+        public static async Task DeleteAsync(this HttpClient client, string requestUri)
+        {
+            var res = await client.DeleteAsync(requestUri);
+            return;
+        }
+    }
+
+
+
     public abstract class TableWebApiService<T> where T : EntityData
     {
         /// <summary>
@@ -125,11 +168,7 @@ namespace Openccpm.UWP.Controllers
         public async Task<List<TicketView>> GetItemsAsync( string projectId )
         {
             var hc = new HttpClient();
-            var res = await hc.GetAsync($"{_url}/api/Ticket/Project/{projectId}");
-            var st = await res.Content.ReadAsStreamAsync();
-            var js = new Newtonsoft.Json.JsonSerializer();
-            var jr = new Newtonsoft.Json.JsonTextReader(new System.IO.StreamReader(st));
-            var items = js.Deserialize<List<TicketView>>(jr);
+            var items = await hc.GetAsync<List<TicketView>>($"{_url}/api/Ticket/Project/{projectId}");
             return items;
         }
     }
@@ -421,90 +460,4 @@ namespace Openccpm.UWP.Controllers
             }
         }
     }
-
-#if false
-    /// <summary>
-    /// チケット駆動サービス
-    /// </summary>
-    public class TicketService : TaskItemService
-    {
-        public TicketService(string url) : base(url)
-        {
-        }
-        public async Task<List<TicketView>> GetTickets()
-        {
-            var hc = new HttpClient();
-            var res = await hc.GetAsync(_url + $"/api/Ticket");
-            var st = await res.Content.ReadAsStreamAsync();
-            var js = new Newtonsoft.Json.JsonSerializer();
-            var jr = new Newtonsoft.Json.JsonTextReader(new System.IO.StreamReader(st));
-            var items = js.Deserialize<List<TicketView>>(jr);
-            return items;
-        }
-        public async Task<TicketView> GetTicket(string id)
-        {
-            var hc = new HttpClient();
-            var res = await hc.GetAsync(_url + $"/api/Ticket/{id}");
-            var st = await res.Content.ReadAsStreamAsync();
-            var js = new Newtonsoft.Json.JsonSerializer();
-            var jr = new Newtonsoft.Json.JsonTextReader(new System.IO.StreamReader(st));
-            var item = js.Deserialize<TicketView>(jr);
-            return item;
-        }
-        public async Task<TicketView> AddTicket(TicketView item)
-        {
-            var hc = new HttpClient();
-            var json = Newtonsoft.Json.JsonConvert.SerializeObject(item);
-            var cont = new StringContent(json, Encoding.UTF8, "application/json");
-            var res = await hc.PostAsync(_url + $"/api/Ticket", cont);
-
-            var st = await res.Content.ReadAsStreamAsync();
-            var js = new Newtonsoft.Json.JsonSerializer();
-            var jr = new Newtonsoft.Json.JsonTextReader(new System.IO.StreamReader(st));
-            var newItem = js.Deserialize<TicketView>(jr);
-            return newItem;
-        }
-        public async Task UpdateTicket(TicketView item)
-        {
-            var hc = new HttpClient();
-            var json = Newtonsoft.Json.JsonConvert.SerializeObject(item);
-            var cont = new StringContent(json, Encoding.UTF8, "application/json");
-            var res = await hc.PutAsync(_url + $"/api/Ticket/{item.Id}", cont);
-        }
-        public async Task DeleteTicket(string id)
-        {
-            var hc = new HttpClient();
-            var res = await hc.DeleteAsync(_url + $"/api/Ticket/{id}");
-        }
-    }
-    /// <summary>
-    /// WBS作成サービス
-    /// </summary>
-    public class WbsService : TaskItemService
-    {
-        public WbsService(string url) : base(url)
-        {
-        }
-        public async Task<List<WbsView>> GetWbses()
-        {
-            var hc = new HttpClient();
-            var res = await hc.GetAsync(_url + $"/api/WBS");
-            var st = await res.Content.ReadAsStreamAsync();
-            var js = new Newtonsoft.Json.JsonSerializer();
-            var jr = new Newtonsoft.Json.JsonTextReader(new System.IO.StreamReader(st));
-            var items = js.Deserialize<List<WbsView>>(jr);
-            return items;
-        }
-        public async Task<WbsView> GetWbs(string id)
-        {
-            var hc = new HttpClient();
-            var res = await hc.GetAsync(_url + $"/api/WBS/{id}");
-            var st = await res.Content.ReadAsStreamAsync();
-            var js = new Newtonsoft.Json.JsonSerializer();
-            var jr = new Newtonsoft.Json.JsonTextReader(new System.IO.StreamReader(st));
-            var item = js.Deserialize<WbsView>(jr);
-            return item;
-        }
-    }
-#endif
 }
