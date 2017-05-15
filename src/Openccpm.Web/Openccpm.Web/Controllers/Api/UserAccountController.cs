@@ -38,7 +38,7 @@ namespace Openccpm.Web.Controllers.Api
             if (result.Succeeded)
             {
                 var appUser = await _userManager.FindByEmailAsync(login.LoginId);
-
+                
                 var user = new User()
                 {
                     Id = appUser.Id,
