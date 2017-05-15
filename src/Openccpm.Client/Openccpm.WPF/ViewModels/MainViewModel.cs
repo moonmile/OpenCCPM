@@ -93,7 +93,6 @@ namespace Openccpm.WPF.ViewModels
             var changed = PropertyChanged;
             if (changed == null)
                 return;
-
             changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
