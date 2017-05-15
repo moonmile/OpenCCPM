@@ -36,7 +36,7 @@
                     <GridViewColumn Header="ステータス"   DisplayMemberBinding="{Binding Status_Name}" Width="80"/>
                     <GridViewColumn Header="優先度"       DisplayMemberBinding="{Binding Priority_Name}" Width="50"/>
                     <GridViewColumn Header="題名"         DisplayMemberBinding="{Binding Subject}"  Width="200"/>
-                    <GridViewColumn Header="担当者" DisplayMemberBinding="{Binding AssignedTo_LastName}" Width="100"/>
+                    <GridViewColumn Header="担当者" DisplayMemberBinding="{Binding AssignedTo_UserName}" Width="100"/>
                     <GridViewColumn Header="更新日時" DisplayMemberBinding="{Binding UpdatedAt}" Width="100"/>
                 </GridView>
             </ListView.View>

@@ -59,6 +59,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
@@ -69,6 +72,9 @@
     </Compile>
     <Compile Include="..\..\Openccpm.Web\Openccpm.Web\Models\TaskItem.cs">
       <Link>Models\TaskItem.cs</Link>
+    </Compile>
+    <Compile Include="Models\AspNetUsers.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Model1.Context.cs">
       <AutoGen>True</AutoGen>
@@ -110,13 +116,10 @@
     <Compile Include="Models\TicketItems.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\TicketViews.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Trackers.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Users.cs">
+    <Compile Include="Models\UserView.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\WbsItems.cs">
@@ -130,6 +133,7 @@
     <Compile Include="TestTaskItem.cs" />
     <Compile Include="TestProject.cs" />
     <Compile Include="TestTicket.cs" />
+    <Compile Include="TestAuth.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

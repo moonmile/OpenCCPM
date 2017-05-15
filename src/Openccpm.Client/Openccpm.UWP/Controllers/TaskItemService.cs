@@ -49,8 +49,10 @@ namespace Openccpm.UWP.Controllers
         }
     }
 
-
-
+    /// <summary>
+    /// テーブルアクセスサービス
+    /// </summary>
+    /// <typeparam name="T">EntityDataを継承するエンティティ</typeparam>
     public abstract class TableWebApiService<T> where T : EntityData
     {
         /// <summary>
@@ -138,6 +140,60 @@ namespace Openccpm.UWP.Controllers
             var res = await hc.DeleteAsync($"{_url}/api/{_tableName}/{id}");
         }
     }
+
+
+    /// <summary>
+    /// 読み取り専用テーブルアクセスサービス
+    /// </summary>
+    /// <typeparam name="T">EntityDataを継承するエンティティ</typeparam>
+    public abstract class ReadOnlyTableWebApiService<T> 
+    {
+        /// <summary>
+        /// Web API の URL
+        /// </summary>
+        protected string _url;
+        /// <summary>
+        /// アクセス先のテーブル名
+        /// api/_tableName で呼び出す
+        /// </summary>
+        protected string _tableName;
+
+        public ReadOnlyTableWebApiService(string url, string tableName)
+        {
+            _url = url;
+            _tableName = tableName;
+        }
+
+        /// <summary>
+        /// 一覧リストを取得
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<T>> GetItemsAsync()
+        {
+            var hc = new HttpClient();
+            var res = await hc.GetAsync($"{_url}/api/{_tableName}");
+            var st = await res.Content.ReadAsStreamAsync();
+            var js = new Newtonsoft.Json.JsonSerializer();
+            var jr = new Newtonsoft.Json.JsonTextReader(new System.IO.StreamReader(st));
+            var items = js.Deserialize<List<T>>(jr);
+            return items;
+        }
+        /// <summary>
+        /// 指定IDのアイテムを取得
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<T> GetAsync(string id)
+        {
+            var hc = new HttpClient();
+            var res = await hc.GetAsync($"{_url}/api/{_tableName}/{id}");
+            var st = await res.Content.ReadAsStreamAsync();
+            var js = new Newtonsoft.Json.JsonSerializer();
+            var jr = new Newtonsoft.Json.JsonTextReader(new System.IO.StreamReader(st));
+            var item = js.Deserialize<T>(jr);
+            return item;
+        }
+    }
     /// <summary>
     /// プロジェクト情報へのアクセス
     /// </summary>
@@ -216,18 +272,17 @@ namespace Openccpm.UWP.Controllers
     /// <summary>
     /// ユーザー情報アクセス
     /// </summary>
-    public class UserService : TableWebApiService<User>
+    public class UserService   : ReadOnlyTableWebApiService<User>
     {
         public UserService(string url) : base(url, "User")
         {
+            _url = url;
         }
         public async Task<List<User>> GetItemsAsync(string projectId)
         {
             return await GetItemsAsync();
         }
     }
-
-
 
 
     /// <summary>

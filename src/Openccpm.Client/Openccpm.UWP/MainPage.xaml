@@ -71,7 +71,7 @@
                         <TextBlock Text="{Binding Status_Name}" Margin="3" Grid.Column="2" />
                         <TextBlock Text="{Binding Priority_Name}" Margin="3" Grid.Column="3" />
                         <TextBlock Text="{Binding Subject}" Margin="3" Grid.Column="4" />
-                        <TextBlock Text="{Binding AssignedTo_LastName}" Margin="3" Grid.Column="5" />
+                        <TextBlock Text="{Binding AssignedTo_UserName}" Margin="3" Grid.Column="5" />
                         <TextBlock Text="{Binding UpdatedAt}" Margin="3" Grid.Column="6" />
                     </Grid>
                 </DataTemplate>

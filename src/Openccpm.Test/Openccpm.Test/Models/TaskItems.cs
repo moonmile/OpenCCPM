@@ -22,8 +22,8 @@ namespace Openccpm.Test.Models
             this.TaskPerts1 = new HashSet<TaskPerts>();
             this.TaskTrees = new HashSet<TaskTrees>();
             this.TaskTrees1 = new HashSet<TaskTrees>();
-            this.TicketItems = new HashSet<TicketItems>();
             this.WbsItems = new HashSet<WbsItems>();
+            this.TicketItems = new HashSet<TicketItems>();
         }
     
         public string Id { get; set; }
@@ -49,8 +49,8 @@ namespace Openccpm.Test.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TaskTrees> TaskTrees1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TicketItems> TicketItems { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WbsItems> WbsItems { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TicketItems> TicketItems { get; set; }
     }
 }

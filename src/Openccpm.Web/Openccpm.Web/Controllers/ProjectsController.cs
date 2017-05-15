@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Openccpm.Web.Data;
 using Openccpm.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Openccpm.Web.Controllers
 {
+    [Authorize]
     public class ProjectsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -20,12 +22,14 @@ namespace Openccpm.Web.Controllers
         }
 
         // GET: Projects
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Project.ToListAsync());
         }
 
         // GET: Projects/Details/5
+        [Authorize(Roles = "ProjectMembers")]
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -73,6 +77,7 @@ namespace Openccpm.Web.Controllers
         }
 
         // GET: Projects/Create
+        [Authorize(Roles = "ProjectAdministrators")]
         public IActionResult Create()
         {
             return View();
@@ -81,6 +86,7 @@ namespace Openccpm.Web.Controllers
         // POST: Projects/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "ProjectAdministrators")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ProjectNo,Name,Description,Id,Version,CreatedAt,UpdatedAt,Deleted")] Project project)
@@ -96,6 +102,7 @@ namespace Openccpm.Web.Controllers
         }
 
         // GET: Projects/Edit/5
+        [Authorize(Roles = "ProjectAdministrators")]
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -114,6 +121,7 @@ namespace Openccpm.Web.Controllers
         // POST: Projects/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "ProjectAdministrators")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("ProjectNo,Name,Description,Id,Version,CreatedAt,UpdatedAt,Deleted")] Project project)
@@ -148,6 +156,7 @@ namespace Openccpm.Web.Controllers
         }
 
         // GET: Projects/Delete/5
+        [Authorize(Roles = "ProjectAdministrators")]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -165,6 +174,7 @@ namespace Openccpm.Web.Controllers
         }
 
         // POST: Projects/Delete/5
+        [Authorize(Roles = "ProjectAdministrators")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)

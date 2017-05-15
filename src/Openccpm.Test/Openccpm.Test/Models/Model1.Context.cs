@@ -28,15 +28,15 @@ namespace Openccpm.Test.Models
         public virtual DbSet<StartEndTimes> StartEndTimes { get; set; }
         public virtual DbSet<TaskPerts> TaskPerts { get; set; }
         public virtual DbSet<TaskTrees> TaskTrees { get; set; }
-        public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<Priorities> Priorities { get; set; }
         public virtual DbSet<Statuses> Statuses { get; set; }
         public virtual DbSet<Trackers> Trackers { get; set; }
         public virtual DbSet<WbsItems> WbsItems { get; set; }
-        public virtual DbSet<TicketViews> TicketView { get; set; }
         public virtual DbSet<TaskItems> TaskItems { get; set; }
-        public virtual DbSet<TicketItems> TicketItems { get; set; }
         public virtual DbSet<WbsViews> WbsView { get; set; }
         public virtual DbSet<Projects> Projects { get; set; }
+        public virtual DbSet<UserView> UserView { get; set; }
+        public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
+        public virtual DbSet<TicketItems> TicketItems { get; set; }
     }
 }

@@ -51,12 +51,14 @@ namespace Openccpm.Test
                 context.Priorities.Add(new Priorities() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, Position = 4, Name = "急いで" });
                 context.Priorities.Add(new Priorities() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, Position = 5, Name = "今すぐ" });
             }
-            if (context.Users.Count() == 0)
+            if (context.AspNetUsers.Count() == 0)
             {
-                context.Users.Add(new Users() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, Login = "admin", LastName = "管理者", FirstName = "" });
+                /*
+                context.Users.Add(new AspNetUsers() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, Login = "admin", LastName = "管理者", FirstName = "" });
                 context.Users.Add(new Users() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, Login = "guest", LastName = "ゲスト", FirstName = "" });
                 context.Users.Add(new Users() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, Login = "masuda", LastName = "増田", FirstName = "智明" });
                 context.Users.Add(new Users() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, Login = "yamada", LastName = "山田", FirstName = "太郎" });
+                */
             }
             context.SaveChanges();
         }
@@ -66,6 +68,9 @@ namespace Openccpm.Test
         [TestMethod]
         public void InitProject()
         {
+            if (context.Projects.Count() > 0)
+                return;
+
             context.Projects.Add(new Projects() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, ProjectNo = "P0100", Name = "最初のプロジェクト", Description = "解説" });
             context.Projects.Add(new Projects() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, ProjectNo = "P0200", Name = "次のプロジェクト", Description = "解説" });
             context.Projects.Add(new Projects() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, ProjectNo = "P0300", Name = "三番めのプロジェクト", Description = "解説" });
@@ -80,7 +85,7 @@ namespace Openccpm.Test
             var tracker = context.Trackers.SingleOrDefault(x => x.Name == "機能");
             var status = context.Statuses.SingleOrDefault(x => x.Name == "新規");
             var pri = context.Priorities.SingleOrDefault(x => x.Name == "標準");
-            var assign = context.Users.SingleOrDefault(x => x.Login == "admin");
+            var assign = context.AspNetUsers.SingleOrDefault(x => x.UserName == "管理者");
 
 
             context.TicketItems.Add(new TicketItems() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, TaskId = task1.Id, TrackerId = tracker.Id, StatusId = status.Id, PriorityId = pri.Id, AssignedToId = assign.Id, DoneRate = 0 });
@@ -88,6 +93,5 @@ namespace Openccpm.Test
             context.TicketItems.Add(new TicketItems() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, TaskId = task3.Id, TrackerId = tracker.Id, StatusId = status.Id, PriorityId = pri.Id, AssignedToId = assign.Id, DoneRate = 0 });
             context.SaveChanges();
         }
-
     }
 }

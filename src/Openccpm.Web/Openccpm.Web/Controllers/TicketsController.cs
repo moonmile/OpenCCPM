@@ -8,16 +8,18 @@ using Microsoft.EntityFrameworkCore;
 using Openccpm.Web.Data;
 using Openccpm.Web.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Openccpm.Web.Controllers
 {
+    [Authorize(Roles = "ProjectMembers")]
     public class TicketsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
         public TicketsController(ApplicationDbContext context)
         {
-            _context = context;    
+            _context = context;
         }
 
         public IActionResult Select()
@@ -114,7 +116,7 @@ namespace Openccpm.Web.Controllers
             ViewData["TrackerItems"] = new SelectList(_context.Tracker.OrderBy(x => x.Position).ToList(), "Id", "Name");
             ViewData["StatusItems"] = new SelectList(_context.Status.OrderBy(x => x.Position).ToList(), "Id", "Name");
             ViewData["PriorityItems"] = new SelectList(_context.Priority.OrderBy(x => x.Position).ToList(), "Id", "Name");
-            ViewData["AssignedToItems"] = new SelectList(_context.User.OrderBy(x => x.LastName).ToList(), "Id", "LastName");
+            ViewData["AssignedToItems"] = new SelectList(_context.User.OrderBy(x => x.UserName).ToList(), "Id", "UserName");
         }
 
 

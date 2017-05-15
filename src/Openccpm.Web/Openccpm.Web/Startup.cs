@@ -57,7 +57,27 @@ namespace Openccpm.Web
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
-            services.AddSession();
+            // 認証の設定 
+            services.Configure<IdentityOptions>(options =>
+            {
+                // 実験のため一番ゆるいパターンのパスワード
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 1;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                // 10回間違えると30分だけロックアウトされる
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                options.Lockout.MaxFailedAccessAttempts = 10;
+                // ユーザー名にメールアドレスを利用するため
+                options.User.RequireUniqueEmail = true;
+                // cookie の設定
+                options.Cookies.ApplicationCookie.CookieName = "SampleAuthCookie";
+                options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(150);       // 150日間有効
+                options.Cookies.ApplicationCookie.LoginPath = "/Account/LogIn";                  // ログイン
+                options.Cookies.ApplicationCookie.LogoutPath = "/Account/LogOff";                // ログアウト
+                options.Cookies.ApplicationCookie.AccessDeniedPath = "/Account/AccessDenied";    // 拒否時
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -80,7 +100,6 @@ namespace Openccpm.Web
             app.UseStaticFiles();
 
             app.UseIdentity();
-            app.UseSession();
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
 

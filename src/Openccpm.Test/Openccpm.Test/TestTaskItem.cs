@@ -18,7 +18,7 @@ namespace Openccpm.Test
         {
             context = new openccpm_dbEntities();
             service = new TaskItemService("http://localhost:5000");
-            // this.CleanUp();
+            this.CleanUp();
         }
         [TestCleanup]
         public virtual void CleanUp()

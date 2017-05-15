@@ -111,12 +111,11 @@ namespace Openccpm.Web.Models
         [Display(Name = "担当者")]
         public string AssignedTo_Id { get; set; }
         [Display(Name = "担当者")]
-        public string AssignedTo_FirstName { get; set; }
-        [Display(Name = "担当者")]
-        public string AssignedTo_LastName { get; set; }
+        public string AssignedTo_UserName { get; set; }
+        [Display(Name = "作成者")]
         public string Author_Id { get; set; }
-        public string Author_FirstName { get; set; }
-        public string Author_LastName { get; set; }
+        [Display(Name = "作成者")]
+        public string Author_UserName { get; set; }
         public string Project_Name { get; set; }
         public string Project_ProjectNo { get; set; }
 
@@ -312,25 +311,19 @@ namespace Openccpm.Web.Models
         public string Name { get; set; }
         public int Position { get; set; }
     }
+
     /// <summary>
-    /// ユーザー
+    /// ユーザー情報
     /// </summary>
-    [Table("Users")]
-    public class User : EntityData
+    [Table("UserView")]
+    public class User
     {
-        public string Login { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set;  }
+        public string Id { get; set; }
+        public string Email { get; set; }
+        public string UserName { get; set; }
 
-        public string Name
-        {
-            get { return LastName + " " + FirstName; }
-        }
+        public string Name {  get { return UserName; } }
     }
-
-
-
-
 
     // 開始/終了日時のテーブル
     [Table("StartEndTimes")]

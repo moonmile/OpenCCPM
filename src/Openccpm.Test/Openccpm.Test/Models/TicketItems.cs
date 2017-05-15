@@ -26,12 +26,12 @@ namespace Openccpm.Test.Models
         public string AssignedToId { get; set; }
         public int DoneRate { get; set; }
         public string AuthorId { get; set; }
+        public Nullable<System.DateTimeOffset> DueDate { get; set; }
+        public Nullable<System.DateTimeOffset> StartDate { get; set; }
     
         public virtual Priorities Priorities { get; set; }
         public virtual Statuses Statuses { get; set; }
         public virtual TaskItems TaskItems { get; set; }
         public virtual Trackers Trackers { get; set; }
-        public virtual Users Users { get; set; }
-        public virtual Users Users1 { get; set; }
     }
 }

@@ -22,6 +22,7 @@ namespace Openccpm.Test
         {
             context = new openccpm_dbEntities();
             // 初期データを投入
+            this.CleanUp();
             Init();
             service = new TicketDrivenService("http://localhost:5000");
 
@@ -52,12 +53,14 @@ namespace Openccpm.Test
                 context.Priorities.Add(new Priorities() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, Position = 4, Name = "急いで" });
                 context.Priorities.Add(new Priorities() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, Position = 5, Name = "今すぐ" });
             }
-            if (context.Users.Count() == 0)
+            if (context.AspNetUsers.Count() == 0)
             {
-                context.Users.Add(new Users() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, Login = "admin", LastName = "管理者", FirstName = "" });
-                context.Users.Add(new Users() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, Login = "guest", LastName = "ゲスト", FirstName = "" });
+                /*
+                context.Users.Add(new Users() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, Login = "管理者", LastName = "管理者", FirstName = "" });
+                context.Users.Add(new Users() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, Login = "ゲスト", LastName = "ゲスト", FirstName = "" });
                 context.Users.Add(new Users() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, Login = "masuda", LastName = "増田", FirstName = "智明" });
                 context.Users.Add(new Users() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, Login = "yamada", LastName = "山田", FirstName = "太郎" });
+                */
             }
             context.SaveChanges();
         }
@@ -77,7 +80,7 @@ namespace Openccpm.Test
             var trId = service.ListTracker.SingleOrDefault(x => x.Name == "機能")?.Id;
             var stId = service.ListStatus.SingleOrDefault(x => x.Name == "新規")?.Id;
             var prId = service.ListPriority.SingleOrDefault(x => x.Name == "標準")?.Id;
-            var userId = service.ListAssignTo.SingleOrDefault(x => x.LastName == "管理者")?.Id;
+            var userId = service.ListAssignTo.SingleOrDefault(x => x.UserName == "管理者")?.Id;
 
             // チケットを追加する
             var ticket = new TicketView()
@@ -126,7 +129,7 @@ namespace Openccpm.Test
             Assert.AreEqual("機能", ticket.Tracker.Name);
             Assert.AreEqual("新規", ticket.Status.Name);
             Assert.AreEqual("標準", ticket.Priority.Name);
-            Assert.AreEqual("管理者", ticket.AssignedTo.LastName);
+            Assert.AreEqual("管理者", ticket.AssignedTo.UserName);
         }
 
         /// <summary>
@@ -145,7 +148,7 @@ namespace Openccpm.Test
             var trId = service.ListTracker.SingleOrDefault(x => x.Name == "機能")?.Id;
             var stId = service.ListStatus.SingleOrDefault(x => x.Name == "新規")?.Id;
             var prId = service.ListPriority.SingleOrDefault(x => x.Name == "標準")?.Id;
-            var userId = service.ListAssignTo.SingleOrDefault(x => x.LastName == "管理者")?.Id;
+            var userId = service.ListAssignTo.SingleOrDefault(x => x.UserName == "管理者")?.Id;
 
             // チケットを追加する
             var ticket1 = new TicketView()
@@ -215,7 +218,7 @@ namespace Openccpm.Test
             var trId = service.ListTracker.SingleOrDefault(x => x.Name == "機能")?.Id;
             var stId = service.ListStatus.SingleOrDefault(x => x.Name == "新規")?.Id;
             var prId = service.ListPriority.SingleOrDefault(x => x.Name == "標準")?.Id;
-            var userId = service.ListAssignTo.SingleOrDefault(x => x.LastName == "管理者")?.Id;
+            var userId = service.ListAssignTo.SingleOrDefault(x => x.UserName == "管理者")?.Id;
 
             // チケットを追加する
             var ticket1 = new TicketView()
@@ -281,7 +284,7 @@ namespace Openccpm.Test
             var trId = service.ListTracker.SingleOrDefault(x => x.Name == "機能")?.Id;
             var stId = service.ListStatus.SingleOrDefault(x => x.Name == "新規")?.Id;
             var prId = service.ListPriority.SingleOrDefault(x => x.Name == "標準")?.Id;
-            var userId = service.ListAssignTo.SingleOrDefault(x => x.LastName == "管理者")?.Id;
+            var userId = service.ListAssignTo.SingleOrDefault(x => x.UserName == "管理者")?.Id;
 
             // チケットを追加する
             var ticket = new TicketView()
@@ -338,8 +341,8 @@ namespace Openccpm.Test
             var trId = service.ListTracker.SingleOrDefault(x => x.Name == "機能")?.Id;
             var stId = service.ListStatus.SingleOrDefault(x => x.Name == "新規")?.Id;
             var prId = service.ListPriority.SingleOrDefault(x => x.Name == "標準")?.Id;
-            var admin = service.ListAssignTo.SingleOrDefault(x => x.LastName == "管理者")?.Id;
-            var guest = service.ListAssignTo.SingleOrDefault(x => x.LastName == "ゲスト")?.Id;
+            var admin = service.ListAssignTo.SingleOrDefault(x => x.UserName == "管理者")?.Id;
+            var guest = service.ListAssignTo.SingleOrDefault(x => x.UserName == "ゲスト")?.Id;
 
             // チケットを追加する
             var ticket = new TicketView()
@@ -366,7 +369,7 @@ namespace Openccpm.Test
             ticket = await service.GetTicketAsync(ticket.Id);
             Assert.AreEqual("TK001", ticket.TaskNo);
             Assert.AreEqual(admin, ticket.AssignedTo_Id);
-            Assert.AreEqual("管理者", ticket.AssignedTo_LastName);
+            Assert.AreEqual("管理者", ticket.AssignedTo_UserName);
 
             // 担当者を変える
             ticket.AssignedTo.Id = guest;
@@ -375,7 +378,7 @@ namespace Openccpm.Test
             ticket = await service.GetTicketAsync(ticket.Id);
             Assert.AreEqual("TK001", ticket.TaskNo);
             Assert.AreEqual(guest, ticket.AssignedTo_Id);
-            Assert.AreEqual("ゲスト", ticket.AssignedTo_LastName);
+            Assert.AreEqual("ゲスト", ticket.AssignedTo_UserName);
         }
         /// <summary>
         /// ステータスの切り替え
@@ -393,7 +396,7 @@ namespace Openccpm.Test
             var stNew = service.ListStatus.SingleOrDefault(x => x.Name == "新規")?.Id;
             var stEnd = service.ListStatus.SingleOrDefault(x => x.Name == "終了")?.Id;
             var prId = service.ListPriority.SingleOrDefault(x => x.Name == "標準")?.Id;
-            var userId = service.ListAssignTo.SingleOrDefault(x => x.LastName == "管理者")?.Id;
+            var userId = service.ListAssignTo.SingleOrDefault(x => x.UserName == "管理者")?.Id;
 
             // チケットを追加する
             var ticket = new TicketView()
@@ -446,7 +449,7 @@ namespace Openccpm.Test
             var trId = service.ListTracker.SingleOrDefault(x => x.Name == "機能")?.Id;
             var stId = service.ListStatus.SingleOrDefault(x => x.Name == "新規")?.Id;
             var prId = service.ListPriority.SingleOrDefault(x => x.Name == "標準")?.Id;
-            var userId = service.ListAssignTo.SingleOrDefault(x => x.LastName == "管理者")?.Id;
+            var userId = service.ListAssignTo.SingleOrDefault(x => x.UserName == "管理者")?.Id;
 
             // チケットを追加する
             var ticket1 = new TicketView()
