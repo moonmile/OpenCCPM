@@ -371,4 +371,22 @@ namespace Openccpm.Web.Models
         [Display(Name = "説明")]
         public string Description { get; set; }
     }
+    // プロジェクトに含まれるユーザー
+    [Table("ProjectUsers")]
+    public class ProjectUser
+    {
+        [Key]
+        public string Id { get; set; }
+        public string ProjectId { get; set; }
+        public string UserId { get; set; }
+    }
+    [Table("ProjectUserView")]
+    public class ProjectUserView
+    {
+        [Key]
+        public string Id { get; set; }
+        public string ProjectId { get; set; }
+        public string UserId { get; set; }
+        public string UserName { get; set; }
+    }
 }

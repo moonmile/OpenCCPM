@@ -9,6 +9,7 @@ using Openccpm.Web.Data;
 using Openccpm.Web.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Openccpm.Web.Controllers
 {
@@ -16,10 +17,17 @@ namespace Openccpm.Web.Controllers
     public class TicketsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public TicketsController(ApplicationDbContext context)
+        public TicketsController(
+            ApplicationDbContext context,
+            UserManager< ApplicationUser > userManager,
+            SignInManager<ApplicationUser> signInManager     )
         {
-            _context = context;
+                _context = context;
+                _userManager = userManager;
+                _signInManager = signInManager;
         }
 
         public IActionResult Select()
@@ -106,17 +114,23 @@ namespace Openccpm.Web.Controllers
             ViewData["ProjectId"] = project.Id;
             ViewData["ProjectNo"] = project.ProjectNo;
             ViewData["ProjectName"] = project.Name;
-            createSelectItems();
+            createSelectItems( project.Id  );
             return View();
         }
 
-        void createSelectItems()
+        /// <summary>
+        /// プロジェクトIDを指定して、各選択リストを取得する
+        /// </summary>
+        /// <param name="projectId"></param>
+        void createSelectItems( string projectId )
         {
 
             ViewData["TrackerItems"] = new SelectList(_context.Tracker.OrderBy(x => x.Position).ToList(), "Id", "Name");
             ViewData["StatusItems"] = new SelectList(_context.Status.OrderBy(x => x.Position).ToList(), "Id", "Name");
             ViewData["PriorityItems"] = new SelectList(_context.Priority.OrderBy(x => x.Position).ToList(), "Id", "Name");
-            ViewData["AssignedToItems"] = new SelectList(_context.User.OrderBy(x => x.UserName).ToList(), "Id", "UserName");
+            ViewData["AssignedToItems"] = new SelectList( _context.ProjectUserView.Where( x => x.ProjectId == projectId ) 
+                .OrderBy(x => x.UserName)
+                .ToList(), "Id", "UserName");
         }
 
 
@@ -163,7 +177,7 @@ namespace Openccpm.Web.Controllers
                 return NotFound();
             }
             // select用のリストを作成
-            createSelectItems();
+            createSelectItems(ticketView.ProjectId);
             ViewData["ProjectId"] = ticketView.ProjectId;
             ViewData["ProjectNo"] = ticketView.Project_ProjectNo;
             ViewData["ProjectName"] = ticketView.Project_Name;

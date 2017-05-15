@@ -38,6 +38,8 @@ namespace Openccpm.Web.Data
         public DbSet<Openccpm.Web.Models.User> User { get; set; }
 
         public DbSet<Openccpm.Web.Models.Project> Project { get; set; }
+        public DbSet<Openccpm.Web.Models.ProjectUser> ProjectUser { get; set; }
+        public DbSet<Openccpm.Web.Models.ProjectUserView> ProjectUserView { get; set; }
 
     }
 }

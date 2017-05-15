@@ -8,17 +8,25 @@ using Microsoft.EntityFrameworkCore;
 using Openccpm.Web.Data;
 using Openccpm.Web.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Openccpm.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "ProjectMembers")]
     public class ProjectsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public ProjectsController(ApplicationDbContext context)
+        public ProjectsController(
+            ApplicationDbContext context,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager     )
         {
-            _context = context;    
+            _context = context;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         // GET: Projects
@@ -40,6 +48,13 @@ namespace Openccpm.Web.Controllers
             var project = await _context.Project
                 .SingleOrDefaultAsync(m => m.Id == id || m.ProjectNo == id );
             if (project == null)
+            {
+                return NotFound();
+            }
+            // 自分の所属するプロジェクトだけを表示する
+            var userId = _userManager.GetUserId(Request.HttpContext.User);
+            var res = _context.ProjectUser.SingleOrDefault(x => x.ProjectId == project.Id && x.UserId == userId);
+            if ( res == null )
             {
                 return NotFound();
             }
