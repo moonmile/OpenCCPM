@@ -111,6 +111,12 @@ namespace Openccpm.Web.Controllers
                 project.CreatedAt = DateTime.Now;
                 _context.Add(project);
                 await _context.SaveChangesAsync();
+
+                // 自分をプロジェクトに追加して置く
+                var userId = _userManager.GetUserId(Request.HttpContext.User);
+                _context.Add(new ProjectUser() { ProjectId = project.Id, UserId = userId });
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction("Index");
             }
             return View(project);

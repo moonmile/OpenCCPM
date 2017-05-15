@@ -122,11 +122,34 @@ namespace Openccpm.Web.Controllers
         public async Task<IActionResult> Create( string id )
         {
             var project = await _context.Project.SingleOrDefaultAsync(x => x.Id == id || x.ProjectNo == id);
-            ViewData["ProjectId"] = project.Id;
-            ViewData["ProjectNo"] = project.ProjectNo;
-            ViewData["ProjectName"] = project.Name;
             createSelectItems( project.Id  );
-            return View();
+
+            // チケット番号の初期値を入れる
+            var maxTicket = await _context.TicketView
+                .Where( x => x.ProjectId == project.Id )
+                .MaxAsync(x => x.TaskNo);
+            var taskNo = "TK001";
+            if ( !string.IsNullOrEmpty( maxTicket ))
+            {
+                taskNo = string.Format("TK{0:000}", int.Parse(maxTicket.Substring(2)) + 1);
+            }
+            var userId = _userManager.GetUserId(Request.HttpContext.User);
+            var tk = new TicketView()
+            {
+                TaskNo = taskNo,
+                DoneRate = 0,
+                ProjectId = project.Id,
+                Project_Name = project.Name,
+                Project_ProjectNo = project.ProjectNo,
+                Tracker_Id = _context.Tracker.SingleOrDefault(x => x.Name == "機能").Id,
+                Status_Id = _context.Status.SingleOrDefault(x => x.Name == "新規").Id,
+                Priority_Id = _context.Priority.SingleOrDefault( x => x.Name == "標準" ).Id,
+                AssignedTo_Id = userId,
+                PlanTime = 1,
+                DoneTime = 0
+                
+            };
+            return View(tk);
         }
 
         /// <summary>
