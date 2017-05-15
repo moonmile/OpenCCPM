@@ -12,21 +12,10 @@ namespace Openccpm.Test.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class WbsItems
+    public partial class ProjectUsers
     {
         public string Id { get; set; }
-        public byte[] Version { get; set; }
-        public System.DateTimeOffset CreatedAt { get; set; }
-        public Nullable<System.DateTimeOffset> UpdatedAt { get; set; }
-        public bool Deleted { get; set; }
-        public string TaskId { get; set; }
-        public string TrackId { get; set; }
-        public string StatusId { get; set; }
-        public string PriorityId { get; set; }
-        public string AssignedId { get; set; }
-        public int DoneRate { get; set; }
-        public string AuthorId { get; set; }
-    
-        public virtual TaskItems TaskItems { get; set; }
+        public string ProjectId { get; set; }
+        public string UserId { get; set; }
     }
 }

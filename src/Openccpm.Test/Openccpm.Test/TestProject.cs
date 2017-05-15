@@ -31,6 +31,7 @@ namespace Openccpm.Test
         [TestMethod]
         public async Task TestProjectInit()
         {
+            var user = await service.LogInAsync("masuda@mail.com", "masuda");
             var items = await service.Project.GetItemsAsync();
             Assert.AreEqual(0, items.Count);
 
@@ -58,6 +59,7 @@ namespace Openccpm.Test
         [TestMethod]
         public async Task TestProjectInit2()
         {
+            var user = await service.LogInAsync("masuda@mail.com", "masuda");
             var items = await service.Project.GetItemsAsync();
             Assert.AreEqual(0, items.Count);
 
@@ -82,6 +84,7 @@ namespace Openccpm.Test
         [TestMethod]
         public async Task TestProjectDelete()
         {
+            var user = await service.LogInAsync("masuda@mail.com", "masuda");
             var items = await service.Project.GetItemsAsync();
             Assert.AreEqual(0, items.Count);
 
@@ -116,6 +119,7 @@ namespace Openccpm.Test
         [TestMethod]
         public async Task TestProjectUpdate()
         {
+            var user = await service.LogInAsync("masuda@mail.com", "masuda");
             var items = await service.Project.GetItemsAsync();
             Assert.AreEqual(0, items.Count);
 

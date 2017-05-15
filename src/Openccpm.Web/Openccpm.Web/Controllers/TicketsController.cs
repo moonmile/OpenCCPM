@@ -54,6 +54,17 @@ namespace Openccpm.Web.Controllers
             }
             else
             {
+                // 自分の所属するプロジェクトだけを表示する
+                var userId = _userManager.GetUserId(Request.HttpContext.User);
+                var cnt = _context.ProjectUserView
+                    .Where(x => x.ProjectId == id || x.ProjectNo == id)
+                    .Where(x => x.UserId == userId)
+                    .Count();
+                if (cnt == 0)
+                {
+                    return NotFound();
+                }
+
                 var project = await _context.Project.SingleOrDefaultAsync(x => x.Id == id || x.ProjectNo == id);
                 if ( project == null )
                 {
@@ -128,6 +139,7 @@ namespace Openccpm.Web.Controllers
             ViewData["TrackerItems"] = new SelectList(_context.Tracker.OrderBy(x => x.Position).ToList(), "Id", "Name");
             ViewData["StatusItems"] = new SelectList(_context.Status.OrderBy(x => x.Position).ToList(), "Id", "Name");
             ViewData["PriorityItems"] = new SelectList(_context.Priority.OrderBy(x => x.Position).ToList(), "Id", "Name");
+            // プロジェクトの所属している担当者のみ返す
             ViewData["AssignedToItems"] = new SelectList( _context.ProjectUserView.Where( x => x.ProjectId == projectId ) 
                 .OrderBy(x => x.UserName)
                 .ToList(), "Id", "UserName");

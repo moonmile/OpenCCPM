@@ -71,6 +71,8 @@ namespace Openccpm.Test
         [TestMethod]
         public async Task TestTicketInit()
         {
+            // ログインする
+            var user = await service.LogInAsync("masuda@mail.com", "masuda");
             // プロジェクトを作る
             var project = new Project() { ProjectNo = "P0100", Name = "最初のプロジェクト" };
             project = await service.Project.AddAsync(project);
@@ -139,6 +141,8 @@ namespace Openccpm.Test
         [TestMethod]
         public async Task TestTicketInit2()
         {
+            // ログインする
+            var user = await service.LogInAsync("masuda@mail.com", "masuda");
             // プロジェクトを作る
             var project = new Project() { ProjectNo = "P0100", Name = "最初のプロジェクト" };
             project = await service.Project.AddAsync(project);
@@ -207,6 +211,8 @@ namespace Openccpm.Test
         [TestMethod]
         public async Task TestTicketInit3()
         {
+            // ログインする
+            var user = await service.LogInAsync("masuda@mail.com", "masuda");
             // プロジェクトを作る
             var project1 = new Project() { ProjectNo = "P0100", Name = "最初のプロジェクト" };
             var project2 = new Project() { ProjectNo = "P0101", Name = "次のプロジェクト" };
@@ -275,6 +281,8 @@ namespace Openccpm.Test
         [TestMethod]
         public async Task TestTicketUpdate()
         {
+            // ログインする
+            var user = await service.LogInAsync("masuda@mail.com", "masuda");
             // プロジェクトを作る
             var project = new Project() { ProjectNo = "P0100", Name = "最初のプロジェクト" };
             project = await service.Project.AddAsync(project);
@@ -332,6 +340,8 @@ namespace Openccpm.Test
         [TestMethod]
         public async Task TestTicketUpdate2()
         {
+            // ログインする
+            var user = await service.LogInAsync("masuda@mail.com", "masuda");
             // プロジェクトを作る
             var project = new Project() { ProjectNo = "P0100", Name = "最初のプロジェクト" };
             project = await service.Project.AddAsync(project);
@@ -386,6 +396,8 @@ namespace Openccpm.Test
         [TestMethod]
         public async Task TestTicketUpdate3()
         {
+            // ログインする
+            var user = await service.LogInAsync("masuda@mail.com", "masuda");
             // プロジェクトを作る
             var project = new Project() { ProjectNo = "P0100", Name = "最初のプロジェクト" };
             project = await service.Project.AddAsync(project);
@@ -440,6 +452,8 @@ namespace Openccpm.Test
         [TestMethod]
         public async Task TestTicketDelete()
         {
+            // ログインする
+            var user = await service.LogInAsync("masuda@mail.com", "masuda");
             // プロジェクトを作る
             var project = new Project() { ProjectNo = "P0100", Name = "最初のプロジェクト" };
             project = await service.Project.AddAsync(project);

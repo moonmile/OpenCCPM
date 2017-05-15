@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,12 +35,22 @@ namespace Openccpm.UWP.Controllers
             var newItem = js.Deserialize<T>(jr);
             return newItem;
         }
-        public static async Task PutAsync<T>(this HttpClient client, string requestUri, T value)
+        public static async Task<TR> PostAsync<TR, T>(this HttpClient client, string requestUri, T value)
         {
-            var hc = new HttpClient();
             var json = Newtonsoft.Json.JsonConvert.SerializeObject(value);
             var cont = new StringContent(json, Encoding.UTF8, "application/json");
-            var res = await hc.PutAsync(requestUri, cont);
+            var res = await client.PostAsync(requestUri, cont);
+            var st = await res.Content.ReadAsStreamAsync();
+            var js = new Newtonsoft.Json.JsonSerializer();
+            var jr = new Newtonsoft.Json.JsonTextReader(new System.IO.StreamReader(st));
+            var newItem = js.Deserialize<TR>(jr);
+            return newItem;
+        }
+        public static async Task PutAsync<T>(this HttpClient client, string requestUri, T value)
+        {
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(value);
+            var cont = new StringContent(json, Encoding.UTF8, "application/json");
+            var res = await client.PutAsync(requestUri, cont);
             return;
         }
         public static async Task DeleteAsync(this HttpClient client, string requestUri)
@@ -64,6 +75,10 @@ namespace Openccpm.UWP.Controllers
         /// api/_tableName で呼び出す
         /// </summary>
         protected string _tableName;
+        /// <summary>
+        /// HttpClient
+        /// </summary>
+        public static HttpClient _client;
 
         public TableWebApiService( string url, string tableName )
         {
@@ -77,8 +92,7 @@ namespace Openccpm.UWP.Controllers
         /// <returns></returns>
         public async Task<List<T>> GetItemsAsync()
         {
-            var hc = new HttpClient();
-            var res = await hc.GetAsync($"{_url}/api/{_tableName}");
+            var res = await _client.GetAsync($"{_url}/api/{_tableName}");
             var st = await res.Content.ReadAsStreamAsync();
             var js = new Newtonsoft.Json.JsonSerializer();
             var jr = new Newtonsoft.Json.JsonTextReader(new System.IO.StreamReader(st));
@@ -92,8 +106,7 @@ namespace Openccpm.UWP.Controllers
         /// <returns></returns>
         public async Task<T> GetAsync(string id)
         {
-            var hc = new HttpClient();
-            var res = await hc.GetAsync($"{_url}/api/{_tableName}/{id}");
+            var res = await _client.GetAsync($"{_url}/api/{_tableName}/{id}");
             var st = await res.Content.ReadAsStreamAsync();
             var js = new Newtonsoft.Json.JsonSerializer();
             var jr = new Newtonsoft.Json.JsonTextReader(new System.IO.StreamReader(st));
@@ -107,10 +120,9 @@ namespace Openccpm.UWP.Controllers
         /// <returns></returns>
         public async Task<T> AddAsync(T item)
         {
-            var hc = new HttpClient();
             var json = Newtonsoft.Json.JsonConvert.SerializeObject(item);
             var cont = new StringContent(json, Encoding.UTF8, "application/json");
-            var res = await hc.PostAsync($"{_url}/api/{_tableName}", cont);
+            var res = await _client.PostAsync($"{_url}/api/{_tableName}", cont);
             var st = await res.Content.ReadAsStreamAsync();
             var js = new Newtonsoft.Json.JsonSerializer();
             var jr = new Newtonsoft.Json.JsonTextReader(new System.IO.StreamReader(st));
@@ -124,10 +136,9 @@ namespace Openccpm.UWP.Controllers
         /// <returns></returns>
         public async Task UpdateAsync(T item)
         {
-            var hc = new HttpClient();
             var json = Newtonsoft.Json.JsonConvert.SerializeObject(item);
             var cont = new StringContent(json, Encoding.UTF8, "application/json");
-            var res = await hc.PutAsync($"{_url}/api/{_tableName}/{item.Id}", cont);
+            var res = await _client.PutAsync($"{_url}/api/{_tableName}/{item.Id}", cont);
         }
         /// <summary>
         /// 指定IDを削除する
@@ -136,8 +147,7 @@ namespace Openccpm.UWP.Controllers
         /// <returns></returns>
         public async Task DeleteAsync(string id)
         {
-            var hc = new HttpClient();
-            var res = await hc.DeleteAsync($"{_url}/api/{_tableName}/{id}");
+            var res = await _client.DeleteAsync($"{_url}/api/{_tableName}/{id}");
         }
     }
 
@@ -157,6 +167,10 @@ namespace Openccpm.UWP.Controllers
         /// api/_tableName で呼び出す
         /// </summary>
         protected string _tableName;
+        /// <summary>
+        /// HttpClient
+        /// </summary>
+        public static HttpClient _client;
 
         public ReadOnlyTableWebApiService(string url, string tableName)
         {
@@ -170,8 +184,7 @@ namespace Openccpm.UWP.Controllers
         /// <returns></returns>
         public async Task<List<T>> GetItemsAsync()
         {
-            var hc = new HttpClient();
-            var res = await hc.GetAsync($"{_url}/api/{_tableName}");
+            var res = await _client.GetAsync($"{_url}/api/{_tableName}");
             var st = await res.Content.ReadAsStreamAsync();
             var js = new Newtonsoft.Json.JsonSerializer();
             var jr = new Newtonsoft.Json.JsonTextReader(new System.IO.StreamReader(st));
@@ -185,8 +198,7 @@ namespace Openccpm.UWP.Controllers
         /// <returns></returns>
         public async Task<T> GetAsync(string id)
         {
-            var hc = new HttpClient();
-            var res = await hc.GetAsync($"{_url}/api/{_tableName}/{id}");
+            var res = await _client.GetAsync($"{_url}/api/{_tableName}/{id}");
             var st = await res.Content.ReadAsStreamAsync();
             var js = new Newtonsoft.Json.JsonSerializer();
             var jr = new Newtonsoft.Json.JsonTextReader(new System.IO.StreamReader(st));
@@ -223,8 +235,7 @@ namespace Openccpm.UWP.Controllers
         /// <returns></returns>
         public async Task<List<TicketView>> GetItemsAsync( string projectId )
         {
-            var hc = new HttpClient();
-            var items = await hc.GetAsync<List<TicketView>>($"{_url}/api/Ticket/Project/{projectId}");
+            var items = await _client.GetAsync<List<TicketView>>($"{_url}/api/Ticket/Project/{projectId}");
             return items;
         }
     }
@@ -291,6 +302,9 @@ namespace Openccpm.UWP.Controllers
     public class TicketDrivenService
     {
         private string _url;
+        public static HttpClient _client;
+        CookieContainer _cookie;
+        User _user;
 
         public ProjectService Project { get; set; }
         public TicketService Ticket { get; set; }
@@ -311,6 +325,39 @@ namespace Openccpm.UWP.Controllers
             this.Project = new ProjectService(url);
             this.Ticket = new TicketService(url);
             this.TargetProject = null;              // 未定義状態
+            TicketDrivenService._client = new HttpClient();
+            ProjectService._client = TicketDrivenService._client;
+            TicketService._client = TicketDrivenService._client;
+        }
+
+        public async Task<bool> LogInAsync( string loginId, string password )
+        {
+            _cookie = new CookieContainer();
+            _client = new HttpClient(new HttpClientHandler { CookieContainer = _cookie });
+            var user = await _client.PostAsync<User, object>($"{_url}/api/Account/Login", 
+                new LoginParameter() { LoginId = loginId, Password = password });
+            if ( user.Name == "" )
+            {
+                return false;
+            }
+            else
+            {
+                _user = user;
+                ProjectService._client = TicketDrivenService._client;
+                TicketService._client = TicketDrivenService._client;
+                return true;
+            }
+        }
+
+        public async Task LogOutAsync()
+        {
+            await _client.GetAsync($"{_url}/api/Account/Logout");
+            _cookie = null;
+            _user = null;
+            TicketDrivenService._client = new HttpClient();
+            ProjectService._client = TicketDrivenService._client;
+            TicketService._client = TicketDrivenService._client;
+            return;
         }
 
         /// <summary>
@@ -319,6 +366,11 @@ namespace Openccpm.UWP.Controllers
         /// <returns></returns>
         public async Task Initalize(string projectId)
         {
+            TrackerService._client = TicketDrivenService._client;
+            StatusService._client  = TicketDrivenService._client;
+            PriorityService._client = TicketDrivenService._client;
+            UserService._client = TicketDrivenService._client;
+
             this.ListTracker = await new TrackerService(this._url).GetItemsAsync(projectId);
             this.ListStatus = await new StatusService(this._url).GetItemsAsync(projectId);
             this.ListPriority = await new PriorityService(this._url).GetItemsAsync(projectId);
@@ -374,9 +426,6 @@ namespace Openccpm.UWP.Controllers
             await Ticket.DeleteAsync(Id);
         }
     }
-
-
-
 
 
     public class TaskItemService

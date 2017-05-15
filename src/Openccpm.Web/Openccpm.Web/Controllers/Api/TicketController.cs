@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Openccpm.Web.Data;
 using Openccpm.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Openccpm.Web.Controllers
 {
+    [Authorize(Roles = "ProjectMembers")]
     [Produces("application/json")]
     [Route("api/Ticket")]
     public class TicketController : Controller

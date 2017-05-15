@@ -7,18 +7,28 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Openccpm.Web.Data;
 using Openccpm.Web.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Openccpm.Web.Controllers.Api
 {
+    [Authorize(Roles = "ProjectMembers")]
     [Produces("application/json")]
     [Route("api/User")]
     public class UserController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public UserController(ApplicationDbContext context)
+        public UserController(
+            ApplicationDbContext context,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager)
         {
             _context = context;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         // GET: api/User
@@ -26,6 +36,19 @@ namespace Openccpm.Web.Controllers.Api
         public IEnumerable<User> GetUser()
         {
             return _context.User;
+        }
+
+        // GET: api/User
+        [HttpGet("Project/{id}")]
+        public IEnumerable<User> GetProjectUser( string id )
+        {
+            var lst = _context.ProjectUserView.Where(x => x.ProjectId == id).OrderBy(x => x.UserName).ToList();
+            var items = new List<User>();
+            foreach ( var it in lst )
+            {
+                items.Add(new Models.User() { Id = it.Id, UserName = it.UserName });
+            }
+            return items;
         }
 
         // GET: api/User/5

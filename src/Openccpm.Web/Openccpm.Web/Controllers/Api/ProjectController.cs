@@ -7,21 +7,32 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Openccpm.Web.Data;
 using Openccpm.Web.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Openccpm.Web.Controllers
 {
+    [Authorize(Roles = "ProjectMembers")]
     [Produces("application/json")]
     [Route("api/Project")]
     public class ProjectController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public ProjectController(ApplicationDbContext context)
+        public ProjectController(
+            ApplicationDbContext context,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager)
         {
             _context = context;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         // GET: api/Project
+        [AllowAnonymous]
         [HttpGet]
         public IEnumerable<Project> GetTicket()
         {
@@ -31,12 +42,24 @@ namespace Openccpm.Web.Controllers
         }
 
         // GET: api/Project/5
+        [Authorize(Roles = "ProjectMembers")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTicket([FromRoute] string id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            // 自分の所属するプロジェクトだけを表示する
+            var userId = _userManager.GetUserId(Request.HttpContext.User);
+            var cnt = _context.ProjectUserView
+                .Where( x => x.ProjectId == id || x.ProjectNo == id ) 
+                .Where( x => x.UserId == userId)
+                .Count();
+            if (cnt == 0)
+            {
+                return BadRequest();
             }
 
             var item = await _context.Project.SingleOrDefaultAsync(x => x.Id == id || x.ProjectNo == id);
@@ -48,6 +71,7 @@ namespace Openccpm.Web.Controllers
         }
 
         // PUT: api/Project/5
+        [Authorize(Roles = "ProjectAdministrators")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTicket([FromRoute] string id, [FromBody] Project project)
         {
@@ -84,6 +108,7 @@ namespace Openccpm.Web.Controllers
         }
 
         // POST: api/Project
+        [Authorize(Roles = "ProjectAdministrators")]
         [HttpPost]
         public async Task<IActionResult> PostTicket([FromBody] Project project)
         {
@@ -95,11 +120,17 @@ namespace Openccpm.Web.Controllers
             project.CreatedAt = DateTime.Now;
             _context.Add(project);
             await _context.SaveChangesAsync();
+            // 自分をプロジェクトに追加する
+            var userId = _userManager.GetUserId(Request.HttpContext.User);
+            var projUser = new ProjectUser() { ProjectId = project.Id, UserId = userId };
+            _context.Add(projUser);
+            await _context.SaveChangesAsync();
 
             return await GetTicket(project.Id);
         }
 
         // DELETE: api/Task/5
+        [Authorize(Roles = "ProjectAdministrators")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTicket([FromRoute] string id)
         {

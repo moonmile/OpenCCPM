@@ -72,7 +72,7 @@ namespace Openccpm.Web
                 // ユーザー名にメールアドレスを利用するため
                 options.User.RequireUniqueEmail = true;
                 // cookie の設定
-                options.Cookies.ApplicationCookie.CookieName = "SampleAuthCookie";
+                options.Cookies.ApplicationCookie.CookieName = "OpenccpmAuthCookie";
                 options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(150);       // 150日間有効
                 options.Cookies.ApplicationCookie.LoginPath = "/Account/LogIn";                  // ログイン
                 options.Cookies.ApplicationCookie.LogoutPath = "/Account/LogOff";                // ログアウト

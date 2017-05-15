@@ -31,12 +31,12 @@ namespace Openccpm.Test.Models
         public virtual DbSet<Priorities> Priorities { get; set; }
         public virtual DbSet<Statuses> Statuses { get; set; }
         public virtual DbSet<Trackers> Trackers { get; set; }
-        public virtual DbSet<WbsItems> WbsItems { get; set; }
         public virtual DbSet<TaskItems> TaskItems { get; set; }
-        public virtual DbSet<WbsViews> WbsView { get; set; }
         public virtual DbSet<Projects> Projects { get; set; }
         public virtual DbSet<UserView> UserView { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<TicketItems> TicketItems { get; set; }
+        public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
+        public virtual DbSet<ProjectUsers> ProjectUsers { get; set; }
     }
 }
