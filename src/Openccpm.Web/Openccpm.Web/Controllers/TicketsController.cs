@@ -40,6 +40,7 @@ namespace Openccpm.Web.Controllers
         }
 
 
+
         // GET: Tickets
         public async Task<IActionResult> Index( string id, [FromQuery] string trackerid, [FromQuery] int? isclosed )
         {
@@ -300,4 +301,10 @@ namespace Openccpm.Web.Controllers
         }
     }
 
+    public class MyView
+    {
+        public string Id { get; set; }
+        public string ProjectId { get; set; }
+        public string ProjectNo { get; set; }
+    }
 }

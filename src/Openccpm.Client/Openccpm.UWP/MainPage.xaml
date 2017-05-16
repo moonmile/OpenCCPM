@@ -84,5 +84,10 @@
             Text="{Binding Project.ProjectNo}" VerticalAlignment="Top" Width="112" Height="40"/>
         <Views:TicketDetail x:Name="ticketDetail" Margin="10" Grid.Row="2" Grid.ColumnSpan="2"/>
         <Views:TicketEdit   x:Name="ticketEdit" Visibility="Collapsed"  Margin="10" Grid.Row="2"  Grid.ColumnSpan="2"/>
+        <Views:LoginView 
+            x:Name="loginView"
+            Background="White"
+            Visibility="Collapsed"
+            HorizontalAlignment="Left" Height="231" Margin="-172,47,0,0" VerticalAlignment="Top" Width="948" Grid.Column="1" Grid.Row="1"/>
     </Grid>
 </Page>
