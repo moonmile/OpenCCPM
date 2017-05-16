@@ -1,4 +1,4 @@
-﻿using Openccpm.Web.Models;
+﻿using Openccpm.Lib.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
+/*
 namespace Openccpm.UWP.Controllers
 {
 
@@ -565,3 +566,4 @@ namespace Openccpm.UWP.Controllers
         }
     }
 }
+*/

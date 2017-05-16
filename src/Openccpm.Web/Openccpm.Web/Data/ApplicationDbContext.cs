@@ -23,23 +23,22 @@ namespace Openccpm.Web.Data
             // Add your customizations after calling base.OnModelCreating(builder);
         }
 
-        public DbSet<Openccpm.Web.Models.TaskItem> TaskItem { get; set; }
-        public DbSet<Openccpm.Web.Models.TicketItem> TicketItem { get; set; }
-        public DbSet<Openccpm.Web.Models.TicketView> TicketView { get; set; }
+        public DbSet<Openccpm.Lib.Models.TaskItem> TaskItem { get; set; }
+        public DbSet<Openccpm.Lib.Models.TicketItem> TicketItem { get; set; }
+        public DbSet<Openccpm.Lib.Models.TicketView> TicketView { get; set; }
 
 
-        public DbSet<Openccpm.Web.Models.StartEndTime> StartEndTime { get; set; }
-        public DbSet<Openccpm.Web.Models.TaskTree> TaskTree { get; set; }
-        public DbSet<Openccpm.Web.Models.TaskPert> TaskPert { get; set; }
+        public DbSet<Openccpm.Lib.Models.StartEndTime> StartEndTime { get; set; }
+        public DbSet<Openccpm.Lib.Models.TaskTree> TaskTree { get; set; }
+        public DbSet<Openccpm.Lib.Models.TaskPert> TaskPert { get; set; }
 
-        public DbSet<Openccpm.Web.Models.Tracker> Tracker { get; set; }
-        public DbSet<Openccpm.Web.Models.Status> Status { get; set; }
-        public DbSet<Openccpm.Web.Models.Priority> Priority { get; set; }
-        public DbSet<Openccpm.Web.Models.User> User { get; set; }
+        public DbSet<Openccpm.Lib.Models.Tracker> Tracker { get; set; }
+        public DbSet<Openccpm.Lib.Models.Status> Status { get; set; }
+        public DbSet<Openccpm.Lib.Models.Priority> Priority { get; set; }
+        public DbSet<Openccpm.Lib.Models.User> User { get; set; }
 
-        public DbSet<Openccpm.Web.Models.Project> Project { get; set; }
-        public DbSet<Openccpm.Web.Models.ProjectUser> ProjectUser { get; set; }
-        public DbSet<Openccpm.Web.Models.ProjectUserView> ProjectUserView { get; set; }
-
+        public DbSet<Openccpm.Lib.Models.Project> Project { get; set; }
+        public DbSet<Openccpm.Lib.Models.ProjectUser> ProjectUser { get; set; }
+        public DbSet<Openccpm.Lib.Models.ProjectUserView> ProjectUserView { get; set; }
     }
 }

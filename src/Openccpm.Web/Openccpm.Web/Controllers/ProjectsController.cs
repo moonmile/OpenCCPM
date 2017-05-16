@@ -9,6 +9,7 @@ using Openccpm.Web.Data;
 using Openccpm.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Openccpm.Lib.Models;
 
 namespace Openccpm.Web.Controllers
 {

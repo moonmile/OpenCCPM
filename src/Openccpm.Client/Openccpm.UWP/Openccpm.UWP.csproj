@@ -92,9 +92,6 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\..\Openccpm.Web\Openccpm.Web\Models\TaskItem.cs">
-      <Link>Models\TaskItem.cs</Link>
-    </Compile>
     <Compile Include="..\Openccpm.WPF\ViewModels\MainViewModel.cs">
       <Link>ViewModels\MainViewModel.cs</Link>
     </Compile>
@@ -165,7 +162,10 @@
       <Version>10.0.2</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+  <Import Project="..\..\Openccpm.Web\Openccpm.Lib\Openccpm.Lib.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

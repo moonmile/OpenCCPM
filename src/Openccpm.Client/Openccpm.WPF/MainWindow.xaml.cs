@@ -1,5 +1,5 @@
-﻿using Openccpm.UWP.Controllers;
-using Openccpm.Web.Models;
+﻿using Openccpm.Lib.Services;
+using Openccpm.Lib.Models;
 using Openccpm.WPF.ViewModels;
 using System;
 using System.Collections.Generic;
