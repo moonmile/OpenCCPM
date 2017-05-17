@@ -21,11 +21,11 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>MinimumOSVersion</key>
-	<string>8.0</string>
+	<string>9.3</string>
 	<key>CFBundleDisplayName</key>
-	<string>Openccpm.XForms</string>
+	<string>OpenCCPM</string>
 	<key>CFBundleIdentifier</key>
-	<string>net.moonmile.Openccpm-iOS</string>
+	<string>net.moonmile.Openccpm-XForms-iOS</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>CFBundleIconFiles</key>
