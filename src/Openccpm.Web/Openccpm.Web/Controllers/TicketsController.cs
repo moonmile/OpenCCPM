@@ -167,7 +167,7 @@ namespace Openccpm.Web.Controllers
             // プロジェクトの所属している担当者のみ返す
             ViewData["AssignedToItems"] = new SelectList( _context.ProjectUserView.Where( x => x.ProjectId == projectId ) 
                 .OrderBy(x => x.UserName)
-                .ToList(), "Id", "UserName");
+                .ToList(), "UserId", "UserName");
         }
 
 

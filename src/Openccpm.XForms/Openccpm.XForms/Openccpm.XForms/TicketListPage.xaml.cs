@@ -62,7 +62,9 @@ namespace Openccpm.XForms
             var item = args.SelectedItem as TicketView;
             if (item == null)
                 return;
+
             await Navigation.PushAsync(new TicketDetailPage(item));
+            listView.SelectedItem = null;
         }
 
     }

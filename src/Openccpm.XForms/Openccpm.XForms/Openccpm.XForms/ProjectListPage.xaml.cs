@@ -50,12 +50,12 @@ namespace Openccpm.XForms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
+        void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
         {
             var item = args.SelectedItem as Project;
             if (item == null)
                 return;
-            await Navigation.PushAsync(new TicketListPage(item));
+            Navigation.PushAsync(new TicketListPage(item));
         }
 
 
