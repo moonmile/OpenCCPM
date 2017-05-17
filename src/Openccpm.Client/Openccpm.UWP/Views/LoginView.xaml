@@ -1,0 +1,30 @@
+﻿<UserControl
+    x:Class="Openccpm.UWP.Views.LoginView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Openccpm.UWP.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="1" Margin="3" TextWrapping="Wrap" Text="ユーザー名" TextAlignment="Right" Grid.Row="1"/>
+        <TextBlock Grid.Column="1" Margin="3" TextWrapping="Wrap" Text="パスワード" TextAlignment="Right" Grid.Row="2"/>
+        <TextBox Grid.Column="2" Margin="3" TextWrapping="Wrap" Text="{Binding LoginId, Mode=TwoWay}" Grid.Row="1"/>
+        <TextBox Grid.Column="2" Margin="3" TextWrapping="Wrap" Text="{Binding Password, Mode=TwoWay}" Grid.Row="2"/>
+        <Button Click="OnClickLogin" Content="ログイン" Grid.Column="3" Margin="0,0,94,10" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Right" Width="75" Height="60" VerticalAlignment="Bottom"/>
+    </Grid>
+</UserControl>

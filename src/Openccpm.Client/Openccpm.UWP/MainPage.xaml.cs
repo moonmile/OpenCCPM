@@ -1,5 +1,5 @@
-﻿using Openccpm.UWP.Controllers;
-using Openccpm.Web.Models;
+﻿using Openccpm.Lib.Services;
+using Openccpm.Lib.Models;
 using Openccpm.WPF.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -39,15 +39,13 @@ namespace Openccpm.UWP
         TicketDrivenService service;
         MainViewModel viewModel;
         TicketViewModel viewModelTicket;
+        LoginParameter vmloginParam;
 
-        private async void MainPage_Loaded(object sender, RoutedEventArgs e)
+        private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
             service = new TicketDrivenService(_url);
             viewModel = new MainViewModel();
             this.DataContext = viewModel;
-            // プロジェクトのリストを取得
-            viewModel.Projects = await service.Project.GetItemsAsync();
-
 
             ticketDetail.OnEdit += (s, ee) => {
                 ticketDetail.Visibility = Visibility.Collapsed;
@@ -61,7 +59,29 @@ namespace Openccpm.UWP
             ticketEdit.OnSave += TicketEdit_OnSave;
             ticketDetail.OnNew += TicketDetail_OnNew;
 
+            vmloginParam = new LoginParameter();
+            loginView.DataContext = vmloginParam;
+            loginView.OnLogin += LoginView_OnLogin;
+            loginView.Visibility = Visibility.Visible;
+
         }
+
+        /// <summary>
+        /// ログイン時
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void LoginView_OnLogin(object sender, EventArgs e)
+        {
+            var result = await service.LogInAsync(vmloginParam.LoginId, vmloginParam.Password);
+            if (result == false)
+                return;
+
+            // プロジェクトのリストを取得
+            viewModel.Projects = await service.Project.GetItemsAsync();
+            loginView.Visibility = Visibility.Collapsed;
+        }
+
         /// <summary>
         /// プロジェクトの選択時
         /// </summary>

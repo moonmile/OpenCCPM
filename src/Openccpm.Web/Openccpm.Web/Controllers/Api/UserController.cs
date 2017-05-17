@@ -9,6 +9,7 @@ using Openccpm.Web.Data;
 using Openccpm.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Openccpm.Lib.Models;
 
 namespace Openccpm.Web.Controllers.Api
 {
@@ -46,7 +47,7 @@ namespace Openccpm.Web.Controllers.Api
             var items = new List<User>();
             foreach ( var it in lst )
             {
-                items.Add(new Models.User() { Id = it.Id, UserName = it.UserName });
+                items.Add(new User() { Id = it.Id, UserName = it.UserName });
             }
             return items;
         }

@@ -2,9 +2,9 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Openccpm.Test.Models;
 using System.Linq;
-using Openccpm.UWP.Controllers;
 using System.Threading.Tasks;
-using Openccpm.Web.Models;
+using Openccpm.Lib.Models;
+using Openccpm.Lib.Services;
 
 namespace Openccpm.Test
 {

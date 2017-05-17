@@ -1,4 +1,4 @@
-﻿using Openccpm.Web.Models;
+﻿using Openccpm.Lib.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -93,7 +93,6 @@ namespace Openccpm.WPF.ViewModels
             var changed = PropertyChanged;
             if (changed == null)
                 return;
-
             changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }

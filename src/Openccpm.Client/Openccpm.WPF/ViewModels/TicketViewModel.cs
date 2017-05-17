@@ -1,4 +1,4 @@
-﻿using Openccpm.Web.Models;
+﻿using Openccpm.Lib.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

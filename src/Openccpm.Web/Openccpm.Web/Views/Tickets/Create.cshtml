@@ -1,10 +1,10 @@
-﻿@model Openccpm.Web.Models.TicketView
+﻿@model Openccpm.Lib.Models.TicketView
 
 @{
     ViewData["Title"] = "Create";
 }
 
-<h2>@ViewBag.ProjectNo @ViewBag.ProjectName 新しいチケット</h2>
+<h2>@Model.Project_ProjectNo @Model.Project_Name 新しいチケット</h2>
 
 <form asp-action="Create">
     <div class="form-horizontal">
@@ -29,7 +29,7 @@
         <div class="form-group">
             <label asp-for="Description" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Description" class="form-control" />
+                <textarea asp-for="Description" class="form-control" cols="5"  style="height:8em;max-width:600px"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
         </div>
@@ -108,8 +108,8 @@
         <input type="hidden" asp-for="CreatedAt" />
         <input type="hidden" asp-for="UpdatedAt" />
         <input type="hidden" asp-for="Deleted" />
-        <input type="hidden" asp-for="ProjectId" value="@ViewBag.ProjectId" />
-        <input type="hidden" asp-for="Project_ProjectNo" value="@ViewBag.ProjectNo" />
+        <input type="hidden" asp-for="ProjectId" value="@Model.ProjectId" />
+        <input type="hidden" asp-for="Project_ProjectNo" value="@Model.Project_ProjectNo" />
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

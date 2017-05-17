@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Openccpm.Web.Data;
 using Openccpm.Web.Models;
+using Openccpm.Lib.Models;
 
 namespace Openccpm.Web.Controllers.Api
 {

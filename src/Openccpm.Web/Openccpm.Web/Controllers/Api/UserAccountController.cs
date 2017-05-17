@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Openccpm.Web.Models;
+using Openccpm.Lib.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
+using Openccpm.Web.Models;
 
 namespace Openccpm.Web.Controllers.Api
 {
@@ -38,7 +39,7 @@ namespace Openccpm.Web.Controllers.Api
             if (result.Succeeded)
             {
                 var appUser = await _userManager.FindByEmailAsync(login.LoginId);
-
+                
                 var user = new User()
                 {
                     Id = appUser.Id,

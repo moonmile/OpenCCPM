@@ -5,7 +5,12 @@ VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Openccpm.Web", "Openccpm.Web\Openccpm.Web.csproj", "{CFF66788-A468-4BEB-A4EC-8CED9A74498A}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Openccpm.Lib", "Openccpm.Lib\Openccpm.Lib.shproj", "{E95095E4-9C28-4C3A-82E9-B7EAD57F7094}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Openccpm.Lib\Openccpm.Lib.projitems*{e95095e4-9c28-4c3a-82e9-b7ead57f7094}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
