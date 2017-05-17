@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Openccpm.XForms.TicketDetailPage"
+             Title="{Binding Title}"
+             >
+
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Spacing="20" Padding="15">
+                <Label Text="チケット番号" FontSize="Medium" />
+                <Label Text="{Binding Ticket.TaskNo}" FontSize="Small" />
+                <Label Text="題名" FontSize="Medium" />
+                <Label Text="{Binding Ticket.Subject}" FontSize="Small" />
+                <Label Text="説明" FontSize="Medium" />
+                <Label Text="{Binding Ticket.Description}" FontSize="Small" />
+                <Label Text="予定時間" FontSize="Medium" />
+                <Label Text="{Binding Ticket.PlanTime}" FontSize="Small" />
+                <Label Text="実績時間" FontSize="Medium" />
+                <Label Text="{Binding Ticket.DoneTime}" FontSize="Small" />
+                <Label Text="分類" FontSize="Medium" />
+                <Label Text="{Binding Ticket.Tracker_Name}" FontSize="Small" />
+                <Label Text="状態" FontSize="Medium" />
+                <Label Text="{Binding Ticket.Status_Name}" FontSize="Small" />
+                <Label Text="優先度" FontSize="Medium" />
+                <Label Text="{Binding Ticket.Priority_Name}" FontSize="Small" />
+                <Label Text="担当者" FontSize="Medium" />
+                <Label Text="{Binding Ticket.AssignedTo_UserName}" FontSize="Small" />
+                <Label Text="進捗率" FontSize="Medium" />
+                <Label Text="{Binding Ticket.DoneRate}" FontSize="Small" />
+                <Label Text="開始日" FontSize="Medium" />
+                <Label Text="{Binding Ticket.StartDate}" FontSize="Small" />
+                <Label Text="期日" FontSize="Medium" />
+                <Label Text="{Binding Ticket.DueDate}" FontSize="Small" />
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

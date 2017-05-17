@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Openccpm.XForms"
+             x:Class="Openccpm.XForms.MainPage"
+             Title="ログインページ">
+
+    <StackLayout Spacing="20" Padding="15">
+        <Label Text="ユーザー名" FontSize="Medium" />
+        <Entry Text="{Binding Login.LoginId, Mode=TwoWay}" FontSize="Small" />
+
+        <Label Text="パスワード" FontSize="Medium" />
+        <Entry Text="{Binding Login.Password, Mode=TwoWay}" FontSize="Small" />
+
+        <Button Text="ログイン" Clicked="Login_Clicked" />
+    </StackLayout>
+
+</ContentPage>
