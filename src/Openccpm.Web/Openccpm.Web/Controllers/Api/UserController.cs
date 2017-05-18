@@ -47,7 +47,7 @@ namespace Openccpm.Web.Controllers.Api
             var items = new List<User>();
             foreach ( var it in lst )
             {
-                items.Add(new User() { Id = it.Id, UserName = it.UserName });
+                items.Add(new User() { Id = it.UserId, UserName = it.UserName });
             }
             return items;
         }
