@@ -291,7 +291,8 @@ namespace Openccpm.Lib.Services
         }
         public async Task<List<User>> GetItemsAsync(string projectId)
         {
-            return await GetItemsAsync();
+            var items = await _client.GetAsync<List<User>>($"{_url}/api/User/Project/{projectId}");
+            return items;
         }
     }
 

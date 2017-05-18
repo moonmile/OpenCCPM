@@ -33,17 +33,22 @@ namespace Openccpm.Web.Controllers.Api
         }
 
         // GET: api/User
+        // セキュリティ上、すべてのユーザーは取得できない。
+#if false
+         
         [HttpGet]
         public IEnumerable<User> GetUser()
         {
             return _context.User;
         }
-
+#endif
         // GET: api/User
         [HttpGet("Project/{id}")]
         public IEnumerable<User> GetProjectUser( string id )
         {
-            var lst = _context.ProjectUserView.Where(x => x.ProjectId == id).OrderBy(x => x.UserName).ToList();
+            var lst = _context.ProjectUserView
+                .Where(x => x.ProjectId == id || x.ProjectNo == id)
+                .OrderBy(x => x.UserName).ToList();
             var items = new List<User>();
             foreach ( var it in lst )
             {
