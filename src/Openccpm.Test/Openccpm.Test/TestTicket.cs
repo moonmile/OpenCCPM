@@ -82,7 +82,7 @@ namespace Openccpm.Test
             var trId = service.ListTracker.SingleOrDefault(x => x.Name == "機能")?.Id;
             var stId = service.ListStatus.SingleOrDefault(x => x.Name == "新規")?.Id;
             var prId = service.ListPriority.SingleOrDefault(x => x.Name == "標準")?.Id;
-            var userId = service.ListAssignTo.SingleOrDefault(x => x.UserName == "管理者")?.Id;
+            var userId = service.ListAssignTo.SingleOrDefault(x => x.UserName == "増田(管理)")?.Id;
 
             // チケットを追加する
             var ticket = new TicketView()
@@ -131,7 +131,7 @@ namespace Openccpm.Test
             Assert.AreEqual("機能", ticket.Tracker.Name);
             Assert.AreEqual("新規", ticket.Status.Name);
             Assert.AreEqual("標準", ticket.Priority.Name);
-            Assert.AreEqual("管理者", ticket.AssignedTo.UserName);
+            Assert.AreEqual("増田(管理)", ticket.AssignedTo.UserName);
         }
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace Openccpm.Test
             var trId = service.ListTracker.SingleOrDefault(x => x.Name == "機能")?.Id;
             var stId = service.ListStatus.SingleOrDefault(x => x.Name == "新規")?.Id;
             var prId = service.ListPriority.SingleOrDefault(x => x.Name == "標準")?.Id;
-            var userId = service.ListAssignTo.SingleOrDefault(x => x.UserName == "管理者")?.Id;
+            var userId = service.ListAssignTo.SingleOrDefault(x => x.UserName == "増田(管理)")?.Id;
 
             // チケットを追加する
             var ticket1 = new TicketView()
@@ -345,14 +345,20 @@ namespace Openccpm.Test
             // プロジェクトを作る
             var project = new Project() { ProjectNo = "P0100", Name = "最初のプロジェクト" };
             project = await service.Project.AddAsync(project);
+            // プロジェクトに「ゲスト」を追加する
+            var admin = context.AspNetUsers.SingleOrDefault(x => x.UserName == "管理者").Id;
+            var guest = context.AspNetUsers.SingleOrDefault(x => x.UserName == "ゲスト").Id;
+            context.ProjectUsers.Add(new ProjectUsers() { ProjectId = project.Id, UserId = guest });
+
+
             // トラッカー等を取得
             await service.Initalize(project.Id);
 
             var trId = service.ListTracker.SingleOrDefault(x => x.Name == "機能")?.Id;
             var stId = service.ListStatus.SingleOrDefault(x => x.Name == "新規")?.Id;
             var prId = service.ListPriority.SingleOrDefault(x => x.Name == "標準")?.Id;
-            var admin = service.ListAssignTo.SingleOrDefault(x => x.UserName == "管理者")?.Id;
-            var guest = service.ListAssignTo.SingleOrDefault(x => x.UserName == "ゲスト")?.Id;
+            // var admin = service.ListAssignTo.SingleOrDefault(x => x.UserName == "管理者")?.Id;
+            // var guest = service.ListAssignTo.SingleOrDefault(x => x.UserName == "ゲスト")?.Id;
 
             // チケットを追加する
             var ticket = new TicketView()

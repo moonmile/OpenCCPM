@@ -42,6 +42,16 @@ namespace Openccpm.Web.Controllers
                 .OrderByDescending( x => x.CreatedAt );
         }
 
+        bool IsIncludeProject(string id)
+        {
+            var userId = _userManager.GetUserId(Request.HttpContext.User);
+            var cnt = _context.ProjectUserView
+                .Where(x => x.ProjectId == id || x.ProjectNo == id)
+                .Where(x => x.UserId == userId)
+                .Count();
+            return cnt > 0;
+        }
+
         // GET: api/Project/5
         [Authorize(Roles = "ProjectMembers")]
         [HttpGet("{id}")]
@@ -53,12 +63,7 @@ namespace Openccpm.Web.Controllers
             }
 
             // 自分の所属するプロジェクトだけを表示する
-            var userId = _userManager.GetUserId(Request.HttpContext.User);
-            var cnt = _context.ProjectUserView
-                .Where( x => x.ProjectId == id || x.ProjectNo == id ) 
-                .Where( x => x.UserId == userId)
-                .Count();
-            if (cnt == 0)
+            if (!IsIncludeProject(id))
             {
                 return BadRequest();
             }

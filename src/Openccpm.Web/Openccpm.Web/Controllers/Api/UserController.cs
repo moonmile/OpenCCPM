@@ -42,18 +42,20 @@ namespace Openccpm.Web.Controllers.Api
             return _context.User;
         }
 #endif
+
         // GET: api/User
         [HttpGet("Project/{id}")]
         public IEnumerable<User> GetProjectUser( string id )
         {
-            var lst = _context.ProjectUserView
+            var items = _context.ProjectUserView
                 .Where(x => x.ProjectId == id || x.ProjectNo == id)
-                .OrderBy(x => x.UserName).ToList();
-            var items = new List<User>();
-            foreach ( var it in lst )
-            {
-                items.Add(new User() { Id = it.UserId, UserName = it.UserName });
-            }
+                .OrderBy(x => x.UserName)
+                .Select(x => new User()
+                {
+                    Id = x.UserId,
+                    UserName = x.UserName
+                })
+                .ToList();
             return items;
         }
 
@@ -66,7 +68,7 @@ namespace Openccpm.Web.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            var user = await _context.User.SingleOrDefaultAsync(m => m.Id == id);
+            var user = await _context.User.SingleOrDefaultAsync(x => x.Id == id);
 
             if (user == null)
             {

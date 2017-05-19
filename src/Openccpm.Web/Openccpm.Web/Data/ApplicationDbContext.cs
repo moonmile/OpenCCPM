@@ -13,6 +13,7 @@ namespace Openccpm.Web.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+            initView();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -35,10 +36,39 @@ namespace Openccpm.Web.Data
         public DbSet<Openccpm.Lib.Models.Tracker> Tracker { get; set; }
         public DbSet<Openccpm.Lib.Models.Status> Status { get; set; }
         public DbSet<Openccpm.Lib.Models.Priority> Priority { get; set; }
-        public DbSet<Openccpm.Lib.Models.User> User { get; set; }
 
         public DbSet<Openccpm.Lib.Models.Project> Project { get; set; }
         public DbSet<Openccpm.Lib.Models.ProjectUser> ProjectUser { get; set; }
-        public DbSet<Openccpm.Lib.Models.ProjectUserView> ProjectUserView { get; set; }
+
+
+        // 利便性のためにビューを作る
+        public IQueryable<Openccpm.Lib.Models.ProjectUserView> ProjectUserView { get; set; }
+        public IQueryable<Openccpm.Lib.Models.User> User { get; set; }
+
+        private void initView()
+        {
+            ProjectUserView =
+                from pu in ProjectUser
+                join p in Project on pu.ProjectId equals p.Id
+                join u in Users on pu.UserId equals u.Id
+                select new Openccpm.Lib.Models.ProjectUserView()
+                {
+                    ProjectId = p.Id,
+                    ProjectNo = p.ProjectNo,
+                    ProjectName = p.Name,
+                    UserId = u.Id,
+                    UserName = u.UserName
+                };
+
+            // 直接 Users を扱うのは面倒なので User を再定義する
+            User =
+                from u in Users
+                select new Openccpm.Lib.Models.User()
+                {
+                    Id = u.Id,
+                    Email = u.Email,
+                    UserName = u.UserName
+                };
+        }
     }
 }
