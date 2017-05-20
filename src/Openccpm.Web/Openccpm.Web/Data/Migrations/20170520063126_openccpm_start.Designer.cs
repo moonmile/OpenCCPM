@@ -8,8 +8,8 @@ using Openccpm.Web.Data;
 namespace Openccpm.Web.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170501025818_first")]
-    partial class first
+    [Migration("20170520063126_openccpm_start")]
+    partial class openccpm_start
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -124,6 +124,168 @@ namespace Openccpm.Web.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Openccpm.Lib.Models.Priority", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset?>("CreatedAt");
+
+                    b.Property<bool>("Deleted");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("Position");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt");
+
+                    b.Property<byte[]>("Version")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Priorities");
+                });
+
+            modelBuilder.Entity("Openccpm.Lib.Models.Project", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset?>("CreatedAt");
+
+                    b.Property<bool>("Deleted");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("ProjectNo");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt");
+
+                    b.Property<byte[]>("Version")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Projects");
+                });
+
+            modelBuilder.Entity("Openccpm.Lib.Models.ProjectUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ProjectId");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProjectUsers");
+                });
+
+            modelBuilder.Entity("Openccpm.Lib.Models.Status", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset?>("CreatedAt");
+
+                    b.Property<bool>("Deleted");
+
+                    b.Property<bool>("IsClosed");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("Position");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt");
+
+                    b.Property<byte[]>("Version")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Statuses");
+                });
+
+            modelBuilder.Entity("Openccpm.Lib.Models.TicketItem", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AssignedToId");
+
+                    b.Property<string>("AuthorId");
+
+                    b.Property<DateTimeOffset?>("CreatedAt");
+
+                    b.Property<bool>("Deleted");
+
+                    b.Property<string>("Description");
+
+                    b.Property<int>("DoneRate");
+
+                    b.Property<double?>("DoneTime");
+
+                    b.Property<DateTimeOffset?>("DueDate");
+
+                    b.Property<double?>("PlanTime");
+
+                    b.Property<string>("PriorityId");
+
+                    b.Property<string>("ProjectId");
+
+                    b.Property<DateTimeOffset?>("StartDate");
+
+                    b.Property<string>("StatusId");
+
+                    b.Property<string>("Subject");
+
+                    b.Property<string>("TicketNo");
+
+                    b.Property<string>("TrackerId");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt");
+
+                    b.Property<byte[]>("Version")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TicketItems");
+                });
+
+            modelBuilder.Entity("Openccpm.Lib.Models.Tracker", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset?>("CreatedAt");
+
+                    b.Property<bool>("Deleted");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("Position");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt");
+
+                    b.Property<byte[]>("Version")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Trackers");
+                });
+
             modelBuilder.Entity("Openccpm.Web.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -172,32 +334,6 @@ namespace Openccpm.Web.Data.Migrations
                         .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("Openccpm.Web.Models.TaskItem", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTimeOffset?>("CreatedAt")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("Deleted");
-
-                    b.Property<string>("Desc");
-
-                    b.Property<string>("Title");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .ValueGeneratedOnAddOrUpdate();
-
-                    b.Property<byte[]>("Version")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TaskItem");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>

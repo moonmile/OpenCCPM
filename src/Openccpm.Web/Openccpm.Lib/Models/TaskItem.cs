@@ -73,6 +73,7 @@ namespace Openccpm.Lib.Models
 
     }
 
+    [NotMapped]
     public class TicketView : TicketItem
     {
         [Display(Name = "プロジェクト番号")]
@@ -145,6 +146,7 @@ namespace Openccpm.Lib.Models
     /// <summary>
     /// ユーザー情報
     /// </summary>
+    [NotMapped]
     public class User
     {
         public string Id { get; set; }
@@ -175,6 +177,7 @@ namespace Openccpm.Lib.Models
         public string UserId { get; set; }
     }
 
+    [NotMapped]
     public class ProjectUserView
     {
         public string ProjectId { get; set; }

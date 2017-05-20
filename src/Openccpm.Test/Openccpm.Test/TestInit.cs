@@ -59,12 +59,14 @@ namespace Openccpm.Test
                 context.AspNetRoles.Add(new AspNetRoles() { Id = "3376DBBD-E2B2-4523-8F56-4AF17188421F", Name = "Administrators", NormalizedName = "ADMINISTRATORS" });
                 context.AspNetRoles.Add(new AspNetRoles() { Id = "6591818A-8C8D-4888-8941-09A70A344EB7", Name = "Anonymous", NormalizedName = "ANONYMOUS" });
             }
+            context.SaveChanges();
             if (context.AspNetUsers.Count() == 0)
             {
                 context.AspNetUsers.Add(new AspNetUsers() { Id = "b366afc2-bcac-43c0-bc9d-cd0c43c0f101", Email = "masuda@mail.com", UserName = "増田(管理)", NormalizedEmail = "MASUDA@MAIL.COM", NormalizedUserName = "MASUDA@MAIL.COM", PasswordHash = "AQAAAAEAACcQAAAAEHzCQ/3CpoxtZU6BpJBns2/QMaFNdZI2iA3+nZZK3Jl6tYFUD2hDfMTi8T+0aetp4g==", ConcurrencyStamp = Guid.NewGuid().ToString(), SecurityStamp = Guid.NewGuid().ToString() });
                 context.AspNetUsers.Add(new AspNetUsers() { Id = "9e30fb21-2a41-4f60-8930-9cf205880c81", Email = "tomoaki@mail.com", UserName = "智明", NormalizedEmail = "TOMOAKI@MAIL.COM", NormalizedUserName = "TOMOAKI@MAIL.COM", PasswordHash = "AQAAAAEAACcQAAAAEJZvZpfC/1zm+Pqtt7W8ZNS30wPzhX4lvRaMeKnj84owmjGr9n1taZ77LLhN9stBeg==", ConcurrencyStamp = Guid.NewGuid().ToString(), SecurityStamp = Guid.NewGuid().ToString() });
                 context.AspNetUsers.Add(new AspNetUsers() { Id = "fef8beea-44b9-4e25-9db0-8b782be7b731", Email = "admin@mail.com", UserName = "管理者", NormalizedEmail = "ADMIN@MAIL.COM", NormalizedUserName = "ADMIN@MAIL.COM", PasswordHash = "AQAAAAEAACcQAAAAEKStDa5Soa8QOrUi3OlCOso4SG6g4yGoXjILQx0bO2HmmKOcFpDLbwmhoa8cgG7UmA==", ConcurrencyStamp = Guid.NewGuid().ToString(), SecurityStamp = Guid.NewGuid().ToString() });
                 context.AspNetUsers.Add(new AspNetUsers() { Id = "e0283b6a-d514-414e-8dce-2ae61a62dd33", Email = "guest@mail.com", UserName = "ゲスト", NormalizedEmail = "GUEST@MAIL.COM", NormalizedUserName = "GUEST@MAIL.COM", PasswordHash = "AQAAAAEAACcQAAAAEDYEyvmb8mTM4PqwRd7hA9E+hn+x5ryQcNBxHlx8rUBYVTHPH7OpPgVnA/53GyCRMA==", ConcurrencyStamp = Guid.NewGuid().ToString(), SecurityStamp = Guid.NewGuid().ToString() });
+                context.SaveChanges();
                 context.Database.ExecuteSqlCommand("delete from AspNetUserRoles");
                 context.Database.ExecuteSqlCommand("insert into AspNetUserRoles values ('b366afc2-bcac-43c0-bc9d-cd0c43c0f101', '1BD00BD1-C112-4DC7-82BE-0CDEAC1720A4')");
                 context.Database.ExecuteSqlCommand("insert into AspNetUserRoles values ('b366afc2-bcac-43c0-bc9d-cd0c43c0f101', '2A226C6B-492C-41F5-B89D-3F7C926E26E9')");
