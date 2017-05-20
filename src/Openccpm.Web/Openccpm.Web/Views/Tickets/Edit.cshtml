@@ -18,10 +18,10 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <div class="form-group">
-            <label asp-for="TaskNo" class="col-md-2 control-label"></label>
+            <label asp-for="TicketNo" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="TaskNo" class="form-control" />
-                <span asp-validation-for="TaskNo" class="text-danger"></span>
+                <input asp-for="TicketNo" class="form-control" />
+                <span asp-validation-for="TicketNo" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
@@ -41,30 +41,30 @@
 
         <!-- トラッカー選択 -->
         <div class="form-group">
-            <label asp-for="Tracker_Id" class="col-md-2 control-label"></label>
+            <label asp-for="TrackerId" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <select asp-for="Tracker_Id" class="form-control" asp-items="ViewBag.TrackerItems"></select>
+                <select asp-for="TrackerId" class="form-control" asp-items="ViewBag.TrackerItems"></select>
             </div>
         </div>
         <!-- ステータス選択 -->
         <div class="form-group">
-            <label asp-for="Status_Id" class="col-md-2 control-label"></label>
+            <label asp-for="StatusId" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <select asp-for="Status_Id" class="form-control" asp-items="ViewBag.StatusItems"></select>
+                <select asp-for="StatusId" class="form-control" asp-items="ViewBag.StatusItems"></select>
             </div>
         </div>
         <!-- 優先度選択 -->
         <div class="form-group">
-            <label asp-for="Priority_Id" class="col-md-2 control-label"></label>
+            <label asp-for="PriorityId" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <select asp-for="Priority_Id" class="form-control" asp-items="ViewBag.PriorityItems"></select>
+                <select asp-for="PriorityId" class="form-control" asp-items="ViewBag.PriorityItems"></select>
             </div>
         </div>
         <!-- 担当者選択 -->
         <div class="form-group">
-            <label asp-for="AssignedTo_Id" class="col-md-2 control-label"></label>
+            <label asp-for="AssignedToId" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <select asp-for="AssignedTo_Id" class="form-control" asp-items="ViewBag.AssignedToItems"></select>
+                <select asp-for="AssignedToId" class="form-control" asp-items="ViewBag.AssignedToItems"></select>
             </div>
         </div>
 
@@ -116,9 +116,7 @@
         <input type="hidden" asp-for="UpdatedAt" />
         <input type="hidden" asp-for="Deleted" />
         <input type="hidden" asp-for="ProjectId" />
-        <input type="hidden" asp-for="Author_Id" />
-        <input type="hidden" asp-for="Ticket_Id" />
-        <input type="hidden" asp-for="Ticket_Version" />
+        <input type="hidden" asp-for="AuthorId" />
         <input type="hidden" asp-for="Project_Name" />
         <input type="hidden" asp-for="Project_ProjectNo" />
 

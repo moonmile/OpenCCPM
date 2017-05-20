@@ -18,7 +18,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.TaskNo)
+                @Html.DisplayNameFor(model => model.TicketNo)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Tracker_Name)
@@ -48,7 +48,7 @@
         <tr>
             <td>
                 <a asp-action="Details" asp-route-id="@item.Id">
-                    @Html.DisplayFor(modelItem => item.TaskNo)
+                    @Html.DisplayFor(modelItem => item.TicketNo)
                 </a>
             </td>
             <td>

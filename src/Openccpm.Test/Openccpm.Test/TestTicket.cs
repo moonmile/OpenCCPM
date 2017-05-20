@@ -15,7 +15,7 @@ namespace Openccpm.Test
     [TestClass]
     public class TestTicket : TestBase
     {
-        new TicketDrivenService service;
+        TicketDrivenService service;
 
         [TestInitialize]
         public override void SetUp()
@@ -88,15 +88,16 @@ namespace Openccpm.Test
             var ticket = new TicketView()
             {
                 ProjectId = project.Id,
-                TaskNo = "TK001",
+                TicketNo = "TK001",
                 Subject = "最初のチケット",
                 Description = "内容",
                 PlanTime = 1,
                 DoneTime = 2,
-                Tracker_Id = trId,
-                Status_Id = stId,
-                Priority_Id = prId,
-                AssignedTo_Id = userId,
+                TrackerId = trId,
+                StatusId = stId,
+                PriorityId = prId,
+                AssignedToId = userId,
+                AuthorId = userId,
                 DoneRate = 0,
                 StartDate = DateTime.Parse("2017/05/11"),
                 DueDate = DateTime.Parse("2017/05/21"),
@@ -119,7 +120,7 @@ namespace Openccpm.Test
             Assert.AreEqual("P0100", ticket.Project_ProjectNo);
             Assert.AreEqual("最初のプロジェクト", ticket.Project_Name);
             // チケット情報
-            Assert.AreEqual("TK001", ticket.TaskNo);
+            Assert.AreEqual("TK001", ticket.TicketNo);
             Assert.AreEqual("最初のチケット", ticket.Subject);
             Assert.AreEqual("内容", ticket.Description);
             Assert.AreEqual(1, ticket.PlanTime);
@@ -158,12 +159,12 @@ namespace Openccpm.Test
             var ticket1 = new TicketView()
             {
                 ProjectId = project.Id,
-                TaskNo = "TK001",
+                TicketNo = "TK001",
                 Subject = "最初のチケット",
                 Description = "内容",
-                Tracker_Id = trId,
-                Status_Id = stId,
-                Priority_Id = prId,
+                TrackerId = trId,
+                StatusId = stId,
+                PriorityId = prId,
                 DoneRate = 0,
             };
             await service.AddTicketAsync(ticket1);
@@ -174,24 +175,24 @@ namespace Openccpm.Test
             var ticket2 = new TicketView()
             {
                 ProjectId = project.Id,
-                TaskNo = "TK002",
+                TicketNo = "TK002",
                 Subject = "二番目のチケット",
                 Description = "内容",
-                Tracker_Id = trId,
-                Status_Id = stId,
-                Priority_Id = prId,
+                TrackerId = trId,
+                StatusId = stId,
+                PriorityId = prId,
                 DoneRate = 0,
             };
             // チケットを追加する
             var ticket3 = new TicketView()
             {
                 ProjectId = project.Id,
-                TaskNo = "TK003",
+                TicketNo = "TK003",
                 Subject = "三番めのチケット",
                 Description = "内容",
-                Tracker_Id = trId,
-                Status_Id = stId,
-                Priority_Id = prId,
+                TrackerId = trId,
+                StatusId = stId,
+                PriorityId = prId,
                 DoneRate = 0,
             };
             await service.AddTicketAsync(ticket2);
@@ -199,9 +200,9 @@ namespace Openccpm.Test
             items = await service.GetTicketsAsync(project.Id);
             Assert.AreEqual(3, items.Count);
             // デフォルトでは新しい順で取得できる
-            Assert.AreEqual("TK003", items[0].TaskNo);
-            Assert.AreEqual("TK002", items[1].TaskNo);
-            Assert.AreEqual("TK001", items[2].TaskNo);
+            Assert.AreEqual("TK003", items[0].TicketNo);
+            Assert.AreEqual("TK002", items[1].TicketNo);
+            Assert.AreEqual("TK001", items[2].TicketNo);
         }
 
         /// <summary>
@@ -230,12 +231,12 @@ namespace Openccpm.Test
             var ticket1 = new TicketView()
             {
                 ProjectId = project1.Id,
-                TaskNo = "TK001",
+                TicketNo = "TK001",
                 Subject = "最初のチケット",
                 Description = "内容",
-                Tracker_Id = trId,
-                Status_Id = stId,
-                Priority_Id = prId,
+                TrackerId = trId,
+                StatusId = stId,
+                PriorityId = prId,
                 DoneRate = 0,
             };
             await service.AddTicketAsync(ticket1);
@@ -246,24 +247,24 @@ namespace Openccpm.Test
             var ticket2 = new TicketView()
             {
                 ProjectId = project2.Id,
-                TaskNo = "TK002",
+                TicketNo = "TK002",
                 Subject = "二番目のチケット",
                 Description = "内容",
-                Tracker_Id = trId,
-                Status_Id = stId,
-                Priority_Id = prId,
+                TrackerId = trId,
+                StatusId = stId,
+                PriorityId = prId,
                 DoneRate = 0,
             };
             // チケットを追加する
             var ticket3 = new TicketView()
             {
                 ProjectId = project1.Id,
-                TaskNo = "TK003",
+                TicketNo = "TK003",
                 Subject = "三番めのチケット",
                 Description = "内容",
-                Tracker_Id = trId,
-                Status_Id = stId,
-                Priority_Id = prId,
+                TrackerId = trId,
+                StatusId = stId,
+                PriorityId = prId,
                 DoneRate = 0,
             };
             await service.AddTicketAsync(ticket2);
@@ -298,15 +299,15 @@ namespace Openccpm.Test
             var ticket = new TicketView()
             {
                 ProjectId = project.Id,
-                TaskNo = "TK001",
+                TicketNo = "TK001",
                 Subject = "最初のチケット",
                 Description = "内容",
                 PlanTime = 1,
                 DoneTime = 2,
-                Tracker_Id = trId,
-                Status_Id = stId,
-                Priority_Id = prId,
-                AssignedTo_Id = userId,
+                TrackerId = trId,
+                StatusId = stId,
+                PriorityId = prId,
+                AssignedToId = userId,
                 DoneRate = 0,
                 StartDate = DateTime.Parse("2017/05/11"),
                 DueDate = DateTime.Parse("2017/05/21"),
@@ -317,7 +318,7 @@ namespace Openccpm.Test
             Assert.AreEqual(1, items.Count);
             // 個別に詳細情報を取得する
             ticket = await service.GetTicketAsync(ticket.Id);
-            Assert.AreEqual("TK001", ticket.TaskNo);
+            Assert.AreEqual("TK001", ticket.TicketNo);
             Assert.AreEqual("最初のチケット", ticket.Subject);
             Assert.AreEqual("内容", ticket.Description);
             Assert.IsNull(ticket.UpdatedAt);
@@ -328,7 +329,7 @@ namespace Openccpm.Test
             await service.UpdateTicketAsync(ticket);
 
             ticket = await service.GetTicketAsync(ticket.Id);
-            Assert.AreEqual("TK001", ticket.TaskNo);
+            Assert.AreEqual("TK001", ticket.TicketNo);
             Assert.AreEqual("１番目のチケット", ticket.Subject);
             Assert.AreEqual("タイトルの変更", ticket.Description);
             // 更新日時が付けられる
@@ -357,22 +358,20 @@ namespace Openccpm.Test
             var trId = service.ListTracker.SingleOrDefault(x => x.Name == "機能")?.Id;
             var stId = service.ListStatus.SingleOrDefault(x => x.Name == "新規")?.Id;
             var prId = service.ListPriority.SingleOrDefault(x => x.Name == "標準")?.Id;
-            // var admin = service.ListAssignTo.SingleOrDefault(x => x.UserName == "管理者")?.Id;
-            // var guest = service.ListAssignTo.SingleOrDefault(x => x.UserName == "ゲスト")?.Id;
 
             // チケットを追加する
             var ticket = new TicketView()
             {
                 ProjectId = project.Id,
-                TaskNo = "TK001",
+                TicketNo = "TK001",
                 Subject = "最初のチケット",
                 Description = "内容",
                 PlanTime = 1,
                 DoneTime = 2,
-                Tracker_Id = trId,
-                Status_Id = stId,
-                Priority_Id = prId,
-                AssignedTo_Id = admin,      // 管理者
+                TrackerId = trId,
+                StatusId = stId,
+                PriorityId = prId,
+                AssignedToId = admin,      // 管理者
                 DoneRate = 0,
                 StartDate = DateTime.Parse("2017/05/11"),
                 DueDate = DateTime.Parse("2017/05/21"),
@@ -383,17 +382,17 @@ namespace Openccpm.Test
             Assert.AreEqual(1, items.Count);
             // 個別に詳細情報を取得する
             ticket = await service.GetTicketAsync(ticket.Id);
-            Assert.AreEqual("TK001", ticket.TaskNo);
-            Assert.AreEqual(admin, ticket.AssignedTo_Id);
+            Assert.AreEqual("TK001", ticket.TicketNo);
+            Assert.AreEqual(admin, ticket.AssignedToId);
             Assert.AreEqual("管理者", ticket.AssignedTo_UserName);
 
             // 担当者を変える
-            ticket.AssignedTo.Id = guest;
+            ticket.AssignedToId = guest;
             await service.UpdateTicketAsync(ticket);
 
             ticket = await service.GetTicketAsync(ticket.Id);
-            Assert.AreEqual("TK001", ticket.TaskNo);
-            Assert.AreEqual(guest, ticket.AssignedTo_Id);
+            Assert.AreEqual("TK001", ticket.TicketNo);
+            Assert.AreEqual(guest, ticket.AssignedToId);
             Assert.AreEqual("ゲスト", ticket.AssignedTo_UserName);
         }
         /// <summary>
@@ -420,15 +419,15 @@ namespace Openccpm.Test
             var ticket = new TicketView()
             {
                 ProjectId = project.Id,
-                TaskNo = "TK001",
+                TicketNo = "TK001",
                 Subject = "最初のチケット",
                 Description = "内容",
                 PlanTime = 1,
                 DoneTime = 2,
-                Tracker_Id = trId,
-                Status_Id = stNew,          // 新規
-                Priority_Id = prId,
-                AssignedTo_Id = userId,
+                TrackerId = trId,
+                StatusId = stNew,          // 新規
+                PriorityId = prId,
+                AssignedToId = userId,
                 DoneRate = 0,
                 StartDate = DateTime.Parse("2017/05/11"),
                 DueDate = DateTime.Parse("2017/05/21"),
@@ -439,17 +438,17 @@ namespace Openccpm.Test
             Assert.AreEqual(1, items.Count);
             // 個別に詳細情報を取得する
             ticket = await service.GetTicketAsync(ticket.Id);
-            Assert.AreEqual("TK001", ticket.TaskNo);
-            Assert.AreEqual(stNew, ticket.Status_Id);
+            Assert.AreEqual("TK001", ticket.TicketNo);
+            Assert.AreEqual(stNew, ticket.StatusId);
             Assert.AreEqual("新規", ticket.Status_Name);
 
             // ステータスを変える
-            ticket.Status.Id = stEnd;
+            ticket.StatusId = stEnd;
             await service.UpdateTicketAsync(ticket);
 
             ticket = await service.GetTicketAsync(ticket.Id);
-            Assert.AreEqual("TK001", ticket.TaskNo);
-            Assert.AreEqual(stEnd, ticket.Status_Id);
+            Assert.AreEqual("TK001", ticket.TicketNo);
+            Assert.AreEqual(stEnd, ticket.StatusId);
             Assert.AreEqual("終了", ticket.Status_Name);
         }
         /// <summary>
@@ -475,34 +474,34 @@ namespace Openccpm.Test
             var ticket1 = new TicketView()
             {
                 ProjectId = project.Id,
-                TaskNo = "TK001",
+                TicketNo = "TK001",
                 Subject = "最初のチケット",
                 Description = "内容",
-                Tracker_Id = trId,
-                Status_Id = stId,
-                Priority_Id = prId,
+                TrackerId = trId,
+                StatusId = stId,
+                PriorityId = prId,
                 DoneRate = 0,
             };
             var ticket2 = new TicketView()
             {
                 ProjectId = project.Id,
-                TaskNo = "TK002",
+                TicketNo = "TK002",
                 Subject = "二番目のチケット",
                 Description = "内容",
-                Tracker_Id = trId,
-                Status_Id = stId,
-                Priority_Id = prId,
+                TrackerId = trId,
+                StatusId = stId,
+                PriorityId = prId,
                 DoneRate = 0,
             };
             var ticket3 = new TicketView()
             {
                 ProjectId = project.Id,
-                TaskNo = "TK003",
+                TicketNo = "TK003",
                 Subject = "三番めのチケット",
                 Description = "内容",
-                Tracker_Id = trId,
-                Status_Id = stId,
-                Priority_Id = prId,
+                TrackerId = trId,
+                StatusId = stId,
+                PriorityId = prId,
                 DoneRate = 0,
             };
             ticket1 = await service.AddTicketAsync(ticket1);
@@ -511,16 +510,16 @@ namespace Openccpm.Test
             var items = await service.GetTicketsAsync(project.Id);
             Assert.AreEqual(3, items.Count);
             // デフォルトでは新しい順で取得できる
-            Assert.AreEqual("TK003", items[0].TaskNo);
-            Assert.AreEqual("TK002", items[1].TaskNo);
-            Assert.AreEqual("TK001", items[2].TaskNo);
+            Assert.AreEqual("TK003", items[0].TicketNo);
+            Assert.AreEqual("TK002", items[1].TicketNo);
+            Assert.AreEqual("TK001", items[2].TicketNo);
 
             // TK002 を削除する
             await service.DeleteTicketAsync(ticket2.Id);
             items = await service.GetTicketsAsync(project.Id);
             Assert.AreEqual(2, items.Count);
-            Assert.AreEqual("TK003", items[0].TaskNo);
-            Assert.AreEqual("TK001", items[1].TaskNo);
+            Assert.AreEqual("TK003", items[0].TicketNo);
+            Assert.AreEqual("TK001", items[1].TicketNo);
         }
     }
 }

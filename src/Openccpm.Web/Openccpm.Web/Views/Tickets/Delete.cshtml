@@ -12,10 +12,10 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.TaskNo)
+            @Html.DisplayNameFor(model => model.TicketNo)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.TaskNo)
+            @Html.DisplayFor(model => model.TicketNo)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Subject)
@@ -42,70 +42,34 @@
             @Html.DisplayFor(model => model.DoneTime)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Ticket_Id)
+            @Html.DisplayNameFor(model => model.Tracker.Name)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Ticket_Id)
+            @Html.DisplayFor(model => model.Tracker.Name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Tracker_Id)
+            @Html.DisplayNameFor(model => model.Status.Name)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Tracker_Id)
+            @Html.DisplayFor(model => model.Status.Name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Tracker_Name)
+            @Html.DisplayNameFor(model => model.Priority.Name)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Tracker_Name)
+            @Html.DisplayFor(model => model.Priority.Name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Status_Id)
+            @Html.DisplayNameFor(model => model.AssignedTo.UserName)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Status_Id)
+            @Html.DisplayFor(model => model.AssignedTo.UserName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Status_Name)
+            @Html.DisplayNameFor(model => model.Author.UserName)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Status_Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Priority_Id)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Priority_Id)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Priority_Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Priority_Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AssignedTo_Id)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AssignedTo_Id)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AssignedTo_UserName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AssignedTo_UserName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Author_Id)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Author_Id)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Author_UserName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Author_UserName)
+            @Html.DisplayFor(model => model.Author.UserName)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.DoneRate)

@@ -70,6 +70,9 @@
     <Compile Include="Models\AspNetRoles.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AspNetUserRoles.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AspNetUsers.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -88,7 +91,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
-    <Compile Include="ClearDB.cs" />
     <Compile Include="Models\Priorities.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -98,19 +100,7 @@
     <Compile Include="Models\ProjectUsers.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\StartEndTimes.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Statuses.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TaskItems.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TaskPerts.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TaskTrees.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TicketItems.cs">
@@ -119,12 +109,9 @@
     <Compile Include="Models\Trackers.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\UserView.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestInit.cs" />
-    <Compile Include="TestTaskItem.cs" />
+    <Compile Include="TestBase.cs" />
     <Compile Include="TestProject.cs" />
     <Compile Include="TestTicket.cs" />
     <Compile Include="TestAuth.cs" />

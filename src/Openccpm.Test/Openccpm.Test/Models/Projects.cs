@@ -19,8 +19,8 @@ namespace Openccpm.Test.Models
         public bool Deleted { get; set; }
         public Nullable<System.DateTimeOffset> UpdatedAt { get; set; }
         public byte[] Version { get; set; }
+        public string ProjectNo { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public string ProjectNo { get; set; }
     }
 }

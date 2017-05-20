@@ -5,29 +5,18 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="4c3feaf2384e419a9e563cdcbb2accfb" Name="Diagram1">
-        <EntityTypeShape EntityType="openccpm_dbModel.StartEndTimes" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="openccpm_dbModel.TaskPerts" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="openccpm_dbModel.TaskTrees" Width="1.5" PointX="3" PointY="8.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="openccpm_dbModel.Priorities" Width="1.5" PointX="5.875" PointY="8.5" />
-        <EntityTypeShape EntityType="openccpm_dbModel.Statuses" Width="1.5" PointX="9.5" PointY="6.625" />
-        <EntityTypeShape EntityType="openccpm_dbModel.Trackers" Width="1.5" PointX="9.5" PointY="3.625" />
-        <EntityTypeShape EntityType="openccpm_dbModel.TaskItems" Width="1.5" PointX="0.5" PointY="5" />
-        <AssociationConnector Association="openccpm_dbModel.FK_StartEndTimes_TaskItems" />
-        <AssociationConnector Association="openccpm_dbModel.FK_TaskPerts_TaskItems" />
-        <AssociationConnector Association="openccpm_dbModel.FK_TaskPerts_TaskItems1" />
-        <AssociationConnector Association="openccpm_dbModel.FK_TaskTrees_TaskItems" />
-        <AssociationConnector Association="openccpm_dbModel.FK_TaskTrees_TaskItems1" />
-        <EntityTypeShape EntityType="openccpm_dbModel.Projects" Width="1.5" PointX="12.875" PointY="1.25" />
-        <EntityTypeShape EntityType="openccpm_dbModel.UserView" Width="1.5" PointX="9.125" PointY="1" />
-        <EntityTypeShape EntityType="openccpm_dbModel.AspNetUsers" Width="1.5" PointX="8" PointY="10.25" />
-        <EntityTypeShape EntityType="openccpm_dbModel.TicketItems" Width="1.5" PointX="6.75" PointY="3.125" />
+        <EntityTypeShape EntityType="openccpm_dbModel.AspNetRoles" Width="1.5" PointX="6.125" PointY="0.75" />
+        <EntityTypeShape EntityType="openccpm_dbModel.AspNetUserRoles" Width="1.5" PointX="6.125" PointY="3.75" />
+        <EntityTypeShape EntityType="openccpm_dbModel.AspNetUsers" Width="1.5" PointX="6.125" PointY="6.75" />
+        <EntityTypeShape EntityType="openccpm_dbModel.Priorities" Width="1.5" PointX="1.125" PointY="2.375" />
+        <EntityTypeShape EntityType="openccpm_dbModel.Projects" Width="1.5" PointX="8.125" PointY="0.75" />
+        <EntityTypeShape EntityType="openccpm_dbModel.ProjectUsers" Width="1.5" PointX="3.125" PointY="7.75" />
+        <EntityTypeShape EntityType="openccpm_dbModel.Statuses" Width="1.5" PointX="1.125" PointY="7.25" />
+        <EntityTypeShape EntityType="openccpm_dbModel.TicketItems" Width="1.5" PointX="3.375" PointY="1.125" />
+        <EntityTypeShape EntityType="openccpm_dbModel.Trackers" Width="1.5" PointX="1.125" PointY="10.75" />
         <AssociationConnector Association="openccpm_dbModel.FK_Tickets_Priorities" />
         <AssociationConnector Association="openccpm_dbModel.FK_Tickets_Statuses" />
-        <AssociationConnector Association="openccpm_dbModel.FK_Tickets_TaskItems" />
         <AssociationConnector Association="openccpm_dbModel.FK_Tickets_Trackers" />
-        <EntityTypeShape EntityType="openccpm_dbModel.AspNetRoles" Width="1.5" PointX="5.625" PointY="12" />
-        <EntityTypeShape EntityType="openccpm_dbModel.ProjectUsers" Width="1.5" PointX="5.375" PointY="0.75" />
-        <AssociationConnector Association="openccpm_dbModel.AspNetUserRoles" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

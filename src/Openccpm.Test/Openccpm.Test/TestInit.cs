@@ -84,7 +84,6 @@ namespace Openccpm.Test
             context.Database.ExecuteSqlCommand("delete from ProjectUsers");
             context.Database.ExecuteSqlCommand("delete from Projects");
             context.Database.ExecuteSqlCommand("delete from TicketItems");
-            context.Database.ExecuteSqlCommand("delete from TaskItems");
 
             if (context.Projects.Count() > 0)
                 return;
@@ -94,21 +93,18 @@ namespace Openccpm.Test
             context.Projects.Add(new Projects() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, ProjectNo = "P0300", Name = "三番めのプロジェクト", Description = "解説" });
             context.SaveChanges();
             var project = context.Projects.SingleOrDefault(x => x.ProjectNo == "P0100");
-
-            var task1 = context.TaskItems.Add(new TaskItems() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, TaskNo = "TK001", Subject = "最初のチケット", Description = "内容", ProjectId = project.Id });
-            var task2 = context.TaskItems.Add(new TaskItems() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, TaskNo = "TK002", Subject = "次のチケット", Description = "内容", ProjectId = project.Id });
-            var task3 = context.TaskItems.Add(new TaskItems() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, TaskNo = "TK003", Subject = "三番めのチケット", Description = "内容", ProjectId = project.Id });
             context.SaveChanges();
 
             var tracker = context.Trackers.SingleOrDefault(x => x.Name == "機能");
             var status = context.Statuses.SingleOrDefault(x => x.Name == "新規");
             var pri = context.Priorities.SingleOrDefault(x => x.Name == "標準");
             var assign = context.AspNetUsers.SingleOrDefault(x => x.UserName == "管理者");
+            var author = context.AspNetUsers.SingleOrDefault(x => x.UserName == "管理者");
 
 
-            context.TicketItems.Add(new TicketItems() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, TaskId = task1.Id, TrackerId = tracker.Id, StatusId = status.Id, PriorityId = pri.Id, AssignedToId = assign.Id, DoneRate = 0 });
-            context.TicketItems.Add(new TicketItems() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, TaskId = task2.Id, TrackerId = tracker.Id, StatusId = status.Id, PriorityId = pri.Id, AssignedToId = assign.Id, DoneRate = 0 });
-            context.TicketItems.Add(new TicketItems() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, TaskId = task3.Id, TrackerId = tracker.Id, StatusId = status.Id, PriorityId = pri.Id, AssignedToId = assign.Id, DoneRate = 0 });
+            context.TicketItems.Add(new TicketItems() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, ProjectId = project.Id, TicketNo = "TK001", Subject = "最初のチケット", Description = "内容", TrackerId = tracker.Id, StatusId = status.Id, PriorityId = pri.Id, AssignedToId = assign.Id, AuthorId = author.Id, DoneRate = 0 });
+            context.TicketItems.Add(new TicketItems() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, ProjectId = project.Id, TicketNo = "TK002", Subject = "次のチケット", Description = "内容", TrackerId = tracker.Id, StatusId = status.Id, PriorityId = pri.Id, AssignedToId = assign.Id, AuthorId = author.Id, DoneRate = 0 });
+            context.TicketItems.Add(new TicketItems() { Id = Guid.NewGuid().ToString(), CreatedAt = DateTime.Now, ProjectId = project.Id, TicketNo = "TK003", Subject = "三番めのチケット", Description = "内容", TrackerId = tracker.Id, StatusId = status.Id, PriorityId = pri.Id, AssignedToId = assign.Id, AuthorId = author.Id, DoneRate = 0 });
             context.SaveChanges();
 
             // P0100 にメンバを追加する

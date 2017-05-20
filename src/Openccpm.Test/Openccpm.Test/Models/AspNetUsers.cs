@@ -14,12 +14,6 @@ namespace Openccpm.Test.Models
     
     public partial class AspNetUsers
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public AspNetUsers()
-        {
-            this.AspNetRoles = new HashSet<AspNetRoles>();
-        }
-    
         public string Id { get; set; }
         public int AccessFailedCount { get; set; }
         public string ConcurrencyStamp { get; set; }
@@ -35,8 +29,5 @@ namespace Openccpm.Test.Models
         public string SecurityStamp { get; set; }
         public bool TwoFactorEnabled { get; set; }
         public string UserName { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AspNetRoles> AspNetRoles { get; set; }
     }
 }

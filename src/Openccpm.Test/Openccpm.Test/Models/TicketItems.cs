@@ -19,7 +19,6 @@ namespace Openccpm.Test.Models
         public System.DateTimeOffset CreatedAt { get; set; }
         public Nullable<System.DateTimeOffset> UpdatedAt { get; set; }
         public bool Deleted { get; set; }
-        public string TaskId { get; set; }
         public string TrackerId { get; set; }
         public string StatusId { get; set; }
         public string PriorityId { get; set; }
@@ -28,10 +27,15 @@ namespace Openccpm.Test.Models
         public string AuthorId { get; set; }
         public Nullable<System.DateTimeOffset> DueDate { get; set; }
         public Nullable<System.DateTimeOffset> StartDate { get; set; }
+        public string TicketNo { get; set; }
+        public string Subject { get; set; }
+        public string Description { get; set; }
+        public Nullable<double> PlanTime { get; set; }
+        public Nullable<double> DoneTime { get; set; }
+        public string ProjectId { get; set; }
     
         public virtual Priorities Priorities { get; set; }
         public virtual Statuses Statuses { get; set; }
-        public virtual TaskItems TaskItems { get; set; }
         public virtual Trackers Trackers { get; set; }
     }
 }

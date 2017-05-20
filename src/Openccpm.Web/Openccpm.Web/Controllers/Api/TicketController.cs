@@ -47,41 +47,37 @@ namespace Openccpm.Web.Controllers
                 return NotFound();
             }
             // ナビゲーションの取得
-            item.Tracker = await _context.Tracker.SingleOrDefaultAsync(x => x.Id == item.Tracker_Id);
-            item.Status = await _context.Status.SingleOrDefaultAsync(x => x.Id == item.Status_Id);
-            item.Priority = await _context.Priority.SingleOrDefaultAsync(x => x.Id == item.Priority_Id);
-            item.AssignedTo = await _context.User.SingleOrDefaultAsync(x => x.Id == item.AssignedTo_Id);
-            item.Author = await _context.User.SingleOrDefaultAsync(x => x.Id == item.Author_Id);
+            item.Tracker = await _context.Tracker.SingleOrDefaultAsync(x => x.Id == item.TrackerId);
+            item.Status = await _context.Status.SingleOrDefaultAsync(x => x.Id == item.StatusId);
+            item.Priority = await _context.Priority.SingleOrDefaultAsync(x => x.Id == item.PriorityId);
+            item.AssignedTo = await _context.User.SingleOrDefaultAsync(x => x.Id == item.AssignedToId);
+            item.Author = await _context.User.SingleOrDefaultAsync(x => x.Id == item.AuthorId);
 
             return Ok(item);
         }
 
         // PUT: api/Ticket/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTicket([FromRoute] string id, [FromBody] TicketView ticketView)
+        public async Task<IActionResult> PutTicket([FromRoute] string id, [FromBody] TicketItem item)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != ticketView.Id)
+            if (id != item.Id)
             {
                 return BadRequest();
             }
 
-            var item = (TaskItem)ticketView;
-            var ticket = (TicketItem)ticketView;
             item.UpdatedAt = DateTime.Now;
-            ticket.UpdatedAt = DateTime.Now;
-            _context.Update(item);
-            _context.Update(ticket);
+            _context.TicketItem.Update(item);
 
             try
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
                 if (!itemExists(id))
                 {
@@ -98,24 +94,18 @@ namespace Openccpm.Web.Controllers
 
         // POST: api/Task
         [HttpPost]
-        public async Task<IActionResult> PostTicket([FromBody] TicketView ticket)
+        public async Task<IActionResult> PostTicket([FromBody] TicketItem item)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var task = (TaskItem)ticket;
-            var item = (TicketItem)ticket;
-            task.CreatedAt = DateTime.Now;
             item.CreatedAt = DateTime.Now;
-
-            _context.TaskItem.Add(task);
-            item.TaskId = task.Id;
             _context.TicketItem.Add(item);
             await _context.SaveChangesAsync();
 
-            return await GetTicket(task.Id);
+            return await GetTicket(item.Id);
         }
 
         // DELETE: api/Task/5
@@ -127,7 +117,7 @@ namespace Openccpm.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            var item = await _context.TaskItem.SingleOrDefaultAsync(m => m.Id == id);
+            var item = await _context.TicketItem.SingleOrDefaultAsync(m => m.Id == id);
             if (item == null)
             {
                 return NotFound();

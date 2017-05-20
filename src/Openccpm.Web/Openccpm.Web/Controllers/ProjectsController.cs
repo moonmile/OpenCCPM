@@ -70,16 +70,14 @@ namespace Openccpm.Web.Controllers
 
                 var name = tr.Name;
                 var cnt1 = (from ti in _context.TicketView
-                            join st in _context.Status on ti.Status_Id equals st.Id 
                             where ti.ProjectId == project.Id &&
-                                    ti.Tracker_Id == tr.Id &&
-                                    st.IsClosed == false
+                                    ti.TrackerId == tr.Id &&
+                                    ti.Status_IsClosed == false
                             select ti.Id).Count();
                 var cnt2 = (from ti in _context.TicketView
-                            join st in _context.Status on ti.Status_Id equals st.Id
                             where ti.ProjectId == project.Id &&
-                                    ti.Tracker_Id == tr.Id &&
-                                    st.IsClosed == true
+                                    ti.TrackerId == tr.Id &&
+                                    ti.Status_IsClosed == true
                             select ti.Id).Count();
 
                 lst.Add(new Tuple<string, string, int, int, int>(tr.Id, tr.Name, cnt1, cnt2, cnt1 + cnt2));

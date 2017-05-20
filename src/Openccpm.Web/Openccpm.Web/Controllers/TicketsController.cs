@@ -83,7 +83,7 @@ namespace Openccpm.Web.Controllers
                     .Where(x => x.ProjectId == project.Id);
 
                 if (trackerid != null) {
-                    query = query.Where(x => x.Tracker_Id == trackerid);
+                    query = query.Where(x => x.TrackerId == trackerid);
                 }
                 if ( isclosed != null )
                 {
@@ -133,7 +133,7 @@ namespace Openccpm.Web.Controllers
             // チケット番号の初期値を入れる
             var maxTicket = await _context.TicketView
                 .Where( x => x.ProjectId == project.Id )
-                .MaxAsync(x => x.TaskNo);
+                .MaxAsync(x => x.TicketNo);
             var taskNo = "TK001";
             if ( !string.IsNullOrEmpty( maxTicket ))
             {
@@ -142,15 +142,14 @@ namespace Openccpm.Web.Controllers
             var userId = _userManager.GetUserId(Request.HttpContext.User);
             var tk = new TicketView()
             {
-                TaskNo = taskNo,
+                TicketNo = taskNo,
                 DoneRate = 0,
-                ProjectId = project.Id,
-                Project_Name = project.Name,
-                Project_ProjectNo = project.ProjectNo,
-                Tracker_Id = _context.Tracker.SingleOrDefault(x => x.Name == "機能").Id,
-                Status_Id = _context.Status.SingleOrDefault(x => x.Name == "新規").Id,
-                Priority_Id = _context.Priority.SingleOrDefault( x => x.Name == "標準" ).Id,
-                AssignedTo_Id = userId,
+                ProjectId = project.Id, Project = new Project() {  Id = project.Id, ProjectNo = project.ProjectNo, Name = project.Name },
+                TrackerId = _context.Tracker.SingleOrDefault(x => x.Name == "機能").Id,
+                StatusId = _context.Status.SingleOrDefault(x => x.Name == "新規").Id,
+                PriorityId = _context.Priority.SingleOrDefault( x => x.Name == "標準" ).Id,
+                AssignedToId = userId,
+                AuthorId = userId,
                 PlanTime = 1,
                 DoneTime = 0
                 
@@ -190,28 +189,19 @@ namespace Openccpm.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TaskNo,Subject,Description,PlanTime,DoneTime,Tracker_Id,Status_Id,Priority_Id,AssignedTo_Id,,DoneRate,ProjectId,Project_ProjectNo,DueDate,StartDate")] TicketView ticketView)
+        public async Task<IActionResult> Create([Bind("TicketNo,Subject,Description,PlanTime,DoneTime,TrackerId,StatusId,PriorityId,AssignedToId,,DoneRate,ProjectId,DueDate,StartDate")] TicketItem item)
         {
             if (ModelState.IsValid)
             {
-                //_context.Add(ticketView);
-                //await _context.SaveChangesAsync();
-
-                var task = (TaskItem)ticketView;
-                var item = (TicketItem)ticketView;
-                task.CreatedAt = DateTime.Now;
                 item.CreatedAt = DateTime.Now;
-
-                _context.TaskItem.Add(task);
-                await _context.SaveChangesAsync();
-
-                item.TaskId = task.Id;
                 _context.TicketItem.Add(item);
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction("Index", new { id = ticketView.Project_ProjectNo });
+                var project = await _context.Project.SingleOrDefaultAsync(x => x.Id == item.ProjectId);
+
+                return RedirectToAction("Index", new { id = project.ProjectNo });
             }
-            return View(ticketView);
+            return View(item);
         }
 
         // GET: Tickets/Edit/5
@@ -241,9 +231,9 @@ namespace Openccpm.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("TaskNo,Subject,Description,PlanTime,DoneTime,ProjectId,Ticket_Id,Ticket_Version,Tracker_Id,Tracker_Name,Status_Id,Status_Name,Priority_Id,Priority_Name,AssignedTo_Id,AssignedTo_FirstName,AssignedTo_LastName,Author_Id,Author_FirstName,Author_LastName,DoneRate,Id,Version,CreatedAt,UpdatedAt,Deleted,Project_Name,Project_ProjectNo,StartEndTime_Id,StartEndTime_Version,DueDate,StartDate")] TicketView ticketView)
+        public async Task<IActionResult> Edit(string id, [Bind("TicketNo,Subject,Description,PlanTime,DoneTime,ProjectId,TicketId,TrackerId,StatusId,PriorityId,AssignedToId,AuthorId,DoneRate,Id,Version,CreatedAt,UpdatedAt,Deleted,DueDate,StartDate")] TicketItem item)
         {
-            if (id != ticketView.Id)
+            if (id != item.Id)
             {
                 return NotFound();
             }
@@ -253,18 +243,14 @@ namespace Openccpm.Web.Controllers
                 try
                 {
                     // TaskItem を更新
-                    var item = (TaskItem)ticketView;
-                    var ticket = (TicketItem)ticketView;
                     item.UpdatedAt = DateTime.Now;
-                    ticket.UpdatedAt = DateTime.Now;
-                    _context.Update(item);
-                    _context.Update(ticket);
+                    _context.TicketItem.Update(item);
 
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TicketViewExists(ticketView.Id))
+                    if (!TicketViewExists(item.Id))
                     {
                         return NotFound();
                     }
@@ -273,10 +259,10 @@ namespace Openccpm.Web.Controllers
                         throw;
                     }
                 }
-                var projectNo = ticketView.Project_ProjectNo;
-                return RedirectToAction("Index", new { id = projectNo });
+                var project = await _context.Project.SingleOrDefaultAsync(x => x.Id == item.ProjectId);
+                return RedirectToAction("Index", new { id = project.ProjectNo });
             }
-            return View(ticketView);
+            return View(item);
         }
 
         // GET: Tickets/Delete/5
@@ -302,24 +288,16 @@ namespace Openccpm.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var ticketView = await _context.TicketView.SingleOrDefaultAsync(m => m.Id == id);
-            var task = await _context.TaskItem.SingleOrDefaultAsync(m => m.Id == ticketView.Id);
-            task.Deleted = true;
-            _context.TaskItem.Update(task);
+            var item = await _context.TicketItem.SingleOrDefaultAsync(m => m.Id == id);
+            item.Deleted = true;
+            _context.TicketItem.Update(item);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
         private bool TicketViewExists(string id)
         {
-            return _context.TicketView.Any(e => e.Id == id);
+            return _context.TicketItem.Any(e => e.Id == id);
         }
-    }
-
-    public class MyView
-    {
-        public string Id { get; set; }
-        public string ProjectId { get; set; }
-        public string ProjectNo { get; set; }
     }
 }

@@ -15,13 +15,16 @@ namespace Openccpm.Test
     [TestClass]
     public class TestProject : TestBase
     {
-        new TicketDrivenService service;
+        TicketDrivenService service;
 
         [TestInitialize]
         public override void SetUp()
         {
             context = new openccpm_dbEntities();
             service = new TicketDrivenService("http://localhost:5000");
+
+            context.Database.ExecuteSqlCommand("delete from Projects");
+
         }
 
         /// <summary>

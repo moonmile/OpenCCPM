@@ -12,17 +12,9 @@ namespace Openccpm.Test.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class TaskTrees
+    public partial class AspNetUserRoles
     {
-        public string Id { get; set; }
-        public byte[] Version { get; set; }
-        public System.DateTimeOffset CreatedAt { get; set; }
-        public Nullable<System.DateTimeOffset> UpdatedAt { get; set; }
-        public bool Deleted { get; set; }
-        public string ParentTaskId { get; set; }
-        public string ChildTaskId { get; set; }
-    
-        public virtual TaskItems TaskItems { get; set; }
-        public virtual TaskItems TaskItems1 { get; set; }
+        public string UserId { get; set; }
+        public string RoleId { get; set; }
     }
 }
