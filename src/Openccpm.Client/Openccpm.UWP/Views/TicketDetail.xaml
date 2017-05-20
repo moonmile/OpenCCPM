@@ -53,7 +53,7 @@
 
         <TextBlock TextWrapping="Wrap" Text="チケット番号" TextAlignment="Right" Margin="3" Grid.Row="1" Grid.Column="2"/>
         <TextBlock 
-            Text="{Binding Ticket.TaskNo, Mode=TwoWay}" 
+            Text="{Binding Ticket.TicketNo, Mode=TwoWay}" 
             Grid.Column="3" Margin="3" TextWrapping="Wrap" Grid.Row="1" />
 
         <Button 

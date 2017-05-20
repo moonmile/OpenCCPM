@@ -50,7 +50,7 @@
         <TextBlock Text="{Binding Ticket.DoneRate}" Grid.Column="3" Margin="3" TextWrapping="Wrap" Grid.Row="7" />
 
         <TextBlock 
-            Text="{Binding Ticket.TaskNo, Mode=TwoWay}" 
+            Text="{Binding Ticket.TicketNo, Mode=TwoWay}" 
             Grid.Column="3" Margin="3" TextWrapping="Wrap" Grid.Row="1" />
 
         <Button 

@@ -125,10 +125,10 @@ namespace Openccpm.UWP
         private async void TicketEdit_OnSave(object sender, EventArgs e)
         {
             var ti = viewModelTicket.Ticket;
-            ti.Tracker_Id = ti.Tracker.Id;
-            ti.Status_Id = ti.Status.Id;
-            ti.Priority_Id = ti.Priority.Id;
-            ti.AssignedTo_Id = ti.AssignedTo.Id;
+            ti.TrackerId = ti.Tracker.Id;
+            ti.StatusId = ti.Status.Id;
+            ti.PriorityId = ti.Priority.Id;
+            ti.AssignedToId = ti.AssignedTo.Id;
 
 
             if (viewModelTicket.Ticket.Id == null)
@@ -160,7 +160,7 @@ namespace Openccpm.UWP
             var ticket = new TicketView();
             ticket.Project = viewModel.Project;
             ticket.ProjectId = viewModel.Project.Id;
-            ticket.Project_ProjectNo = viewModel.Project.ProjectNo;
+            ticket.Project.ProjectNo = viewModel.Project.ProjectNo;
             viewModelTicket.Ticket = ticket;
 
             ticketDetail.Visibility = Visibility.Collapsed;

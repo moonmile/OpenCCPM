@@ -32,7 +32,7 @@
             Margin="10" Grid.Row="1" Grid.ColumnSpan="2">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="チケット番号" DisplayMemberBinding="{Binding TaskNo}"  Width="80"/>
+                    <GridViewColumn Header="チケット番号" DisplayMemberBinding="{Binding TicketNo}"  Width="80"/>
                     <GridViewColumn Header="トラッカー"   DisplayMemberBinding="{Binding Tracker_Name}" Width="80"/>
                     <GridViewColumn Header="ステータス"   DisplayMemberBinding="{Binding Status_Name}" Width="80"/>
                     <GridViewColumn Header="優先度"       DisplayMemberBinding="{Binding Priority_Name}" Width="50"/>

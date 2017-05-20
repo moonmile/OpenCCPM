@@ -153,7 +153,7 @@ namespace Openccpm.WPF
             var ticket = new TicketView();
             ticket.Project = viewModel.Project;
             ticket.ProjectId = viewModel.Project.Id;
-            ticket.Project_ProjectNo = viewModel.Project.ProjectNo;
+            ticket.Project.ProjectNo = viewModel.Project.ProjectNo;
             viewModelTicket.Ticket = ticket;
 
             ticketDetail.Visibility = Visibility.Hidden;

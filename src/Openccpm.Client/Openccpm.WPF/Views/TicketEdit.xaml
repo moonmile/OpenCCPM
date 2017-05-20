@@ -36,7 +36,7 @@
         <TextBlock TextWrapping="Wrap" Text="進捗率" TextAlignment="Right" Margin="3" Grid.Row="7" Grid.Column="2"/>
 
         <ComboBox 
-            SelectedValue="{Binding Ticket.Tracker.Id}"
+            SelectedValue="{Binding Ticket.TrackerId}"
             SelectedValuePath="Id"
             SelectedItem="{Binding Ticket.Tracker}"
             ItemsSource="{Binding Trackers}"
@@ -48,21 +48,21 @@
         <TextBox Text="{Binding Ticket.Description, Mode=TwoWay}" 
                  Grid.Column="1" Margin="3" TextWrapping="Wrap" Grid.Row="2" Grid.ColumnSpan="3" />
         <ComboBox
-            SelectedValue="{Binding Ticket.Status.Id, Mode=TwoWay}"
+            SelectedValue="{Binding Ticket.StatusId, Mode=TwoWay}"
             SelectedValuePath="Id"
             SelectedItem="{Binding Ticket.Status}"
             ItemsSource="{Binding Statuses}"
             DisplayMemberPath="Name" 
             Grid.Column="1" Margin="3"  Grid.Row="3" />
         <ComboBox 
-            SelectedValue="{Binding Ticket.Priority.Id, Mode=TwoWay}"
+            SelectedValue="{Binding Ticket.PriorityId, Mode=TwoWay}"
             SelectedValuePath="Id"
             SelectedItem="{Binding Ticket.Priority}"
             ItemsSource="{Binding Priorities}"
             DisplayMemberPath="Name" 
             Grid.Column="1" Margin="3" Grid.Row="4" />
         <ComboBox 
-            SelectedValue="{Binding Ticket.AssignedTo.Id, Mode=TwoWay}"
+            SelectedValue="{Binding Ticket.AssignedToId, Mode=TwoWay}"
             SelectedValuePath="Id"
             SelectedItem="{Binding Ticket.AssignedTo}"
             ItemsSource="{Binding Users}"
@@ -79,7 +79,7 @@
 
         <TextBlock TextWrapping="Wrap" Text="チケット番号" TextAlignment="Right" Margin="3" Grid.Row="1" Grid.Column="2"/>
         <TextBox 
-            Text="{Binding Ticket.TaskNo, Mode=TwoWay}" 
+            Text="{Binding Ticket.TicketNo, Mode=TwoWay}" 
             Grid.Column="3" Margin="3" TextWrapping="Wrap" Grid.Row="1" />
 
         <Button 
