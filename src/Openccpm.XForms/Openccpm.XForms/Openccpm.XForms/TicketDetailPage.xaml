@@ -9,7 +9,7 @@
         <ScrollView>
             <StackLayout Spacing="20" Padding="15">
                 <Label Text="チケット番号" FontSize="Medium" />
-                <Label Text="{Binding Ticket.TaskNo}" FontSize="Small" />
+                <Label Text="{Binding Ticket.TicketNo}" FontSize="Small" />
                 <Label Text="題名" FontSize="Medium" />
                 <Label Text="{Binding Ticket.Subject}" FontSize="Small" />
                 <Label Text="説明" FontSize="Medium" />
@@ -19,13 +19,13 @@
                 <Label Text="実績時間" FontSize="Medium" />
                 <Label Text="{Binding Ticket.DoneTime}" FontSize="Small" />
                 <Label Text="分類" FontSize="Medium" />
-                <Label Text="{Binding Ticket.Tracker_Name}" FontSize="Small" />
+                <Label Text="{Binding Ticket.Tracker.Name}" FontSize="Small" />
                 <Label Text="状態" FontSize="Medium" />
-                <Label Text="{Binding Ticket.Status_Name}" FontSize="Small" />
+                <Label Text="{Binding Ticket.Status.Name}" FontSize="Small" />
                 <Label Text="優先度" FontSize="Medium" />
-                <Label Text="{Binding Ticket.Priority_Name}" FontSize="Small" />
+                <Label Text="{Binding Ticket.Priority.Name}" FontSize="Small" />
                 <Label Text="担当者" FontSize="Medium" />
-                <Label Text="{Binding Ticket.AssignedTo_UserName}" FontSize="Small" />
+                <Label Text="{Binding Ticket.AssignedTo.UserName}" FontSize="Small" />
                 <Label Text="進捗率" FontSize="Medium" />
                 <Label Text="{Binding Ticket.DoneRate}" FontSize="Small" />
                 <Label Text="開始日" FontSize="Medium" />

@@ -25,7 +25,7 @@ namespace Openccpm.XForms
         {
             InitializeComponent();
             vm = new TicketDetailViewModel();
-            vm.Title = ticket.TaskNo;
+            vm.Title = ticket.TicketNo;
             vm.Ticket = ticket;
             this.BindingContext = vm;
             service = MainPage.service;

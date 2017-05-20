@@ -10,6 +10,7 @@ namespace System.ComponentModel.DataAnnotations
 {
     public class KeyAttribute : Attribute {}
     public class TimestampAttribute : Attribute { }
+    public class NotMappedAttribute : Attribute { }
     public class DisplayAttribute : Attribute
     {
         public string Name { get; set; }

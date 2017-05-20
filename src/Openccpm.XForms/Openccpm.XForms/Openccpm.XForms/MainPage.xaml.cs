@@ -25,8 +25,8 @@ namespace Openccpm.XForms
 
         MainPageViewModel vm;
         public static TicketDrivenService service;
-        string _url = "http://openccpm.azurewebsites.net";
-        // string _url = "http://localhost:5000";
+        // string _url = "http://openccpm.azurewebsites.net";
+        string _url = "http://localhost:5000";
 
 
         /// <summary>
