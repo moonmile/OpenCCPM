@@ -34,7 +34,12 @@ namespace Openccpm.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Project.ToListAsync());
+            var items = await _context.Project
+                .Where(x => x.Deleted == false)
+                .OrderByDescending(x => x.CreatedAt)
+                .ToListAsync();
+
+            return View(items);
         }
 
         // GET: Projects/Details/5

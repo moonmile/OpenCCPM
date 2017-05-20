@@ -131,14 +131,17 @@ namespace Openccpm.Web.Controllers
             createSelectItems( project.Id  );
 
             // チケット番号の初期値を入れる
-            var maxTicket = await _context.TicketView
-                .Where( x => x.ProjectId == project.Id )
-                .MaxAsync(x => x.TicketNo);
             var taskNo = "TK001";
-            if ( !string.IsNullOrEmpty( maxTicket ))
+            try
             {
-                taskNo = string.Format("TK{0:000}", int.Parse(maxTicket.Substring(2)) + 1);
-            }
+                var maxTicket = await _context.TicketView
+                    .Where(x => x.ProjectId == project.Id)
+                    .MaxAsync(x => x.TicketNo);
+                if (!string.IsNullOrEmpty(maxTicket))
+                {
+                    taskNo = string.Format("TK{0:000}", int.Parse(maxTicket.Substring(2)) + 1);
+                }
+            } catch { }
             var userId = _userManager.GetUserId(Request.HttpContext.User);
             var tk = new TicketView()
             {
